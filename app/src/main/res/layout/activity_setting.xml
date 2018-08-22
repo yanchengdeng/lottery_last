@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".activities.SettingActivity">
+
+
+    <include
+        layout="@layout/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/nav_bar_height" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_horizontal_margin">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="用户名"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal" />
+
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:hint="用户名"
+            android:textColor="@color/color_info"
+            android:textSize="@dimen/text_size_normal" />
+
+
+    </RelativeLayout>
+
+    <include layout="@layout/view_line" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/rl_pwd_protect_setting"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_horizontal_margin">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="密保管理"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:drawablePadding="@dimen/image_padding"
+            android:drawableRight="@mipmap/icon_arrow_right"
+            android:gravity="center_vertical"
+            android:hint="未设置"
+            android:textColor="@color/color_info"
+            android:textSize="@dimen/text_size_normal" />
+
+
+    </RelativeLayout>
+
+    <include layout="@layout/view_line" />
+
+
+    <TextView
+        android:id="@+id/tv_modify_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:drawableRight="@mipmap/icon_arrow_right"
+        android:gravity="center_vertical"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:text="修改登录密码"
+        android:textColor="@color/color_info"
+        android:textSize="@dimen/text_size_normal" />
+
+
+    <include layout="@layout/view_line" />
+
+
+    <TextView
+        android:id="@+id/tv_modify_pay_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:drawableRight="@mipmap/icon_arrow_right"
+        android:gravity="center_vertical"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:text="修改支付密码"
+        android:textColor="@color/color_info"
+        android:textSize="@dimen/text_size_normal" />
+
+
+    <include layout="@layout/view_line" />
+
+
+
+
+
+</LinearLayout>

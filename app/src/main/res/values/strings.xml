@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">lottery</string>
+    <string name="no_data">暂无数据</string>
+    <string name="user_name">用户名</string>
+    <string name="input_user_name">请输入用户名</string>
+    <string name="pwd">密码</string>
+    <string name="input_user_pwd">请输入密码</string>
+    <string name="confirm">确认</string>
+    <string name="forget_pwd">忘记密码</string>
+    <string name="forget_pwd_answer">忘记密码？</string>
+    <string name="login_tittle">顶上大数据网登录</string>
+    <string name="can_do_until_start_for_main">暂不能投注\n距离投注时间</string>
+    <string name="can_do_until_stop_for_main">距离截止\n投注时间</string>
+    <string name="can_do_until_start_for_funny">暂无可销售的期号，距离下次第%s期开售还有%s</string>
+    <string name="can_do_until_stop_for_funny">第%s期距离截止投注时间还有%s</string>
+    <string name="onlynum_english">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="input_current_password">请输入当前登录密码</string>
+    <string name="input_new_password">请输入新密码</string>
+    <string name="input_new_repeat_password">请重新输入新密码</string>
+    <string name="main_open_award">第%s期 开奖号码</string>
+</resources>

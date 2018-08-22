@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/red"
+    android:orientation="vertical"
+
+    >
+
+    <TextView
+        android:id="@+id/tv_show_hide_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:paddingBottom="@dimen/image_padding_big"
+        android:paddingTop="@dimen/image_padding_big"
+        android:text="显示遗漏值"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_normal_down" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white" />
+
+    <TextView
+        android:id="@+id/tv_lastest_lottery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:paddingBottom="@dimen/image_padding_big"
+        android:paddingTop="@dimen/image_padding_big"
+        android:text="最新开奖"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_normal_down" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white" />
+
+    <TextView
+        android:id="@+id/tv_play_introduce"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:paddingBottom="@dimen/image_padding_big"
+        android:paddingTop="@dimen/image_padding_big"
+        android:text="玩法说明"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_normal_down" />
+
+
+</LinearLayout>
+
+

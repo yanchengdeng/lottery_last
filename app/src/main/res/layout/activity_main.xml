@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/body_bg_over"
+    android:orientation="vertical"
+    tools:context=".activities.MainActivity">
+
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/home_bg_top"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_lottery_tittle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:text="@string/main_open_award"
+                    android:textColor="@color/color_info"
+                    android:textSize="@dimen/text_size_larger" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@mipmap/ball_bg"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_ball_one"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/ball_01"
+                        android:gravity="center"
+                        android:text="11"
+                        android:textColor="@color/color_tittle"
+                        android:textSize="@dimen/text_size_larger"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_ball_two"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/image_padding"
+                        android:layout_marginRight="@dimen/image_padding"
+                        android:background="@mipmap/ball_02"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="@color/color_tittle"
+                        android:textSize="@dimen/text_size_larger"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_ball_three"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/ball_03"
+                        android:gravity="center"
+                        android:text="5"
+                        android:textColor="@color/color_tittle"
+                        android:textSize="@dimen/text_size_larger"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_ball_four"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/image_padding"
+                        android:layout_marginRight="@dimen/image_padding"
+                        android:background="@mipmap/ball_04"
+                        android:gravity="center"
+                        android:text="07"
+                        android:textColor="@color/color_tittle"
+                        android:textSize="@dimen/text_size_larger"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_ball_five"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/ball_05"
+                        android:gravity="center"
+                        android:text="02"
+                        android:textColor="@color/color_tittle"
+                        android:textSize="@dimen/text_size_larger"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_until_time_tips"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/can_do_until_start_for_main"
+                        android:textColor="@color/color_tittle"
+                        android:textSize="@dimen/text_size_normal_up" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/deep_black"
+                        android:orientation="horizontal"
+                        android:padding="2dp">
+
+                        <ImageView
+                            android:id="@+id/iv_time_hour_one"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/time_zero"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/iv_time_hour_two"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/time_eight"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/iv_time_hour_quatation_code"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/time_quatation_mark"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/iv_time_min_one"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/time_zero"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/iv_time_min_two"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/time_eight"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/iv_time_min_quatation_code"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/time_quatation_mark" />
+
+                        <ImageView
+                            android:id="@+id/iv_time_second_one"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/time_zero"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/iv_time_second_two"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/time_eight"
+                            android:visibility="gone" />
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/image_padding"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/iv_awards"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="4dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitXY"
+                            android:src="@mipmap/nav_award" />
+                    </android.support.v7.widget.CardView>
+
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/iv_account"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="@dimen/image_padding"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="4dp">
+
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitXY"
+                            android:src="@mipmap/nav_account" />
+                    </android.support.v7.widget.CardView>
+                </LinearLayout>
+
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/iv_lottery_funny"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/image_padding"
+                    android:layout_marginRight="@dimen/image_padding"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="4dp">
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/nav_lottery_funny" />
+                </android.support.v7.widget.CardView>
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/iv_trend"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="4dp">
+
+                        <android.support.v7.widget.AppCompatImageView
+
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitXY"
+                            android:src="@mipmap/nav_trend" />
+
+                    </android.support.v7.widget.CardView>
+
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/iv_record"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="@dimen/image_padding"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="4dp">
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitXY"
+                            android:src="@mipmap/nav_record" />
+                    </android.support.v7.widget.CardView>
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <ImageView
+                android:id="@+id/iv_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/nav_bar_height"
+                android:src="@mipmap/home_bg_bottom" />
+
+
+        </LinearLayout>
+
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+</LinearLayout>

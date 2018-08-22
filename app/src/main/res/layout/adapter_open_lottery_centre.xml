@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/activity_horizontal_margin">
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/tv_open_times"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="第2018092029期"
+        android:textColor="@color/color_tittle"
+        android:textSize="@dimen/text_size_normal_up" />
+
+    <me.gujun.android.taggroup.TagGroup
+        android:id="@+id/tag_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/image_padding_big"
+        android:layout_below="@+id/tv_open_times"
+        app:atg_backgroundColor="@color/ball_red"
+        app:atg_borderColor="@color/ball_red"
+        app:atg_textColor="@color/white"
+        app:atg_horizontalPadding="5dp"
+        app:atg_textSize="@dimen/text_size_normal_up" />
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/tv_open_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignBaseline="@+id/tag_code"
+        android:text="2018-09-08 13:23"
+        android:textColor="@color/color_date"
+        android:textSize="@dimen/text_size_normal" />
+
+</RelativeLayout>
+
+

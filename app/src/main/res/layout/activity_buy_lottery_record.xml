@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.BuyLotteryRecordActivity">
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <WebView
+            android:id="@+id/webview"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"/>
+
+
+            <Button
+                android:id="@+id/btn_change"
+                android:text="改变地址"
+                android:layout_centerInParent="true"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:textColor="@color/red"
+                android:padding="@dimen/image_padding_big"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>
