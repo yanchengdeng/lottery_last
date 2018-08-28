@@ -26,6 +26,7 @@ import com.top.lottery.base.Constants;
 import com.top.lottery.beans.LotteryResponse;
 import com.top.lottery.beans.UserInfo;
 import com.top.lottery.utils.NewsCallback;
+import com.top.lottery.utils.StatusBarUtil;
 import com.top.lottery.utils.Utils;
 
 import java.util.HashMap;
@@ -53,6 +54,7 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        StatusBarUtil.setLightMode(this);
         hideTittle();
 
         if (com.top.lottery.utils.Utils.isLogin()) {

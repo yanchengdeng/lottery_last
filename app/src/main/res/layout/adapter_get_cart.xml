@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/image_padding_big"
+    android:paddingTop="@dimen/image_padding_big">
+
+    <ImageView
+        android:id="@+id/iv_dele_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:src="@mipmap/close" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_toRightOf="@+id/iv_dele_item"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_values"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="01 02 03"
+            android:textColor="@color/red"
+            android:textSize="@dimen/text_size_normal_up"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_values_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/image_padding_big"
+            android:text="任选三共1注2积分"
+            android:textColor="@color/color_info"
+            android:textSize="@dimen/text_size_normal_up"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</RelativeLayout>
+
+

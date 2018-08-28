@@ -24,6 +24,7 @@ import com.top.lottery.beans.LasterLotteryAwardInfo;
 import com.top.lottery.beans.LotteryResponse;
 import com.top.lottery.beans.MainPrizeCodeInfo;
 import com.top.lottery.utils.NewsCallback;
+import com.top.lottery.utils.StatusBarUtil;
 import com.top.lottery.utils.Utils;
 
 import java.util.HashMap;
@@ -92,6 +93,8 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        StatusBarUtil.setLightMode(this);
+//        StatusBarUtil.setFullScreen(this);
 
         mSwipeBackHelper.setSwipeBackEnable(false);
         hideTittle();
@@ -128,12 +131,13 @@ public class MainActivity extends BaseActivity {
                 ActivityUtils.startActivity(OpenLotteryRankActivity.class);
                 break;
             case R.id.iv_account:
-                ActivityUtils.startActivityForResult(mContext, PercentInfoActivity.class, 200);
+                ActivityUtils.startActivityForResult(this, PercentInfoActivity.class, 200);
                 break;
             case R.id.iv_lottery_funny:
                 ActivityUtils.startActivity(LotteryFunnyActivity.class);
                 break;
             case R.id.iv_trend:
+                ActivityUtils.startActivity(TrendChartActivity.class);
                 break;
             case R.id.iv_record:
                 break;
@@ -159,11 +163,9 @@ public class MainActivity extends BaseActivity {
                         isReqeustAwardTime = true;
                         LasterLotteryAwardInfo lasterLotteryAwardInfo = response.body().body;
                         if (lasterLotteryAwardInfo != null) {
-                            if (!TextUtils.isEmpty(lasterLotteryAwardInfo.award_id)) {
-                                tvLotteryTittle.setText(String.format(getString(R.string.main_open_award), lasterLotteryAwardInfo.award_id
-                                ));
-                            }
-
+                            Constants.LASTER_AWARD_END_TIME = lasterLotteryAwardInfo.current_time;
+                            Constants.LASTEST_AWARD_ID = lasterLotteryAwardInfo.award_id;
+                            isCanTouzhu = lasterLotteryAwardInfo.status==1;
                             if (lasterLotteryAwardInfo.status == 1) {
                                 tvUntilTimeTips.setText(getString(R.string.can_do_until_stop_for_main));
                             } else {
@@ -189,6 +191,10 @@ public class MainActivity extends BaseActivity {
 
 
     private void initStartCountDown() {
+        if (countDownTimer!=null){
+            countDownTimer.cancel();
+            countDownTimer = null;
+        }
         countDownTimer = new CountDownTimer(getCountDownMillions(), 1000) {
             @Override
             public void onTick(long l) {
@@ -202,7 +208,7 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                getLastestLotteryForMain();
+                doMainRequest();
             }
         };
 
@@ -298,8 +304,10 @@ public class MainActivity extends BaseActivity {
                         MainPrizeCodeInfo mainPrizeCodeInfo = response.body().body;
                         if (mainPrizeCodeInfo != null) {
                             if (!TextUtils.isEmpty(mainPrizeCodeInfo.id)) {
-//                                tvLotteryTittle.setText(String.format(getString(R.string.main_open_award), mainPrizeCodeInfo.id
-//                                ));
+                                if (!TextUtils.isEmpty(mainPrizeCodeInfo.id)) {
+                                    tvLotteryTittle.setText(String.format(getString(R.string.main_open_award), mainPrizeCodeInfo.id
+                                    ));
+                                }
                             }
 
                             if (!TextUtils.isEmpty(mainPrizeCodeInfo.prize_code)) {

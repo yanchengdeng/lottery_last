@@ -9,15 +9,22 @@ import com.blankj.utilcode.util.EncodeUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 import com.lzy.okgo.model.Response;
 import com.top.lottery.base.Constants;
+import com.top.lottery.beans.AwardBallInfo;
 import com.top.lottery.beans.LotteryResponse;
 import com.top.lottery.beans.UserInfo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Utils {
 
+
+    ///遗漏值
+    static LinkedTreeMap<String, String> missValus = new LinkedTreeMap<String, String>();
 
     public static String getImei() {
         return SPUtils.getInstance().getString(Constants.IMEI, "354765086202488");
@@ -235,6 +242,7 @@ public class Utils {
                 mins[1] = Integer.parseInt(times[0]) % 10;
             }
 
+
             if (Integer.parseInt(times[1]) < 10) {
                 mins[2] = 0;
                 mins[3] = Integer.parseInt(times[1]);
@@ -244,17 +252,23 @@ public class Utils {
             }
             return mins;
         } else if (times.length == 1) {
+
             //秒
             int[] seconds = new int[4];
             seconds[0] = 0;
             seconds[1] = 0;
 
-            if (Integer.parseInt(times[0]) < 10) {
+            if (TextUtils.isEmpty(times[0])) {
                 seconds[2] = 0;
-                seconds[3] = Integer.parseInt(times[0]);
+                seconds[3] = 0;
             } else {
-                seconds[2] = Integer.parseInt(times[0]) / 10;
-                seconds[3] = Integer.parseInt(times[0]) % 10;
+                if (Integer.parseInt(times[0]) < 10) {
+                    seconds[2] = 0;
+                    seconds[3] = Integer.parseInt(times[0]);
+                } else {
+                    seconds[2] = Integer.parseInt(times[0]) / 10;
+                    seconds[3] = Integer.parseInt(times[0]) % 10;
+                }
             }
             return seconds;
         } else if (times.length == 3) {
@@ -287,8 +301,55 @@ public class Utils {
 
         }
 
-        return new int[]{0,0,0,0};
+        return new int[]{0, 0, 0, 0};
     }
 
 
+    //十一个球 序列
+    public static List<AwardBallInfo> get11Code() {
+        List<AwardBallInfo> awardBallInfos = new ArrayList<>();
+        for (int i = 1; i < 12; i++) {
+            AwardBallInfo awardBallInfo = new AwardBallInfo();
+            if (i < 10) {
+                awardBallInfo.value = "0" + i;
+            } else {
+                awardBallInfo.value = String.valueOf(i);
+            }
+            awardBallInfos.add(awardBallInfo);
+        }
+        return awardBallInfos;
+    }
+
+
+    /**
+     * 计算组合数，即C(n, m) = n!/((n-m)! * m!)
+     *
+     * @param n
+     * @param m
+     * @return
+     */
+    public static int combination(int n, int m) {
+        return (n >= m) ? factorial(n) / factorial(n - m) / factorial(m) : 0;
+    }
+
+    /**
+     * 计算阶乘数，即n! = n * (n-1) * ... * 2 * 1
+     *
+     * @param n
+     * @return
+     */
+    public static int factorial(int n) {
+        return (n > 1) ? n * factorial(n - 1) : 1;
+    }
+
+
+    //遗漏值 转化为 键值对形式
+    public static LinkedTreeMap<String, String> parseMissValue(LinkedTreeMap<String, String> missValues) {
+        missValus  = missValues;
+        return missValus;
+    }
+
+    public static LinkedTreeMap<String, String> getMissValues() {
+        return missValus;
+    }
 }

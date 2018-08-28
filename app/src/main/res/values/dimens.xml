@@ -42,5 +42,6 @@
     <dimen name="list_image_width_size">160dp</dimen>
     <dimen name="pie_chart_size">300dp</dimen>
     <dimen name="ad_heigh">180dp</dimen>
+    <dimen name="ball_circle_size">35dp</dimen>
 
 </resources>

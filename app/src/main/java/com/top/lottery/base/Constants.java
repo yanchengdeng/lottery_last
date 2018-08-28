@@ -9,6 +9,7 @@ package com.top.lottery.base;
 public class Constants {
     //数据传递形式
     public static final String PASS_STRING = "pass_string";
+    public static final String PASS_NAME = "pass_name";
     public static final String PASS_OBJECT = "pass_object";
     //编码格式
     public static final String SERVER_ENCODE = "utf-8";
@@ -24,6 +25,10 @@ public class Constants {
     //不可投注时间
     public static final long TIME_CAN_NOT_TOUZHU = (1*60+15)*1000;//1 分15秒
     public static final String DATE_FORMAR = "yyyy-MM-dd hh:mm:ss";
+    //返回主页请求码
+    public static final int BACK_TO_MAIN = 300;
+    public static  String LASTEST_AWARD_ID = "2018082601";
+    public static String LASTER_AWARD_END_TIME = "2018-08-26 17:00:00";
 
 
     public static  boolean DEBUG = true;
@@ -62,6 +67,37 @@ public class Constants {
         public static final String AWARD_GETLIST = BASE_API+"award/getList";
         //通过玩法ID获取该玩法的配置信息
         public static final String LOTTERY_GETLOTTERYBYID = BASE_API+"lottery/getLotteryById";
+        //获取该玩法id 的 遗漏值
+        public static final String AWARD_MISSINGVALUE = BASE_API +"award/missingValue";
+        //校验所选号是否合法
+        public static final String CART_CHECKCODES = BASE_API +"cart/checkCodes";
+        //校验所选期号是否合法
+        public static final String CART_CHECKAWARD  = BASE_API+"cart/checkAward";
+        //机选或是随机投注
+        public static final String CART_MECHINE = BASE_API+"cart/mechine";
+        //加入购物车
+        public static final String CART_ADDCART = BASE_API+"cart/addCart";
+        //获取购物车信息
+        public static final String CART_GETCART = BASE_API+"cart/getCart";
+        //删除购物车数据
+        public static final String CART_DELETE = BASE_API +"cart/delete";
+        //变更倍数、追号设置、追号停止
+        public static final String CART_CHANGE = BASE_API +"cart/change";
+        //下单结算
+        public static final String CART_PAY = BASE_API +"cart/pay";
+        //使用最新期号投注
+        public static final String CART_SAVECART = BASE_API+"cart/saveCart";
+
+
+
+
+
+        //走势图
+        public static final String AWARD_TRENDCHART = BASE_API +"award/trendchart";
+        //获取走势图配置信息
+        public static final String USER_GETTRENDCHARTCONFIG = BASE_API+"user/getTrendchartConfig";
+        //设置走势图配置信息
+        public static final String USER_SETTRENDCHARTCONFIG = BASE_API+"user/setTrendchartConfig";
 
 
 

@@ -3,15 +3,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/tv_select_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:text="@string/tips_for_anyselect"
+        android:textSize="@dimen/text_size_normal_up"
+        android:textColor="@color/color_tittle" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycle"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:orientation="vertical">
 
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal" />
+
+    </LinearLayout>
 
 
     <include layout="@layout/view_line" />
@@ -27,7 +45,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:background="@drawable/normal_submit_btn_orange"
-            android:padding="@dimen/image_padding_big"
+            android:paddingTop="@dimen/image_padding_big"
+            android:paddingBottom="@dimen/image_padding_big"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
             android:text="机选"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_normal" />
@@ -48,7 +69,7 @@
                 android:layout_gravity="right"
                 android:text="积分：0"
                 android:textColor="@color/color_tittle"
-                android:textSize="@dimen/text_size_normal_down" />
+                android:textSize="@dimen/text_size_normal" />
 
             <TextView
                 android:id="@+id/tv_note_numbers"

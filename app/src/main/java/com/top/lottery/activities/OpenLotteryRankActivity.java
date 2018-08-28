@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
@@ -41,12 +41,19 @@ public class OpenLotteryRankActivity extends BaseActivity {
 
         setTitle("最新开奖");
 
-        openLotteryCodeAdapter = new OpenLotteryCodeAdapter(R.layout.adapter_open_lottery_centre,new ArrayList<OpenLotteryCode>());
+        openLotteryCodeAdapter = new OpenLotteryCodeAdapter(R.layout.adapter_open_lottery_centre, new ArrayList<OpenLotteryCode>());
         recyclerView = getView(R.id.recycle);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(RecycleViewUtils.getItemDecoration(this));
         recyclerView.setAdapter(openLotteryCodeAdapter);
 
+
+        openLotteryCodeAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                getLastestLotteryRank();
+            }
+        }, recyclerView);
 
         getLastestLotteryRank();
     }
@@ -55,19 +62,40 @@ public class OpenLotteryRankActivity extends BaseActivity {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
         data.put("lottery_type", "1");
-        data.put("page_current", String.valueOf(page));
+        data.put("page", String.valueOf(page));
         OkGo.<LotteryResponse<List<OpenLotteryCode>>>post(Constants.Net.AWARD_GETLIST)//
                 .cacheMode(CacheMode.NO_CACHE)
                 .params(Utils.getParams(data))
                 .execute(new NewsCallback<LotteryResponse<List<OpenLotteryCode>>>() {
                     @Override
                     public void onSuccess(Response<LotteryResponse<List<OpenLotteryCode>>> response) {
-                        openLotteryCodeAdapter.setNewData(response.body().body);
+                        showContentView();
+                        List<OpenLotteryCode> openLotteryCodes = response.body().body;
+                        if (openLotteryCodes != null && openLotteryCodes.size() > 0) {
+                            page++;
+                            openLotteryCodeAdapter.addData(openLotteryCodes);
+                            openLotteryCodeAdapter.loadMoreComplete();
+
+                        } else {
+                            if (openLotteryCodeAdapter.getData() != null && openLotteryCodeAdapter.getData().size() > 0) {
+                                openLotteryCodeAdapter.loadMoreComplete();
+                                openLotteryCodeAdapter.loadMoreEnd();
+                            } else {
+                                openLotteryCodeAdapter.setNewData(null);
+                                openLotteryCodeAdapter.setEmptyView(RecycleViewUtils.getEmptyView(mContext, recyclerView));
+                            }
+                        }
                     }
 
                     @Override
                     public void onError(Response response) {
-                        ToastUtils.showShort(Utils.toastInfo(response));
+                        if (openLotteryCodeAdapter.getData() != null && openLotteryCodeAdapter.getData().size() > 0) {
+                            openLotteryCodeAdapter.loadMoreComplete();
+                            openLotteryCodeAdapter.loadMoreEnd();
+                        } else {
+                            openLotteryCodeAdapter.setNewData(null);
+                            openLotteryCodeAdapter.setEmptyView(RecycleViewUtils.getEmptyView(mContext, recyclerView));
+                        }
                     }
                 });
     }

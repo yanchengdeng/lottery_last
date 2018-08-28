@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.lzy.okgo.OkGo;
@@ -26,6 +27,7 @@ import com.top.lottery.R;
 import com.top.lottery.base.Constants;
 import com.top.lottery.beans.TokenTimeOut;
 import com.top.lottery.utils.StatusBarUtil;
+import com.top.lottery.utils.Utils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -39,7 +41,7 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 public abstract class BaseActivity extends AppCompatActivity implements BGASwipeBackHelper.Delegate, View.OnClickListener {
     protected BGASwipeBackHelper mSwipeBackHelper;
     private View viewRoot, contentView;
-    private View tittleUi,tvTtittleLine;
+    private View tittleUi, tvTtittleLine;
     private View refresh;
     private MaterialDialog loadDialog;
     public ImageView ivBack, ivRightFunction;
@@ -52,6 +54,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
     //TODO 不确定
     public boolean isInDeepNight;//是否处于凌晨时刻   22：59：59 ~07：59：59 不允许投注
     public long curretDifServer;// 本次开奖时间和当前系统时间差
+    public int awardId;//本期开奖期号
 
 
     @Override
@@ -66,7 +69,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
     public void setContentView(int layoutResID) {
         initSwipeBackFinish();
         this.mContext = this;
-        StatusBarUtil.setLightMode(this);
+//        StatusBarUtil.setLightMode(this);
         EventBus.getDefault().register(this);
         viewRoot = getLayoutInflater().inflate(R.layout.activity_base, null);
 //        viewRoot =   LayoutInflater.from(BaseActivity.this).inflate(R.layout.activity_base,null,false);
@@ -89,7 +92,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
         tvErrorTips = getView(R.id.tv_error_tips);
         tittleUi = getView(R.id.rl_tittle_ui);
         tvTtittleLine = getView(R.id.tv_tittle_ui_line);
-
 
 
         setToolBar();
@@ -121,7 +123,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
                 currntHourse.equals("02") || currntHourse.equals("03") || currntHourse.equals("04")
                 || currntHourse.equals("05") || currntHourse.equals("06") || currntHourse.equals("07")) {
             isInDeepNight = true;
-            isCanTouzhu = false;
+            isCanTouzhu =false;
         } else {
             isInDeepNight = false;
         }
@@ -134,11 +136,10 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
         if (isInDeepNight) {
             return curretDifServer;
         } else {
-            return isCanTouzhu ? Constants.TIME_CAN_TOUZU : Constants.TIME_CAN_NOT_TOUZHU;
+            LogUtils.w("dyc---接口返回时间差"+isCanTouzhu+"========"+ Utils.millis2FitTimeSpan(curretDifServer-Constants.TIME_CAN_NOT_TOUZHU,4));
+            return isCanTouzhu?curretDifServer - Constants.TIME_CAN_NOT_TOUZHU:curretDifServer;//isCanTouzhu ? curretDifServer  : Constants.TIME_CAN_NOT_TOUZHU ;
         }
     }
-
-
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -150,7 +151,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
     }
 
     public void onShowExpire() {
-        if (materialDialog!=null){
+        if (materialDialog != null) {
             return;
         }
         materialDialog = new MaterialDialog.Builder(this)
@@ -169,18 +170,17 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
                 .build();
 
 
-
         materialDialog.setCancelable(false);
         materialDialog.setCanceledOnTouchOutside(false);
         if (materialDialog.isShowing()) {
             materialDialog.dismiss();
-        }else{
+        } else {
             materialDialog.show();
         }
     }
 
     //影藏标题
-    public void  hideTittle(){
+    public void hideTittle() {
         tittleUi.setVisibility(View.GONE);
         tvTtittleLine.setVisibility(View.GONE);
     }
@@ -207,9 +207,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
     }
 
     protected void showLoading() {
-        if (loadDialog == null ) {
+        if (loadDialog == null) {
             loadDialog = new MaterialDialog.Builder(this).show();
-        }else{
+        } else {
             loadDialog.show();
         }
 
@@ -405,7 +405,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
     protected void onStop() {
         super.onStop();
     }
-
 
 
 }

@@ -1,12 +1,16 @@
 package com.top.lottery.activities;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -14,6 +18,7 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.FragmentUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
@@ -25,6 +30,8 @@ import com.top.lottery.beans.LasterLotteryAwardInfo;
 import com.top.lottery.beans.LotteryInfo;
 import com.top.lottery.beans.LotteryPlayWay;
 import com.top.lottery.beans.LotteryResponse;
+import com.top.lottery.fragments.LotteryFunnyAnySelectFragment;
+import com.top.lottery.fragments.LotteryFunnyPreDirectSelectFragment;
 import com.top.lottery.liseners.PerfectClickListener;
 import com.top.lottery.utils.NewsCallback;
 import com.top.lottery.utils.Utils;
@@ -42,26 +49,22 @@ import butterknife.ButterKnife;
  */
 public class LotteryFunnyActivity extends BaseActivity {
 
+
     @BindView(R.id.tv_count_down_tips)
     TextView tvCountDownTips;
     @BindView(R.id.tv_trend_chart)
     TextView tvTrendChart;
-    @BindView(R.id.tv_choose_change)
-    TextView tvChooseChange;
-    @BindView(R.id.tv_intergry)
-    TextView tvIntergry;
-    @BindView(R.id.tv_note_numbers)
-    TextView tvNoteNumbers;
-    @BindView(R.id.tv_confirm)
-    TextView tvConfirm;
+    @BindView(R.id.fl_content)
+    FrameLayout flContent;
     @BindView(R.id.grid)
     GridView grid;
-
     private PopupWindow popupWindow;
     private List<LotteryPlayWay> lotteryPlayWays;
     private String currentLotterTerm;//最新一期投注号2018081430
     private CountDownTimer countDownTimer;
     private LasterLotteryAwardInfo lasterLotteryAwardInfo;
+    private  LotteryInfo lotteryInfo;
+    public boolean isShowMissValue = false;
 
 
     @Override
@@ -72,11 +75,7 @@ public class LotteryFunnyActivity extends BaseActivity {
         setTitle("投注-");
         ivRightFunction.setVisibility(View.VISIBLE);
         ivRightFunction.setImageResource(R.mipmap.more_menu);
-
-
         tvTittle.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_down_fill), null);
-
-//        getLastestLotteryForMain();
         getLotteryList();
         initPopWindow();
 
@@ -84,8 +83,6 @@ public class LotteryFunnyActivity extends BaseActivity {
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-
                 setTitle("投注-" + lotteryPlayWays.get(i).title);
                 grid.setVisibility(View.GONE);
                 getLotteryById(lotteryPlayWays.get(i).lottery_id);
@@ -139,10 +136,11 @@ public class LotteryFunnyActivity extends BaseActivity {
                     @Override
                     public void onSuccess(Response<LotteryResponse<LotteryInfo>> response) {
 
-                        LotteryInfo lotteryInfo = response.body().body;
+                         lotteryInfo = response.body().body;
                         String[] options = lotteryInfo.options.split("[,:\\r\\n]");
                         lotteryInfo.type = Integer.parseInt(options[1]);
                         lotteryInfo.num = Integer.parseInt(options[4]);
+                        changeContent();
                     }
 
 
@@ -151,6 +149,29 @@ public class LotteryFunnyActivity extends BaseActivity {
                         showError(Utils.toastInfo(response));
                     }
                 });
+    }
+
+    /**
+     * 更具彩球切换球号模板
+     * type://1-任选，2-前一、前二、前三直选等，3-前二、前三组选，4-胆拖任选，6-胆拖组选
+     * num://3 球的个数
+     */
+    private void changeContent() {
+        Bundle bundle = new Bundle();
+        if (lotteryInfo.type==1){
+            bundle.putSerializable(Constants.PASS_OBJECT,lotteryInfo);
+            LotteryFunnyAnySelectFragment lotteryFunnyAnySelectFragment = new LotteryFunnyAnySelectFragment();
+            lotteryFunnyAnySelectFragment.setArguments(bundle);
+            FragmentUtils.replace(getSupportFragmentManager(),lotteryFunnyAnySelectFragment,R.id.fl_content);
+        }else if (lotteryInfo.type==2){
+            bundle.putSerializable(Constants.PASS_OBJECT,lotteryInfo);
+            LotteryFunnyPreDirectSelectFragment lotteryFunnyPreDirectSelectFragment = new LotteryFunnyPreDirectSelectFragment();
+            lotteryFunnyPreDirectSelectFragment.setArguments(bundle);
+            FragmentUtils.replace(getSupportFragmentManager(),lotteryFunnyPreDirectSelectFragment,R.id.fl_content);
+        }else if (lotteryInfo.type==3){
+
+        }
+
     }
 
 
@@ -166,6 +187,8 @@ public class LotteryFunnyActivity extends BaseActivity {
         view.findViewById(R.id.tv_show_hide_value).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ((TextView)view.findViewById(R.id.tv_show_hide_value)).setText(isShowMissValue?"显示遗漏球":"隐藏遗漏球");
+                isShowMissValue = ! isShowMissValue;
                 doShowHideValue();
                 popupWindow.dismiss();
             }
@@ -189,9 +212,11 @@ public class LotteryFunnyActivity extends BaseActivity {
         });
     }
 
-    //显示遗漏值
     private void doShowHideValue() {
-
+       Fragment fragment =  FragmentUtils.getTop(getSupportFragmentManager());
+       if (fragment instanceof LotteryFunnyAnySelectFragment){
+           ((LotteryFunnyAnySelectFragment)fragment).setShowLotteryMiss();
+       }
     }
 
 
@@ -241,6 +266,10 @@ public class LotteryFunnyActivity extends BaseActivity {
     }
 
     private void initStartCountDown() {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+            countDownTimer = null;
+        }
         countDownTimer = new CountDownTimer(getCountDownMillions(), 1000) {
             @Override
             public void onTick(long l) {
@@ -295,6 +324,18 @@ public class LotteryFunnyActivity extends BaseActivity {
         super.onDestroy();
         if (countDownTimer != null) {
             countDownTimer.cancel();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode ==200){
+            if (resultCode==RESULT_OK){
+                grid.setVisibility(View.VISIBLE);
+            }else if (resultCode==Constants.BACK_TO_MAIN){
+                finish();
+            }
         }
     }
 }
