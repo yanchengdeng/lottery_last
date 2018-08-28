@@ -94,8 +94,6 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         StatusBarUtil.setLightMode(this);
-//        StatusBarUtil.setFullScreen(this);
-
         mSwipeBackHelper.setSwipeBackEnable(false);
         hideTittle();
         showContentView();
