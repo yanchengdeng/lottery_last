@@ -25,6 +25,7 @@ import com.top.lottery.beans.GetCartSimple;
 import com.top.lottery.beans.LotteryInfo;
 import com.top.lottery.beans.LotteryResponse;
 import com.top.lottery.beans.MechineChoosInfo;
+import com.top.lottery.beans.UserInfo;
 import com.top.lottery.utils.NewsCallback;
 import com.top.lottery.utils.RecycleViewUtils;
 import com.top.lottery.utils.Utils;
@@ -258,13 +259,13 @@ public class ConfirmCodesActivity extends BaseActivity {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
         data.put("lid", "1");// 最新彩种期数id
-        OkGo.<LotteryResponse<String>>post(Constants.Net.CART_PAY)//
+        OkGo.<LotteryResponse<UserInfo>>post(Constants.Net.CART_PAY)//
                 .cacheMode(CacheMode.NO_CACHE)
                 .params(Utils.getParams(data))
-                .execute(new NewsCallback<LotteryResponse<String>>() {
+                .execute(new NewsCallback<LotteryResponse<UserInfo>>() {
                     @Override
-                    public void onSuccess(Response<LotteryResponse<String>> response) {
-                        String flag = response.body().body;
+                    public void onSuccess(Response<LotteryResponse<UserInfo>> response) {
+                        int flag = response.body().code;
                         showDialogTips(flag);
 
                     }
@@ -291,12 +292,12 @@ public class ConfirmCodesActivity extends BaseActivity {
      *
      * @param flag
      */
-    private void showDialogTips(String flag) {
+    private void showDialogTips(int flag) {
 
         successDialog = new AlertDialog.Builder(mContext)
                 .setView(viewSuccess)
                 .create();
-        if ("1".equals(flag)) {
+        if (flag==1) {
 
             ((TextView) viewSuccess.findViewById(R.id.tips)).setText("投注成功");
             viewSuccess.findViewById(R.id.tv_continu_left).setOnClickListener(new View.OnClickListener() {
@@ -320,7 +321,7 @@ public class ConfirmCodesActivity extends BaseActivity {
             successDialog.setCancelable(false);
             successDialog.setCanceledOnTouchOutside(false);
             successDialog.show();
-        } else if ("-3".equals(flag)) {
+        } else if (flag==-3) {
             ((TextView) viewSuccess.findViewById(R.id.tips)).setText("使用最新期号进行投注");
             ((TextView) viewSuccess.findViewById(R.id.tips)).setText("投注成功");
             ((TextView) viewSuccess.findViewById(R.id.tv_continu_left)).setText("放弃投注");

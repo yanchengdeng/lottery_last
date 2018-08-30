@@ -16,5 +16,6 @@
 
     <color name="red">#F95871</color>
     <color name="ball_red">#D02D35</color>
+    <color name="trans_black">#3f000000</color>
 
 </resources>

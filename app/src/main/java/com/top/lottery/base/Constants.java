@@ -32,6 +32,7 @@ public class Constants {
 
 
     public static  boolean DEBUG = true;
+    public static int PAGE_SIZE = 15;
 
     public static class Net {
 
@@ -87,6 +88,12 @@ public class Constants {
         public static final String CART_PAY = BASE_API +"cart/pay";
         //使用最新期号投注
         public static final String CART_SAVECART = BASE_API+"cart/saveCart";
+
+
+
+
+        //购彩记录
+        public static final String RECORD_GETLIST = BASE_API+"record/getlist";
 
 
 

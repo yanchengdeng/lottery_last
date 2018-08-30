@@ -14,9 +14,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-       >
-        <activity android:name=".activities.LoginActivity"
+        android:supportsRtl="true">
+        <activity
+            android:name=".activities.LoginActivity"
             android:theme="@style/AppThemeMain">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,18 +24,43 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MainActivity" android:theme="@style/AppThemeMain"/>
-        <activity android:name=".activities.OpenLotteryRankActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".activities.PercentInfoActivity" android:theme="@style/AppTheme" />
-        <activity android:name=".activities.SettingActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".activities.ModifyPasswordActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".activities.LotteryFunnyActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".activities.PlayWayIntroduceActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".activities.BuyLotteryRecordActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".activities.TrendChartActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".activities.ConfirmCodesActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".activities.OpenWebViewActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".activities.PlayDealActivity" android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".activities.MainActivity"
+            android:theme="@style/AppThemeMain" />
+        <activity
+            android:name=".activities.OpenLotteryRankActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.PercentInfoActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.SettingActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.ModifyPasswordActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.LotteryFunnyActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.PlayWayIntroduceActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.BuyLotteryRecordActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.TrendChartActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.ConfirmCodesActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.OpenWebViewActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.PlayDealActivity"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".activities.LotteryRecordDetailActivity"></activity>
     </application>
 
 </manifest>

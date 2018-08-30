@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -33,7 +34,11 @@ import butterknife.ButterKnife;
 
 import static com.top.lottery.utils.Utils.getUserInfo;
 
-
+/**
+ * Author: 邓言诚  Create at : 2018/8/29  00:15
+ * Email: yanchengdeng@gmail.com
+ * Describle:我的账户
+ */
 public class PercentInfoActivity extends BaseActivity {
 
     @BindView(R.id.iv_header)
@@ -46,10 +51,23 @@ public class PercentInfoActivity extends BaseActivity {
     GridView grid;
     @BindView(R.id.tv_login_out)
     TextView tvLoginOut;
+    @BindView(R.id.tv_intergray_proxy)
+    TextView tvIntergrayProxy;
+    @BindView(R.id.tv_intergray_proxy_out)
+    TextView tvIntergrayProxyOut;
+    @BindView(R.id.ll_proxy_ui)
+    LinearLayout llProxyUi;
 
+
+    //<!-- A级用户才有员工管理，这些员工只有充值以及加人的功能 -->
     private String[] actions = new String[]{"购彩记录", "中奖记录", "追号记录", "账户明细", "站内信", "设置"};
-    private int[] icons = new int[]{R.mipmap.ic_launcher_round, R.mipmap.ic_launcher_round, R.mipmap.ic_launcher_round
-            , R.mipmap.ic_launcher_round, R.mipmap.ic_launcher_round, R.mipmap.ic_launcher_round};
+    private int[] icons = new int[]{R.mipmap.setting1, R.mipmap.setting2, R.mipmap.setting3
+            , R.mipmap.setting4, R.mipmap.setting5, R.mipmap.setting6};
+
+
+    private String[] actionsalL = new String[]{"购彩记录", "中奖记录", "追号记录", "账户明细", "站内信", "设置", "后台管理"};
+    private int[] iconsAll = new int[]{R.mipmap.setting1, R.mipmap.setting2, R.mipmap.setting3
+            , R.mipmap.setting4, R.mipmap.setting5, R.mipmap.setting6, R.mipmap.setting7};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +88,15 @@ public class PercentInfoActivity extends BaseActivity {
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Bundle bundle = new Bundle();
                 switch (i) {
                     case 0:
-                        ActivityUtils.startActivity(BuyLotteryRecordActivity.class);
+                        bundle.putString(Constants.PASS_STRING,"1");
+                        Utils.openActivity(mContext,BuyLotteryRecordActivity.class,bundle);
                         break;
                     case 1:
+                        bundle.putString(Constants.PASS_STRING,"2");
+                        Utils.openActivity(mContext,BuyLotteryRecordActivity.class,bundle);
                         break;
                     case 2:
                         break;
@@ -91,12 +113,19 @@ public class PercentInfoActivity extends BaseActivity {
         });
 
 
-
         getUserDetailInfo();
 
     }
 
     //用户详情
+
+    /**
+     * 用户类型，
+     * 1：为会员
+     * 2：店家
+     * 3：区代
+     * 4：大代
+     */
     private void getUserDetailInfo() {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", getUserInfo().uid);
@@ -107,13 +136,20 @@ public class PercentInfoActivity extends BaseActivity {
                     @Override
                     public void onSuccess(Response<LotteryResponse<UserInfo>> response) {
                         UserInfo userInfo = response.body().body;
-                        if (userInfo!=null){
+                        if (userInfo != null) {
                             if (!TextUtils.isEmpty(userInfo.username)) {
                                 tvAccout.setText(userInfo.username);
                             }
 
                             if (!TextUtils.isEmpty(userInfo.score)) {
-                                tvIntergray.setText(userInfo.score);
+                                tvIntergray.setText("账户积分：" + userInfo.score);
+                            }
+
+                            if (!TextUtils.isEmpty(userInfo.daili_score)) {
+                                tvIntergrayProxy.setText("代理返利积分："+userInfo.daili_score);
+                                llProxyUi.setVisibility(View.VISIBLE);
+                            }else{
+                                llProxyUi.setVisibility(View.GONE);
                             }
                         }
                     }
@@ -121,6 +157,7 @@ public class PercentInfoActivity extends BaseActivity {
                     @Override
                     public void onError(Response response) {
                         ToastUtils.showShort(Utils.toastInfo(response));
+                        llProxyUi.setVisibility(View.VISIBLE);
                     }
                 });
     }

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".activities.BuyLotteryRecordActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/image_padding_big"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/ll_start_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="起始时间"
+                android:textColor="@color/color_info"
+                android:textSize="@dimen/text_size_normal" />
+
+
+            <TextView
+                android:id="@+id/tv_start_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:background="@drawable/normal_submit_btn_gray_trans"
+                android:gravity="center"
+                android:hint="请选择起始时间"
+                android:paddingBottom="@dimen/image_padding"
+                android:paddingTop="@dimen/image_padding"
+                android:textColor="@color/color_info"
+                android:textSize="@dimen/text_size_normal" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_end_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="结束时间"
+                android:textColor="@color/color_info"
+                android:textSize="@dimen/text_size_normal" />
+
+            <TextView
+                android:id="@+id/tv_end_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:background="@drawable/normal_submit_btn_gray_trans"
+                android:gravity="center"
+                android:hint="请选择结束时间"
+                android:paddingBottom="@dimen/image_padding"
+                android:paddingTop="@dimen/image_padding"
+                android:textColor="@color/color_info"
+                android:textSize="@dimen/text_size_normal" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:background="@drawable/normal_submit_btn_orange"
+        android:gravity="center"
+        android:padding="@dimen/image_padding_big"
+        android:text="搜索"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_normal" />
+
+
+</LinearLayout>

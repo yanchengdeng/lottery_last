@@ -51,12 +51,12 @@
     </LinearLayout>
 
 
-    <GridView
+    <com.top.lottery.views.LineGridView
         android:id="@+id/grid"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/list_divider_color"
+        android:layout_height="match_parent"
         android:horizontalSpacing="1dp"
+        android:background="@color/white"
         android:numColumns="3"
         android:verticalSpacing="1dp"
         android:visibility="gone" />

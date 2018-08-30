@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="@dimen/image_padding_big"
+    android:id="@+id/rl_lottery_record"
+   >
+
+
+    <TextView
+        android:id="@+id/tv_lottery_tittle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="福建11选5"
+        android:textColor="@color/color_tittle"
+        android:textSize="@dimen/text_size_normal_up" />
+
+    <TextView
+        android:id="@+id/tv_open_times"
+        android:layout_toRightOf="@+id/tv_lottery_tittle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="第2018092029期"
+        android:layout_alignBaseline="@+id/tv_lottery_tittle"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:textColor="@color/color_date"
+        android:textSize="@dimen/text_size_normal" />
+
+
+
+    <TextView
+        android:id="@+id/tv_intergray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2积分"
+        android:layout_marginTop="@dimen/image_padding_big"
+        android:layout_below="@+id/tv_lottery_tittle"
+        android:textColor="@color/color_date"
+        android:textSize="@dimen/text_size_normal" />
+
+
+
+    <TextView
+        android:id="@+id/tv_lottery_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="普通订单"
+        android:gravity="right"
+        android:layout_toRightOf="@+id/tv_intergray"
+        android:layout_marginTop="@dimen/image_padding_big"
+        android:layout_below="@+id/tv_open_times"
+        android:textColor="@color/red"
+        android:layout_alignEnd="@+id/tv_open_times"
+        android:layout_marginLeft="@dimen/nav_bar_height"
+        android:textSize="@dimen/text_size_normal" />
+
+
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:text="未中奖"
+        android:textColor="@color/red"
+        android:drawableRight="@mipmap/icon_arrow_right"
+        android:gravity="center_vertical"
+        android:drawablePadding="@dimen/image_padding"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+</RelativeLayout>

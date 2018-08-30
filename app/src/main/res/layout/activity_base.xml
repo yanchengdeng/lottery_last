@@ -64,6 +64,7 @@
         android:id="@+id/tv_tittle_ui_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:visibility="gone"
         android:layout_below="@+id/tv_title"
         android:background="@color/list_divider_color" />
 
