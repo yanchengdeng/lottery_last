@@ -3,6 +3,7 @@ package com.top.lottery.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,6 +24,7 @@ import com.top.lottery.R;
 import com.top.lottery.adapters.GridPersonAdapter;
 import com.top.lottery.base.Constants;
 import com.top.lottery.beans.LotteryResponse;
+import com.top.lottery.beans.UseAuth;
 import com.top.lottery.beans.UserInfo;
 import com.top.lottery.utils.NewsCallback;
 import com.top.lottery.utils.Utils;
@@ -57,6 +59,7 @@ public class PercentInfoActivity extends BaseActivity {
     TextView tvIntergrayProxyOut;
     @BindView(R.id.ll_proxy_ui)
     LinearLayout llProxyUi;
+    UserInfo userInfo;
 
 
     //<!-- A级用户才有员工管理，这些员工只有充值以及加人的功能 -->
@@ -83,6 +86,20 @@ public class PercentInfoActivity extends BaseActivity {
             }
         });
 
+
+        tvIntergrayProxyOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (userInfo != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putFloat(Constants.PASS_STRING, userInfo.daili_score);
+                    Intent intent = new Intent(mContext, IntergrayRollOutActivity.class);
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, 200);
+                }
+            }
+        });
+
         grid.setAdapter(new GridPersonAdapter(mContext, actions, icons));
 
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -91,21 +108,25 @@ public class PercentInfoActivity extends BaseActivity {
                 Bundle bundle = new Bundle();
                 switch (i) {
                     case 0:
-                        bundle.putString(Constants.PASS_STRING,"1");
-                        Utils.openActivity(mContext,BuyLotteryRecordActivity.class,bundle);
+                        bundle.putString(Constants.PASS_STRING, "1");
+                        Utils.openActivity(mContext, BuyLotteryRecordActivity.class, bundle);
                         break;
                     case 1:
-                        bundle.putString(Constants.PASS_STRING,"2");
-                        Utils.openActivity(mContext,BuyLotteryRecordActivity.class,bundle);
+                        bundle.putString(Constants.PASS_STRING, "2");
+                        Utils.openActivity(mContext, BuyLotteryRecordActivity.class, bundle);
                         break;
                     case 2:
+                        bundle.putString(Constants.PASS_STRING, "3");
+                        Utils.openActivity(mContext, BuyLotteryRecordActivity.class, bundle);
                         break;
                     case 3:
+                        ActivityUtils.startActivity(AccountBillsActivity.class);
                         break;
                     case 4:
+                        ActivityUtils.startActivity(MessageListActivity.class);
                         break;
                     case 5:
-                        ActivityUtils.startActivity(ModifyPasswordActivity.class);
+                        ActivityUtils.startActivity(SettingActivity.class);
 
                         break;
                 }
@@ -114,6 +135,36 @@ public class PercentInfoActivity extends BaseActivity {
 
 
         getUserDetailInfo();
+
+        getUerAuthor();
+
+    }
+
+
+    //后去用户权限
+    private void getUerAuthor() {
+        HashMap<String, String> data = new HashMap<>();
+        data.put("uid", getUserInfo().uid);
+        OkGo.<LotteryResponse<UseAuth>>post(Constants.Net.USER_GETAUTH)//
+                .cacheMode(CacheMode.NO_CACHE)
+                .params(Utils.getParams(data))
+                .execute(new NewsCallback<LotteryResponse<UseAuth>>() {
+                    @Override
+                    public void onSuccess(Response<LotteryResponse<UseAuth>> response) {
+                        UseAuth useAuth = response.body().body;
+                        if (useAuth.rollout==1){
+                            tvIntergrayProxyOut.setVisibility(View.VISIBLE);
+                        }else{
+                            tvIntergrayProxyOut.setVisibility(View.GONE);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Response response) {
+                        ToastUtils.showShort(Utils.toastInfo(response));
+                    }
+                });
 
     }
 
@@ -135,7 +186,7 @@ public class PercentInfoActivity extends BaseActivity {
                 .execute(new NewsCallback<LotteryResponse<UserInfo>>() {
                     @Override
                     public void onSuccess(Response<LotteryResponse<UserInfo>> response) {
-                        UserInfo userInfo = response.body().body;
+                        userInfo = response.body().body;
                         if (userInfo != null) {
                             if (!TextUtils.isEmpty(userInfo.username)) {
                                 tvAccout.setText(userInfo.username);
@@ -145,11 +196,8 @@ public class PercentInfoActivity extends BaseActivity {
                                 tvIntergray.setText("账户积分：" + userInfo.score);
                             }
 
-                            if (!TextUtils.isEmpty(userInfo.daili_score)) {
-                                tvIntergrayProxy.setText("代理返利积分："+userInfo.daili_score);
-                                llProxyUi.setVisibility(View.VISIBLE);
-                            }else{
-                                llProxyUi.setVisibility(View.GONE);
+                            if (userInfo.daili_score > 0) {
+                                tvIntergrayProxy.setText("代理返利积分：" + userInfo.daili_score);
                             }
                         }
                     }
@@ -215,4 +263,13 @@ public class PercentInfoActivity extends BaseActivity {
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 200) {
+            if (resultCode == RESULT_OK) {
+                getUserDetailInfo();
+            }
+        }
+    }
 }

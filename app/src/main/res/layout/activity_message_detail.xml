@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".activities.MessageListActivity">
+
+
+    <TextView
+        android:id="@+id/tv_info_title"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:text="标题"
+        android:textColor="@color/color_tittle"
+        android:textSize="@dimen/text_size_normal_up"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2018-09-01"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:gravity="right"
+        android:textColor="@color/color_date"
+        android:textSize="@dimen/text_size_normal" />
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp">
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:lineSpacingMultiplier="1.2"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_up" />
+
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

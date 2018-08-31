@@ -31,9 +31,12 @@
         <TextView
             android:id="@+id/tv_username"
             android:layout_width="wrap_content"
+            android:paddingLeft="@dimen/nav_bar_height"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:drawablePadding="@dimen/image_padding"
             android:hint="用户名"
+            android:drawableRight="@mipmap/icon_arrow_right"
             android:textColor="@color/color_info"
             android:textSize="@dimen/text_size_normal" />
 
@@ -58,13 +61,13 @@
             android:textSize="@dimen/text_size_normal" />
 
         <TextView
+            android:id="@+id/tv_is_setting_secret"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:drawablePadding="@dimen/image_padding"
             android:drawableRight="@mipmap/icon_arrow_right"
             android:gravity="center_vertical"
-            android:hint="未设置"
             android:textColor="@color/color_info"
             android:textSize="@dimen/text_size_normal" />
 

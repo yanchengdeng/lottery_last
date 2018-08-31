@@ -184,7 +184,10 @@ public class ConfirmCodesActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_deal:
-                ActivityUtils.startActivity(PlayDealActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.PASS_NAME,"委托投注协议");
+                bundle.putString(Constants.PASS_STRING,Constants.Net.WEB_DEAL);
+                ActivityUtils.startActivity(bundle,OpenWebViewActivity.class);
                 break;
             case R.id.tv_add_auto:
                 setResult(RESULT_OK);

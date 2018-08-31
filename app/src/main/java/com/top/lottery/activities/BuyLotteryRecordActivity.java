@@ -66,14 +66,19 @@ public class BuyLotteryRecordActivity extends BaseActivity {
     private int page = 1;
     private String[] dates = new String[]{"today", "week", "month", "three_month"};
     private String[] dates_info = new String[]{"今日", "一周", "1个月", "3个月"};
-    private String search_date, lid, start_date, end_date;
+
+    //如果是追号记录  则
+    // 1：进行中2：已完成3：已中止
+    private String[] status = new String[]{"1", "2", "3"};
+    private String[] status_info = new String[]{"进行中", "已完成", "已中止"};
+    private String search_date, lid, start_date, end_date, lottery_status;
     private List<AwardRecodList> awardRecodLists = new ArrayList<>();
     private AwardRecordAdapter awardRecordAdapter;
     private String type;
     TimePickerView start, end;
-    private PopupWindow PopallLottery, Popperidod;
-    private GridView gridAllLottery, gridAllPeriod;
-    private GridPeridAdapter gridPeridAdapterLottery, gridPeridAdapterPeriod;
+    private PopupWindow PopallLottery, Popperidod, PopulaStatus;
+    private GridView gridAllLottery, gridAllPeriod, gridAllStatus;
+    private GridPeridAdapter gridLotteryTypeAdapter, gridPeriodTypeAdpter, gridStatusAdapter;
     LinearLayout llStartTime;
     LinearLayout llEndTime;
     TextView tvStartTime;
@@ -90,8 +95,19 @@ public class BuyLotteryRecordActivity extends BaseActivity {
         // 1：购彩记录2：中奖记录3
         if ("1".equals(type)) {
             setTitle("购彩记录");
-        } else {
+            initPopALLPeriod();
+            tvPeriod.setText(dates_info[0]);
+            search_date = dates[0];
+        } else if ("2".equals(type)) {
+            initPopALLPeriod();
             setTitle("中奖记录");
+            tvPeriod.setText(dates_info[0]);
+            search_date = dates[0];
+        } else {
+            setTitle("追号记录");
+            initPopALLStatus();
+            tvPeriod.setText(status_info[0]);
+            lottery_status = status[0];
         }
 
         recycle.setLayoutManager(new LinearLayoutManager(this));
@@ -135,10 +151,16 @@ public class BuyLotteryRecordActivity extends BaseActivity {
         }, recycle);
 
 
+        awardRecordAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                getAwardRecord();
+            }
+        }, recycle);
         getAwardRecord();
         getAllLottery();
 
-        initPopALLPeriod();
+
         initLisener();
     }
 
@@ -210,8 +232,8 @@ public class BuyLotteryRecordActivity extends BaseActivity {
     private void initPopAllLottery(final List<LotteryType> lotteryTypes) {
         View popGrid = LayoutInflater.from(mContext).inflate(R.layout.pop_period_view, null, false);
         gridAllLottery = popGrid.findViewById(R.id.grid);
-        gridPeridAdapterLottery = new GridPeridAdapter(mContext, lotteryTypes);
-        gridAllLottery.setAdapter(gridPeridAdapterLottery);
+        gridLotteryTypeAdapter = new GridPeridAdapter(mContext, lotteryTypes);
+        gridAllLottery.setAdapter(gridLotteryTypeAdapter);
         PopallLottery = new PopupWindow(tvAllLottery, ScreenUtils.getScreenWidth(), (int) (ScreenUtils.getScreenHeight() * 0.8));
         PopallLottery.setContentView(popGrid);
         PopallLottery.setFocusable(true);
@@ -234,11 +256,12 @@ public class BuyLotteryRecordActivity extends BaseActivity {
     }
 
 
+    //弹出日期区间
     private void initPopALLPeriod() {
         View popGrid = LayoutInflater.from(mContext).inflate(R.layout.pop_period_view, null, false);
         gridAllPeriod = popGrid.findViewById(R.id.grid);
-        gridPeridAdapterPeriod = new GridPeridAdapter(mContext, getSearchTime());
-        gridAllPeriod.setAdapter(gridPeridAdapterPeriod);
+        gridPeriodTypeAdpter = new GridPeridAdapter(mContext, getSearchTime());
+        gridAllPeriod.setAdapter(gridPeriodTypeAdpter);
 
         Popperidod = new PopupWindow(tvPeriod, ScreenUtils.getScreenWidth(), (int) (ScreenUtils.getScreenHeight() * 0.8));
         Popperidod.setContentView(popGrid);
@@ -258,6 +281,30 @@ public class BuyLotteryRecordActivity extends BaseActivity {
     }
 
 
+    //弹出追号状态
+    private void initPopALLStatus() {
+        View popGrid = LayoutInflater.from(mContext).inflate(R.layout.pop_period_view, null, false);
+        gridAllStatus = popGrid.findViewById(R.id.grid);
+        gridStatusAdapter = new GridPeridAdapter(mContext, getSearchStatus());
+        gridAllStatus.setAdapter(gridStatusAdapter);
+
+        PopulaStatus = new PopupWindow(tvPeriod, ScreenUtils.getScreenWidth(), (int) (ScreenUtils.getScreenHeight() * 0.8));
+        PopulaStatus.setContentView(popGrid);
+        PopulaStatus.setFocusable(true);
+        ColorDrawable dw = new ColorDrawable(0x55000000);//
+        PopulaStatus.setBackgroundDrawable(dw);
+        gridAllStatus.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                lottery_status = status[position];
+                tvPeriod.setText(status_info[position]);
+                PopulaStatus.dismiss();
+                page = 1;
+                getAwardRecord();
+            }
+        });
+    }
+
     /**
      *
      */
@@ -269,6 +316,9 @@ public class BuyLotteryRecordActivity extends BaseActivity {
         data.put("search_date", search_date);//时间段选择：today：今天 week：一周 month：一个月 three_month：3个月
         if (!TextUtils.isEmpty(start_date)) {
             data.put("start_date", start_date);
+        }
+        if (!TextUtils.isEmpty(lottery_status)) {
+            data.put("lottery_status", lottery_status);
         }
         if (!TextUtils.isEmpty(lid)) {
             data.put("lid", lid);
@@ -374,8 +424,14 @@ public class BuyLotteryRecordActivity extends BaseActivity {
                 }
                 break;
             case R.id.tv_period:
-                if (Popperidod != null) {
-                    Popperidod.showAsDropDown(tvPeriod, 0, 0);
+                if ("1".equals(type) || "2".equals(type)) {
+                    if (Popperidod != null) {
+                        Popperidod.showAsDropDown(tvPeriod, 0, 0);
+                    }
+                } else if ("3".equals(type)) {
+                    if (PopulaStatus != null) {
+                        PopulaStatus.showAsDropDown(tvPeriod, 0, 0);
+                    }
                 }
                 break;
         }
@@ -385,6 +441,18 @@ public class BuyLotteryRecordActivity extends BaseActivity {
     private List<LotteryType> getSearchTime() {
         List<LotteryType> lotterySearchTimes = new ArrayList<>();
         for (String item : dates_info) {
+            LotteryType lotterySearchTime = new LotteryType();
+            lotterySearchTime.title = item;
+            lotterySearchTimes.add(lotterySearchTime);
+        }
+        return lotterySearchTimes;
+    }
+
+
+    //获取时间段
+    private List<LotteryType> getSearchStatus() {
+        List<LotteryType> lotterySearchTimes = new ArrayList<>();
+        for (String item : status_info) {
             LotteryType lotterySearchTime = new LotteryType();
             lotterySearchTime.title = item;
             lotterySearchTimes.add(lotterySearchTime);

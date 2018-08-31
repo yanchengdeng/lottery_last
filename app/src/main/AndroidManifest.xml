@@ -43,9 +43,6 @@
             android:name=".activities.LotteryFunnyActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.PlayWayIntroduceActivity"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name=".activities.BuyLotteryRecordActivity"
             android:theme="@style/AppTheme" />
         <activity
@@ -58,9 +55,25 @@
             android:name=".activities.OpenWebViewActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.PlayDealActivity"
+            android:name=".activities.LotteryRecordDetailActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".activities.LotteryRecordDetailActivity"></activity>
+        <activity
+            android:name=".activities.PasswordManageActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.IntergrayRollOutActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.MessageListActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.MessageDetailActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.ForgetPasswordActivity"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".activities.AccountBillsActivity"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

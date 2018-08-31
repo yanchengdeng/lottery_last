@@ -207,7 +207,10 @@ public class LotteryFunnyActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 popupWindow.dismiss();
-                ActivityUtils.startActivity(PlayWayIntroduceActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.PASS_NAME,"玩法说明");
+                bundle.putString(Constants.PASS_STRING,Constants.Net.WEB_PLAY_WAY);
+                ActivityUtils.startActivity(bundle,OpenWebViewActivity.class);
             }
         });
     }

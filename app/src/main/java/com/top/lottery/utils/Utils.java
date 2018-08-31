@@ -168,6 +168,16 @@ public class Utils {
         }
     }
 
+
+    /***
+     * 用户信息
+     * @return
+     */
+    public static void saveUserInfo(UserInfo userInfo) {
+        String userinfo = new Gson().toJson(userInfo);
+        SPUtils.getInstance().put(Constants.USER_INFO, userinfo);
+    }
+
     /**
      * 登陆状态
      *
@@ -345,7 +355,7 @@ public class Utils {
 
     //遗漏值 转化为 键值对形式
     public static LinkedTreeMap<String, String> parseMissValue(LinkedTreeMap<String, String> missValues) {
-        missValus  = missValues;
+        missValus = missValues;
         return missValus;
     }
 

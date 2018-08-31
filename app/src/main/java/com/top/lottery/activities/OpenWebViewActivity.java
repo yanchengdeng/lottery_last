@@ -1,7 +1,6 @@
 package com.top.lottery.activities;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -19,19 +18,12 @@ public class OpenWebViewActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open_web_view);
-
         webView = getView(R.id.webview);
         name = getIntent().getStringExtra(Constants.PASS_NAME);
         url = getIntent().getStringExtra(Constants.PASS_STRING);
-        if (!TextUtils.isEmpty(name)) {
-            setTitle(name);
-        }
+        setTitle("" + name);
         initwebview();
-//        url="https://www.baidu.com";
-//        url="http://game.dadaozx.com/graph/index.html?token=f1ff2028832000c26da416ee511e591b7a9890445afa622b1da3b&lesson_id=654&content_id=2976&user_id=26462";
-        if (!TextUtils.isEmpty(url)) {
-            webView.loadUrl("file:///android_asset/"+url);
-        }
+        webView.loadUrl(url);
     }
 
     private void initwebview() {

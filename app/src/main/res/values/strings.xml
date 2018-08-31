@@ -19,4 +19,6 @@
     <string name="input_new_repeat_password">请重新输入新密码</string>
     <string name="main_open_award">第%s期 开奖号码</string>
     <string name="tips_for_anyselect">请至少选择%s个号码</string>
+    <string name="input_ask">请输入安全问题</string>
+    <string name="input_answer">请输入回答内容</string>
 </resources>

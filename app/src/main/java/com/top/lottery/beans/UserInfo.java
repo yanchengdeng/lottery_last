@@ -15,7 +15,7 @@ public class UserInfo implements Serializable {
     public int user_type;//1,//用户类型，1：为会员2：店家3：区代 4：大代
     public String score;//8732.00,
     public String frozen_score;//292.00,
-    public String daili_score;//0.00
+    public float daili_score;//0.00
 
 
 }
