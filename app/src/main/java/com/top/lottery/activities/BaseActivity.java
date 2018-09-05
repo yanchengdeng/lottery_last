@@ -28,6 +28,7 @@ import com.top.lottery.base.Constants;
 import com.top.lottery.beans.TokenTimeOut;
 import com.top.lottery.utils.StatusBarUtil;
 import com.top.lottery.utils.Utils;
+import com.top.lottery.views.LoadDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -43,10 +44,11 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
     private View viewRoot, contentView;
     private View tittleUi, tvTtittleLine;
     private View refresh;
-    private MaterialDialog loadDialog;
+//    private MaterialDialog loadDialog;
     public ImageView ivBack, ivRightFunction;
     public TextView tvTittle, tvRightFunction;
     public TextView tvErrorTips;
+    private LoadDialog loadDialog;
     public Activity mContext;
     private MaterialDialog materialDialog;
 
@@ -118,10 +120,12 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
         long currentTime = TimeUtils.string2Millis(serverTime, new SimpleDateFormat(Constants.DATE_FORMAR, Locale.CHINA));
         //HH 返回24 小时制   hh  返回12小时
         String currntHourse = TimeUtils.millis2String(currentTime, new SimpleDateFormat("HH", Locale.CHINA));
+
+//        String currntHoursexx = TimeUtils.millis2String(currentTime, new SimpleDateFormat("hh", Locale.CHINA));
         //时间段在  22：59：59  ~ 7：59：59：  不允许投注
-        if (currntHourse.equals("23") || currntHourse.equals("00") || currntHourse.equals("01") ||
+        if ((currntHourse.equals("23") || currntHourse.equals("00") || currntHourse.equals("01") ||
                 currntHourse.equals("02") || currntHourse.equals("03") || currntHourse.equals("04")
-                || currntHourse.equals("05") || currntHourse.equals("06") || currntHourse.equals("07")) {
+                || currntHourse.equals("05") || currntHourse.equals("06") || currntHourse.equals("07"))) {
             isInDeepNight = true;
             isCanTouzhu =false;
         } else {
@@ -206,20 +210,20 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
         tvTittle.setText(text);
     }
 
-    protected void showLoading() {
-        if (loadDialog == null) {
-            loadDialog = new MaterialDialog.Builder(this).show();
-        } else {
-            loadDialog.show();
-        }
-
-        if (contentView.getVisibility() != View.GONE) {
-            contentView.setVisibility(View.GONE);
-        }
-        if (refresh.getVisibility() != View.GONE) {
-            refresh.setVisibility(View.GONE);
-        }
-    }
+//    protected void showLoading() {
+//        if (loadDialog == null) {
+//            loadDialog = new MaterialDialog.Builder(this).show();
+//        } else {
+//            loadDialog.show();
+//        }
+//
+//        if (contentView.getVisibility() != View.GONE) {
+//            contentView.setVisibility(View.GONE);
+//        }
+//        if (refresh.getVisibility() != View.GONE) {
+//            refresh.setVisibility(View.GONE);
+//        }
+//    }
 
     /**
      * 显示正常数据
@@ -407,4 +411,45 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
     }
 
 
+
+    public void showLoadingBar() {
+        if (loadDialog != null) {
+            loadDialog.hide();
+            loadDialog = null;
+        }
+        loadDialog = new LoadDialog(this, getString(R.string.loading));
+        loadDialog.setCancelable(true);
+        loadDialog.setCanceledOnTouchOutside(true);
+        loadDialog.show();
+    }
+
+    public void showLoadingBar(String msg) {
+        if (loadDialog != null) {
+            loadDialog.hide();
+            loadDialog = null;
+        }
+        loadDialog = new LoadDialog(this, msg);
+        loadDialog.setCancelable(true);
+        loadDialog.setCanceledOnTouchOutside(true);
+        loadDialog.show();
+    }
+
+    public void showLoadingBar(String msg, boolean cancelable) {
+        if (loadDialog != null) {
+            loadDialog.dismiss();
+            loadDialog = null;
+        }
+        loadDialog = new LoadDialog(this, msg);
+        loadDialog.setCancelable(cancelable);
+        loadDialog.setCanceledOnTouchOutside(true);
+        loadDialog.show();
+    }
+
+    public void dismissLoadingBar() {
+        if (loadDialog != null) {
+            loadDialog.dismiss();
+            loadDialog.stopAnimal();
+            loadDialog = null;
+        }
+    }
 }

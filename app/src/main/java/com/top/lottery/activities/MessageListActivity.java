@@ -62,6 +62,7 @@ public class MessageListActivity extends BaseActivity {
         });
 
 
+        showLoadingBar();
         getMessage();
     }
 
@@ -75,6 +76,7 @@ public class MessageListActivity extends BaseActivity {
                 .execute(new NewsCallback<LotteryResponse<MessageListInfo>>() {
                     @Override
                     public void onSuccess(Response<LotteryResponse<MessageListInfo>> response) {
+                        dismissLoadingBar();
                         MessageListInfo messageListInfo = response.body().body;
                         if (messageListInfo != null && messageListInfo.list != null && messageListInfo.list.size() > 0) {
                             setData(messageListInfo.list);
@@ -85,6 +87,7 @@ public class MessageListActivity extends BaseActivity {
 
                     @Override
                     public void onError(Response response) {
+                        dismissLoadingBar();
                         ToastUtils.showShort(Utils.toastInfo(response));
                         setLoadMore();
                     }

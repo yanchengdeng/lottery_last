@@ -23,7 +23,7 @@ public class OpenLotteryCodeAdapter extends BaseQuickAdapter<OpenLotteryCode, Ba
     @Override
     protected void convert(BaseViewHolder helper, OpenLotteryCode item) {
         if (!TextUtils.isEmpty(item.id)) {
-            ((TextView) helper.getView(R.id.tv_open_times)).setText(item.id);
+            ((TextView) helper.getView(R.id.tv_open_times)).setText("第"+item.id+"期");
         }
 
         if (!TextUtils.isEmpty(item.lottery_time)) {

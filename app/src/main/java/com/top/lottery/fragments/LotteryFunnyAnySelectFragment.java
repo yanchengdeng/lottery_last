@@ -19,6 +19,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
 import com.top.lottery.R;
+import com.top.lottery.activities.BaseActivity;
 import com.top.lottery.activities.ConfirmCodesActivity;
 import com.top.lottery.activities.LotteryFunnyActivity;
 import com.top.lottery.adapters.AwardBallAdapter;
@@ -104,7 +105,7 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
     private void initChangeButton() {
         if (isMechineChoose) {
             tvChooseChange.setText("机选");
-            tvChooseChange.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            tvChooseChange.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.random), null, null, null);
         } else {
             tvChooseChange.setText("清除");
             tvChooseChange.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.delete_white), null, null, null);
@@ -150,7 +151,6 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
                                 item.isShowMissValue = true;
                             }
                             awardBallAdapter.notifyDataSetChanged();
-
                         }
                     }
 
@@ -249,6 +249,9 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
 
     private void checkSelect() {
         if (getSelectBalls().size() >= lotteryInfo.num) {
+            if (getActivity()!=null) {
+                ((BaseActivity) getActivity()).showLoadingBar();
+            }
             checkAwardId();
         } else {
             ToastUtils.showShort(tvSelectTips.getText().toString());
@@ -274,6 +277,9 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
                     @Override
                     public void onError(Response response) {
                         ToastUtils.showShort(Utils.toastInfo(response));
+                        if (getActivity()!=null) {
+                            ((BaseActivity) getActivity()).dismissLoadingBar();
+                        }
 
                     }
                 });
@@ -298,6 +304,9 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
                     @Override
                     public void onError(Response response) {
                         ToastUtils.showShort(Utils.toastInfo(response));
+                        if (getActivity()!=null) {
+                            ((BaseActivity) getActivity()).dismissLoadingBar();
+                        }
                     }
                 });
     }
@@ -317,12 +326,18 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
                     @Override
                     public void onSuccess(Response<LotteryResponse<CheckSelectCodeInfo>> response) {
                         checkCodeAndAward();
+                        if (getActivity()!=null) {
+                            ((BaseActivity) getActivity()).dismissLoadingBar();
+                        }
                     }
 
 
                     @Override
                     public void onError(Response response) {
                         ToastUtils.showShort(Utils.toastInfo(response));
+                        if (getActivity()!=null) {
+                            ((BaseActivity) getActivity()).dismissLoadingBar();
+                        }
                     }
                 });
     }
@@ -332,7 +347,7 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
     private void checkCodeAndAward() {
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.PASS_OBJECT, lotteryInfo);
-        ActivityUtils.startActivityForResult(bundle,getActivity(), ConfirmCodesActivity.class,200);
+        ActivityUtils.startActivity(bundle, ConfirmCodesActivity.class);
     }
 
 
@@ -368,14 +383,14 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
     public void setShowLotteryMiss() {
         if (getActivity()!=null) {
             if (((LotteryFunnyActivity)getActivity()).isShowMissValue) {
-                if (Utils.getMissValues()!=null && Utils.getMissValues().size()>0){
-                    for (AwardBallInfo item:awardBallAdapter.getData()){
-                        item.isShowMissValue = true;
-                    }
-                    awardBallAdapter.notifyDataSetChanged();
-                }else {
+//                if (Utils.getMissValues()!=null && Utils.getMissValues().size()>0){
+//                    for (AwardBallInfo item:awardBallAdapter.getData()){
+//                        item.isShowMissValue = true;
+//                    }
+//                    awardBallAdapter.notifyDataSetChanged();
+//                }else {
                     getMissValue();
-                }
+//                }
             }else{
                 for (AwardBallInfo item:awardBallAdapter.getData()){
                     item.isShowMissValue = false;
@@ -383,7 +398,6 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
                 awardBallAdapter.notifyDataSetChanged();
             }
         }
-
     }
 
     @Override

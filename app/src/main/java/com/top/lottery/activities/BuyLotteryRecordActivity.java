@@ -63,6 +63,8 @@ public class BuyLotteryRecordActivity extends BaseActivity {
     TextView tvPeriod;
     @BindView(R.id.recycle)
     RecyclerView recycle;
+    @BindView(R.id.ll_error_refresh_else)
+    LinearLayout llErrorRefresh;
     private int page = 1;
     private String[] dates = new String[]{"today", "week", "month", "three_month"};
     private String[] dates_info = new String[]{"今日", "一周", "1个月", "3个月"};
@@ -71,7 +73,7 @@ public class BuyLotteryRecordActivity extends BaseActivity {
     // 1：进行中2：已完成3：已中止
     private String[] status = new String[]{"1", "2", "3"};
     private String[] status_info = new String[]{"进行中", "已完成", "已中止"};
-    private String search_date, lid, start_date, end_date, lottery_status;
+    private String search_date, lid = "0", start_date, end_date, lottery_status;
     private List<AwardRecodList> awardRecodLists = new ArrayList<>();
     private AwardRecordAdapter awardRecordAdapter;
     private String type;
@@ -122,6 +124,7 @@ public class BuyLotteryRecordActivity extends BaseActivity {
         awardRecordAdapter.addHeaderView(viewHead);
         recycle.setNestedScrollingEnabled(false);
         recycle.setAdapter(awardRecordAdapter);
+        llErrorRefresh.setVisibility(View.GONE);
 
 
         //时间选择器
@@ -141,14 +144,6 @@ public class BuyLotteryRecordActivity extends BaseActivity {
                 tvEndTime.setText("" + end_date);
             }
         }).build();
-
-
-        awardRecordAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                getAwardRecord();
-            }
-        }, recycle);
 
 
         awardRecordAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
@@ -309,6 +304,9 @@ public class BuyLotteryRecordActivity extends BaseActivity {
      *
      */
     private void getAwardRecord() {
+        if (page == 1) {
+            showLoadingBar();
+        }
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", getUserInfo().uid);
         data.put("record_type", type);//1：购彩记录2：中奖记录3：追号记录
@@ -332,32 +330,40 @@ public class BuyLotteryRecordActivity extends BaseActivity {
                 .execute(new NewsCallback<LotteryResponse<AwradRecordInterface>>() {
                     @Override
                     public void onSuccess(Response<LotteryResponse<AwradRecordInterface>> response) {
+                        dismissLoadingBar();
+                        if (page == 1) {
+                            awardRecordAdapter.getData().clear();
+                        }
                         AwradRecordInterface awradRecordInterface = response.body().body;
                         List<AwardRecordItem> awardRecordItemList = awradRecordInterface.list;
                         if (awardRecordItemList != null && awardRecordItemList.size() > 0) {
+                            llErrorRefresh.setVisibility(View.GONE);
                             boolean isRefresh = page == 1;
                             setData(isRefresh, parseData(awardRecordItemList), awardRecordItemList);
                         } else {
                             if (awardRecordAdapter.getData().size() > 0) {
                                 awardRecordAdapter.loadMoreComplete();
                                 awardRecordAdapter.loadMoreEnd();
+                                llErrorRefresh.setVisibility(View.GONE);
                             } else {
-                                awardRecordAdapter.setNewData(null);
-                                awardRecordAdapter.setEmptyView(RecycleViewUtils.getEmptyView(mContext, recycle));
+                                awardRecordAdapter.setNewData(new ArrayList<AwardRecodList>());
+                                llErrorRefresh.setVisibility(View.VISIBLE);
                             }
                         }
-
                     }
 
                     @Override
                     public void onError(Response response) {
+                        dismissLoadingBar();
                         ToastUtils.showShort(Utils.toastInfo(response));
                         if (awardRecordAdapter.getData().size() > 0) {
                             awardRecordAdapter.loadMoreComplete();
                             awardRecordAdapter.loadMoreEnd();
+                            llErrorRefresh.setVisibility(View.GONE);
                         } else {
-                            awardRecordAdapter.setNewData(null);
-                            awardRecordAdapter.setEmptyView(RecycleViewUtils.getEmptyView(mContext, recycle));
+                            awardRecordAdapter.setNewData(new ArrayList<AwardRecodList>());
+                            llErrorRefresh.setVisibility(View.VISIBLE);
+//                            awardRecordAdapter.setEmptyView(RecycleViewUtils.getEmptyView(mContext, recycle));
                         }
                     }
                 });
@@ -394,7 +400,9 @@ public class BuyLotteryRecordActivity extends BaseActivity {
             if (maps.containsKey(item.create_date)) {
                 maps.get(item.create_date).add(item);
             } else {
-                maps.put(item.create_date, new ArrayList<AwardRecordItem>());
+              List<AwardRecordItem>  newRecords =   new ArrayList<AwardRecordItem>();
+                newRecords.add(item);
+                maps.put(item.create_date, newRecords);
             }
         }
 

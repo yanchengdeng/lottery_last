@@ -34,4 +34,5 @@ public class AcountBillIAdapter extends BaseQuickAdapter<AcountBillItem, BaseVie
             }
         }
     }
+
 }

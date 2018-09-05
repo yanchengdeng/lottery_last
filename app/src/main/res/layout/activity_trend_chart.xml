@@ -1,9 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".activities.TrendChartActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="期号"
+            android:layout_weight="1"
+            android:background="@color/list_divider_color"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_down"
+            android:layout_width="0dp"
+            android:paddingTop="@dimen/image_padding"
+            android:paddingBottom="@dimen/image_padding"
+            android:gravity="center"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="01"
+            android:layout_weight="1"
+            android:background="@color/list_divider_color"
+            android:layout_marginLeft="1px"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_down"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_height="match_parent" />
+        <TextView
+            android:text="02"
+            android:layout_weight="1"
+            android:background="@color/list_divider_color"
+            android:layout_marginLeft="1px"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_down"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_height="match_parent" />
+        <TextView
+            android:text="03"
+            android:layout_weight="1"
+            android:background="@color/list_divider_color"
+            android:layout_marginLeft="1px"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_down"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_height="match_parent" />
+        <TextView
+            android:text="04"
+            android:layout_weight="1"
+            android:background="@color/list_divider_color"
+            android:layout_marginLeft="1px"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_down"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_height="match_parent" />
+        <TextView
+            android:text="05"
+            android:layout_weight="1"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_down"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:background="@color/list_divider_color"
+            android:layout_marginLeft="1px"
+            android:layout_height="match_parent" />
+        <TextView
+            android:text="06"
+            android:layout_weight="1"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_down"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:background="@color/list_divider_color"
+            android:layout_marginLeft="1px"
+            android:layout_height="match_parent" />
+        <TextView
+            android:text="07"
+            android:layout_weight="1"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_down"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:background="@color/list_divider_color"
+            android:layout_marginLeft="1px"
+            android:layout_height="match_parent" />
+        <TextView
+            android:text="08"
+            android:layout_weight="1"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_down"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:background="@color/list_divider_color"
+            android:layout_marginLeft="1px"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:text="09"
+            android:layout_weight="1"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_down"
+            android:layout_width="0dp"
+            android:background="@color/list_divider_color"
+            android:layout_marginLeft="1px"
+            android:gravity="center"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:text="10"
+            android:layout_weight="1"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_down"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:background="@color/list_divider_color"
+            android:layout_marginLeft="1px"
+            android:layout_height="match_parent" />
+
+
+        <TextView
+            android:text="11"
+            android:layout_weight="1"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_down"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:background="@color/list_divider_color"
+            android:layout_marginLeft="1px"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycle"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/list_divider_color"
+        android:layout_weight="1"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_count_down_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/image_padding_big"
+            android:lineSpacingMultiplier="1.2"
+            android:text="暂无可销售的期号，距离下次"
+            android:textColor="@color/color_info"
+            android:textSize="@dimen/text_size_normal" />
+
+
+
+    </LinearLayout>
+    
+    
+    
+
+
+</LinearLayout>

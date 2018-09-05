@@ -62,11 +62,20 @@
 
     <include layout="@layout/view_line" />
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycle"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+
+        <include layout="@layout/layout_empty_view_else" />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
 
 
 </LinearLayout>

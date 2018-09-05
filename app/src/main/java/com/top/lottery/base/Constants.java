@@ -10,6 +10,7 @@ public class Constants {
     public static final String PASS_STRING = "pass_string";
     public static final String PASS_NAME = "pass_name";
     public static final String PASS_OBJECT = "pass_object";
+    public static final String PASS_CHILD_UID = "child_uid";
     //编码格式
     public static final String SERVER_ENCODE = "utf-8";
     //服务端秘钥
@@ -23,9 +24,11 @@ public class Constants {
     public static final long TIME_CAN_TOUZU = (8 * 60 + 45) * 1000;//8分  45 秒
     //不可投注时间
     public static final long TIME_CAN_NOT_TOUZHU = (1 * 60 + 15) * 1000;//1 分15秒
-    public static final String DATE_FORMAR = "yyyy-MM-dd hh:mm:ss";
+    public static final String DATE_FORMAR = "yyyy-MM-dd HH:mm:ss";
     //返回主页请求码
     public static final int BACK_TO_MAIN = 300;
+    public static final String USER_NAME = "username";
+    public static final String PASSWORD = "password";
     public static String LASTEST_AWARD_ID = "2018082601";
     public static String LASTER_AWARD_END_TIME = "2018-08-26 17:00:00";
 
@@ -117,6 +120,20 @@ public class Constants {
         public static final String RECORD_GETLIST = BASE_API + "record/getlist";
         //账单记录
         public static final String SCORELOG_GETLIST = BASE_API +"scoreLog/getList";
+        //购彩订单详情
+        public static final String RECORD_DETAIL = BASE_API+"record/detail";
+        //下级用户列表
+        public static final String SCORELOG_GETCHILDUSERLIST = BASE_API+"scoreLog/getChildUserList";
+        //撤单
+        public static final String RECORD_CANCELORDER = BASE_API+"record/cancelOrder";
+        //停止追号
+        public static final String RECORD_CANCELCHASE = BASE_API+"record/cancelChase";
+        //继续投注
+        public static final String CART_ADDBYORDERID = BASE_API+"cart/addByOrderId";
+        //追号列表
+        public static final String RECORD_CHASELIST = BASE_API+"record/chaseList";
+        //追号详情
+        public static final String AWARD_DETAIL = BASE_API+"award/detail";
 
 
         //走势图

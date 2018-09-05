@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">lottery</string>
+    <string name="app_name">顶上大数据</string>
     <string name="no_data">暂无数据</string>
     <string name="user_name">用户名</string>
     <string name="input_user_name">请输入用户名</string>
@@ -19,6 +19,8 @@
     <string name="input_new_repeat_password">请重新输入新密码</string>
     <string name="main_open_award">第%s期 开奖号码</string>
     <string name="tips_for_anyselect">请至少选择%s个号码</string>
+    <string name="tips_for_tuodan">请选择%s个胆码</string>
     <string name="input_ask">请输入安全问题</string>
     <string name="input_answer">请输入回答内容</string>
+    <string name="loading">加载中...</string>
 </resources>

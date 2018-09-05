@@ -64,6 +64,14 @@
                 android:textCursorDrawable="@drawable/edit_cursor_drawable"
                 android:textSize="@dimen/text_size_normal" />
 
+            <ImageView
+                android:id="@+id/iv_clear_username"
+                android:layout_width="wrap_content"
+                android:src="@mipmap/clear"
+                android:layout_gravity="center_vertical"
+                android:padding="@dimen/image_padding_big"
+                android:layout_height="wrap_content" />
+
         </LinearLayout>
 
         <TextView
@@ -99,6 +107,16 @@
                 android:textColor="@color/color_info"
                 android:textCursorDrawable="@drawable/edit_cursor_drawable"
                 android:textSize="@dimen/text_size_normal" />
+
+
+            <ImageView
+                android:id="@+id/iv_clear_password"
+                android:layout_width="wrap_content"
+                android:src="@mipmap/clear"
+                android:layout_gravity="center_vertical"
+                android:padding="@dimen/image_padding_big"
+                android:layout_height="wrap_content" />
+
 
         </LinearLayout>
 

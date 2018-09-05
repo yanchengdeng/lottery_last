@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_lottery_record"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@color/white"
+    android:padding="@dimen/image_padding_big">
+
+
+    <TextView
+        android:id="@+id/tv_user_id"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_tittle"
+        android:textSize="@dimen/text_size_normal" />
+
+
+    <TextView
+        android:id="@+id/tv_user_award"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_tittle"
+        android:textSize="@dimen/text_size_normal" />
+
+
+    <TextView
+        android:id="@+id/tv_bill_pay"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_tittle"
+        android:textSize="@dimen/text_size_normal" />
+
+
+    <TextView
+        android:id="@+id/tv_bill_daili"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_tittle"
+        android:textSize="@dimen/text_size_normal" />
+
+
+
+
+
+</LinearLayout>

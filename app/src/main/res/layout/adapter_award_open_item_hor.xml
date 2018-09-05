@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_lottery_record"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/nav_bar_height"
+    android:background="@color/list_divider_color"
+    android:orientation="horizontal"
+   >
+
+    <TextView
+        android:id="@+id/tv_code"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="@color/white"
+        android:text="奖项"
+        android:textColor="@color/color_info"
+        android:textSize="@dimen/text_size_normal_up" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_marginLeft="1px"
+        android:background="@color/white"
+        android:layout_height="match_parent"
+        android:text="注数"
+        android:textColor="@color/color_info"
+        android:textSize="@dimen/text_size_normal_up" />
+
+</LinearLayout>

@@ -205,7 +205,6 @@ public class PercentInfoActivity extends BaseActivity {
                     @Override
                     public void onError(Response response) {
                         ToastUtils.showShort(Utils.toastInfo(response));
-                        llProxyUi.setVisibility(View.VISIBLE);
                     }
                 });
     }

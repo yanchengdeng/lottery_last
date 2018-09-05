@@ -1,5 +1,6 @@
 package com.top.lottery.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatImageView;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -107,6 +109,13 @@ public class ConfirmCodesActivity extends BaseActivity {
             }
         });
         getCart();
+
+        ckStopTouzhu.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                setCartChange(false);
+            }
+        });
     }
 
     //删除购物侧 某个彩票信息
@@ -258,6 +267,7 @@ public class ConfirmCodesActivity extends BaseActivity {
 
     //下单结算
     private void doCardPay() {
+        showLoadingBar();
 
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
@@ -269,6 +279,7 @@ public class ConfirmCodesActivity extends BaseActivity {
                     @Override
                     public void onSuccess(Response<LotteryResponse<UserInfo>> response) {
                         int flag = response.body().code;
+                        dismissLoadingBar();
                         showDialogTips(flag);
 
                     }
@@ -276,6 +287,7 @@ public class ConfirmCodesActivity extends BaseActivity {
 
                     @Override
                     public void onError(Response response) {
+                        dismissLoadingBar();
                         ToastUtils.showShort(Utils.toastInfo(response));
                     }
                 });
@@ -307,7 +319,9 @@ public class ConfirmCodesActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     successDialog.dismiss();
-                    setResult(RESULT_OK);
+                    Intent intent = new Intent(mContext,LotteryFunnyActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                     finish();
                 }
             });
@@ -316,7 +330,10 @@ public class ConfirmCodesActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     successDialog.dismiss();
-                    setResult(Constants.BACK_TO_MAIN);
+                    Intent intent = new Intent(mContext,MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+//                    setResult(Constants.BACK_TO_MAIN);
                     finish();
                 }
             });
@@ -425,7 +442,7 @@ public class ConfirmCodesActivity extends BaseActivity {
 
                     @Override
                     public void onError(Response response) {
-                        ToastUtils.showShort(Utils.toastInfo(response));
+//                        ToastUtils.showShort(Utils.toastInfo(response));
                         if (isTimes) {
                             record_times--;
                         } else {

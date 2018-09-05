@@ -6,11 +6,13 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -47,6 +49,10 @@ public class LoginActivity extends BaseActivity {
     TextView tvLogin;
     @BindView(R.id.ll_center)
     LinearLayout llCenter;
+    @BindView(R.id.iv_clear_username)
+    ImageView ivClearUsername;
+    @BindView(R.id.iv_clear_password)
+    ImageView ivClearPassword;
 
     private int REQUEST_PHPNE_STATUTS = 0x110;
 
@@ -58,7 +64,7 @@ public class LoginActivity extends BaseActivity {
         StatusBarUtil.setLightMode(this);
         hideTittle();
 
-        if (com.top.lottery.utils.Utils.isLogin()) {
+        if (Utils.isLogin()) {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         } else {
@@ -66,9 +72,72 @@ public class LoginActivity extends BaseActivity {
             showContentView();
         }
 
-        //测试 登录 账号
-        etUserName.setText("10000000");
-        etPassword.setText("11111111");
+        if (!TextUtils.isEmpty(SPUtils.getInstance().getString(Constants.USER_NAME))) {
+            etUserName.setText(SPUtils.getInstance().getString(Constants.USER_NAME));
+        }
+        if (!TextUtils.isEmpty(SPUtils.getInstance().getString(Constants.PASSWORD))) {
+            etPassword.setText(SPUtils.getInstance().getString(Constants.PASSWORD));
+        }
+
+        etUserName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(s.toString())){
+                    ivClearUsername.setVisibility(View.GONE);
+                }else{
+                    ivClearUsername.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
+
+
+
+        etPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(s.toString())){
+                    ivClearPassword.setVisibility(View.GONE);
+                }else{
+                    ivClearPassword.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
+
+        ivClearUsername.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etUserName.setText("");
+            }
+        });
+
+        ivClearPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etPassword.setText("");
+            }
+        });
 
         tvLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,6 +189,8 @@ public class LoginActivity extends BaseActivity {
                         UserInfo userInfo = response.body().body;
                         if (userInfo != null) {
                             SPUtils.getInstance().put(Constants.USER_INFO, new Gson().toJson(userInfo));
+                            SPUtils.getInstance().put(Constants.USER_NAME, etUserName.getEditableText().toString());
+                            SPUtils.getInstance().put(Constants.PASSWORD, etPassword.getEditableText().toString());
                             ToastUtils.showShort("登陆成功");
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();

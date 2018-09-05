@@ -1,14 +1,13 @@
 package com.top.lottery.activities;
 
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.GridView;
@@ -31,7 +30,9 @@ import com.top.lottery.beans.LotteryInfo;
 import com.top.lottery.beans.LotteryPlayWay;
 import com.top.lottery.beans.LotteryResponse;
 import com.top.lottery.fragments.LotteryFunnyAnySelectFragment;
+import com.top.lottery.fragments.LotteryFunnyDanTuoSelectFragment;
 import com.top.lottery.fragments.LotteryFunnyPreDirectSelectFragment;
+import com.top.lottery.fragments.LotteryFunnyPreGroupSelectFragment;
 import com.top.lottery.liseners.PerfectClickListener;
 import com.top.lottery.utils.NewsCallback;
 import com.top.lottery.utils.Utils;
@@ -85,6 +86,7 @@ public class LotteryFunnyActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 setTitle("投注-" + lotteryPlayWays.get(i).title);
                 grid.setVisibility(View.GONE);
+                grid.startAnimation(AnimationUtils.loadAnimation(mContext,R.anim.slid_out_top));
                 getLotteryById(lotteryPlayWays.get(i).lottery_id);
             }
         });
@@ -93,9 +95,11 @@ public class LotteryFunnyActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 if (grid.getVisibility() == View.VISIBLE) {
+                    grid.startAnimation(AnimationUtils.loadAnimation(mContext,R.anim.slid_out_top));
                     grid.setVisibility(View.GONE);
                 } else {
                     grid.setVisibility(View.VISIBLE);
+                    grid.startAnimation(AnimationUtils.loadAnimation(mContext,R.anim.slid_in_top));
                 }
             }
         });
@@ -169,9 +173,16 @@ public class LotteryFunnyActivity extends BaseActivity {
             lotteryFunnyPreDirectSelectFragment.setArguments(bundle);
             FragmentUtils.replace(getSupportFragmentManager(),lotteryFunnyPreDirectSelectFragment,R.id.fl_content);
         }else if (lotteryInfo.type==3){
-
+            bundle.putSerializable(Constants.PASS_OBJECT,lotteryInfo);
+            LotteryFunnyPreGroupSelectFragment lotteryFunnyPreGroupSelectFragment = new LotteryFunnyPreGroupSelectFragment();
+            lotteryFunnyPreGroupSelectFragment.setArguments(bundle);
+            FragmentUtils.replace(getSupportFragmentManager(),lotteryFunnyPreGroupSelectFragment,R.id.fl_content);
+        }else if (lotteryInfo.type==4 || lotteryInfo.type==6){
+            bundle.putSerializable(Constants.PASS_OBJECT,lotteryInfo);
+            LotteryFunnyDanTuoSelectFragment lotteryFunnyDanTuoSelectFragment = new LotteryFunnyDanTuoSelectFragment();
+            lotteryFunnyDanTuoSelectFragment.setArguments(bundle);
+            FragmentUtils.replace(getSupportFragmentManager(),lotteryFunnyDanTuoSelectFragment,R.id.fl_content);
         }
-
     }
 
 
@@ -219,6 +230,12 @@ public class LotteryFunnyActivity extends BaseActivity {
        Fragment fragment =  FragmentUtils.getTop(getSupportFragmentManager());
        if (fragment instanceof LotteryFunnyAnySelectFragment){
            ((LotteryFunnyAnySelectFragment)fragment).setShowLotteryMiss();
+       }else if (fragment instanceof LotteryFunnyPreDirectSelectFragment){
+           ((LotteryFunnyPreDirectSelectFragment)fragment).setShowLotteryMiss();
+       }else if (fragment instanceof LotteryFunnyPreGroupSelectFragment){
+           ((LotteryFunnyPreGroupSelectFragment)fragment).setShowLotteryMiss();
+       }else if (fragment instanceof LotteryFunnyDanTuoSelectFragment){
+           ((LotteryFunnyDanTuoSelectFragment)fragment).setShowLotteryMiss();
        }
     }
 
@@ -330,15 +347,15 @@ public class LotteryFunnyActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode ==200){
-            if (resultCode==RESULT_OK){
-                grid.setVisibility(View.VISIBLE);
-            }else if (resultCode==Constants.BACK_TO_MAIN){
-                finish();
-            }
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode ==200){
+//            if (resultCode==RESULT_OK){
+//                grid.setVisibility(View.VISIBLE);
+//            }else if (resultCode==Constants.BACK_TO_MAIN){
+//                finish();
+//            }
+//        }
+//    }
 }

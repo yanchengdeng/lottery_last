@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -44,6 +45,7 @@ import static com.top.lottery.utils.Utils.getUserInfo;
 public class AccountBillsActivity extends BaseActivity {
 
     private RecyclerView recyclerView;
+    private LinearLayout llErrorRefresh;
     private int page = 1;
     private AcountBillIAdapter acountBillIAdapter;
     TimePickerView start, end;
@@ -53,16 +55,19 @@ public class AccountBillsActivity extends BaseActivity {
     LinearLayout llEndTime;
     TextView tvStartTime, tvEndTime, tvChargeIntergry, tvAwardIntergry, tvWithdrawIntergry, tvPayOut, tvPayReback, tvTotalProxyBack, tvBelowClassCount;
     TextView tvSearch;
+    TextView tvAccoutTips;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_bills);
-        setTitle("账单明细");
+        setTitle("账户明细");
         initViewHeader();
         initLisener();
         recyclerView = getView(R.id.recycle);
+        llErrorRefresh = getView(R.id.ll_error_refresh_else);
+        llErrorRefresh.setVisibility(View.GONE);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(RecycleViewUtils.getItemDecoration(this));
         acountBillIAdapter = new AcountBillIAdapter(R.layout.adapter_bill_item_record, new ArrayList<AcountBillItem>());
@@ -74,13 +79,16 @@ public class AccountBillsActivity extends BaseActivity {
             public void onLoadMoreRequested() {
                 getAcountData();
             }
-        },recyclerView);
+        }, recyclerView);
+
 
         getAcountData();
     }
 
     private void initViewHeader() {
         viewHeader = LayoutInflater.from(mContext).inflate(R.layout.header_lottery_bill, null, false);
+
+        tvAccoutTips = viewHeader.findViewById(R.id.tv_accout_tips);
         llStartTime = viewHeader.findViewById(R.id.ll_start_time);
         llEndTime = viewHeader.findViewById(R.id.ll_end_time);
         tvStartTime = viewHeader.findViewById(R.id.tv_start_time);
@@ -165,8 +173,10 @@ public class AccountBillsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 score_type = "1";
-                page=1;
-                getAcountData();
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.PASS_NAME, "账户充值明细");
+                bundle.putString(Constants.PASS_STRING, score_type);
+                ActivityUtils.startActivity(bundle, AccountBillsTypeActivity.class);
 
             }
         });
@@ -175,8 +185,10 @@ public class AccountBillsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 score_type = "2";
-                page=1;
-                getAcountData();
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.PASS_NAME, "账户中奖明细");
+                bundle.putString(Constants.PASS_STRING, score_type);
+                ActivityUtils.startActivity(bundle, AccountBillsTypeActivity.class);
             }
         });
 
@@ -185,8 +197,10 @@ public class AccountBillsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 score_type = "3";
-                page=1;
-                getAcountData();
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.PASS_NAME, "账户提取明细");
+                bundle.putString(Constants.PASS_STRING, score_type);
+                ActivityUtils.startActivity(bundle, AccountBillsTypeActivity.class);
             }
         });
 
@@ -195,8 +209,10 @@ public class AccountBillsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 score_type = "4";
-                page=1;
-                getAcountData();
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.PASS_NAME, "账户购彩明细");
+                bundle.putString(Constants.PASS_STRING, score_type);
+                ActivityUtils.startActivity(bundle, AccountBillsTypeActivity.class);
             }
         });
 
@@ -205,8 +221,10 @@ public class AccountBillsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 score_type = "6";
-                page=1;
-                getAcountData();
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.PASS_NAME, "账户返利明细");
+                bundle.putString(Constants.PASS_STRING, score_type);
+                ActivityUtils.startActivity(bundle, AccountBillsTypeActivity.class);
             }
         });
 
@@ -214,9 +232,7 @@ public class AccountBillsActivity extends BaseActivity {
         llTotalProxyBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                score_type = "6";
-                page=1;
-                getAcountData();
+                ToastUtils.showShort("敬请期待");
             }
         });
 
@@ -225,8 +241,7 @@ public class AccountBillsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-                //todo
-                ToastUtils.showShort("跳另个一个界面");
+                ActivityUtils.startActivity(BelowClassCountActivity.class);
             }
         });
 
@@ -267,6 +282,9 @@ public class AccountBillsActivity extends BaseActivity {
      */
     private void getAcountData() {
 
+        if (page==1){
+            showLoadingBar();
+        }
         final HashMap<String, String> data = new HashMap<>();
         data.put("uid", getUserInfo().uid);
         data.put("page", String.valueOf(page));
@@ -287,38 +305,82 @@ public class AccountBillsActivity extends BaseActivity {
                 .execute(new NewsCallback<LotteryResponse<AcounBillIInfo>>() {
                     @Override
                     public void onSuccess(Response<LotteryResponse<AcounBillIInfo>> response) {
-                        if (page==1){
-                            acountBillIAdapter.setNewData(null);
-                        }
+                        dismissLoadingBar();
                         AcounBillIInfo awradRecordInterface = response.body().body;
+                        if (page == 1) {
+                            acountBillIAdapter.getData().clear();
+                            initHeaderData(awradRecordInterface.sum);
+                        }
                         List<AcountBillItem> awardRecordItemList = awradRecordInterface.list;
                         if (awardRecordItemList != null && awardRecordItemList.size() > 0) {
+                            llErrorRefresh.setVisibility(View.GONE);
                             boolean isRefresh = page == 1;
                             setData(isRefresh, awardRecordItemList);
                         } else {
                             if (acountBillIAdapter.getData().size() > 0) {
                                 acountBillIAdapter.loadMoreComplete();
                                 acountBillIAdapter.loadMoreEnd();
+                                llErrorRefresh.setVisibility(View.GONE);
+
                             } else {
-                                acountBillIAdapter.setNewData(null);
-                                acountBillIAdapter.setEmptyView(RecycleViewUtils.getEmptyView(mContext, recyclerView));
+                                acountBillIAdapter.setNewData(new ArrayList<AcountBillItem>());
+                                llErrorRefresh.setVisibility(View.VISIBLE);
                             }
                         }
-
                     }
 
                     @Override
                     public void onError(Response response) {
+                        dismissLoadingBar();
                         ToastUtils.showShort(Utils.toastInfo(response));
                         if (acountBillIAdapter.getData().size() > 0) {
                             acountBillIAdapter.loadMoreComplete();
+                            llErrorRefresh.setVisibility(View.GONE);
                             acountBillIAdapter.loadMoreEnd();
                         } else {
-                            acountBillIAdapter.setNewData(null);
-                            acountBillIAdapter.setEmptyView(RecycleViewUtils.getEmptyView(mContext, recyclerView));
+                            acountBillIAdapter.setNewData(new ArrayList<AcountBillItem>());
+                            llErrorRefresh.setVisibility(View.VISIBLE);
+//                            acountBillIAdapter.setEmptyView(RecycleViewUtils.getEmptyView(mContext, recyclerView));
                         }
                     }
                 });
+    }
+
+    private void initHeaderData(AcounBillIInfo.AccountBillSum sum) {
+        if (sum==null){
+            viewHeader.findViewById(R.id.tv_funcuton_tools).setVisibility(View.GONE);
+            return;
+        }else{
+            viewHeader.findViewById(R.id.tv_funcuton_tools).setVisibility(View.VISIBLE);
+        }
+
+
+        if (sum.recharge != null && !TextUtils.isEmpty(sum.recharge.score)) {
+            tvChargeIntergry.setText(sum.recharge.score + "积分");
+        }
+
+        if (sum.reward != null && !TextUtils.isEmpty(sum.reward.score)) {
+            tvAwardIntergry.setText(sum.reward.score + "积分");
+        }
+
+        if (sum.withdrawals != null && !TextUtils.isEmpty(sum.withdrawals.score)) {
+            tvWithdrawIntergry.setText(sum.withdrawals.score + "积分");
+        }
+
+        if (sum.cost != null && !TextUtils.isEmpty(sum.cost.score)) {
+            tvPayOut.setText(sum.cost.score + "积分");
+        }
+
+        if (sum.daili != null && !TextUtils.isEmpty(sum.daili.score)) {
+            tvTotalProxyBack.setText(sum.daili.score + "积分");
+        }
+
+
+        if (sum.daili_number != null && !TextUtils.isEmpty(sum.daili_number.score)) {
+            tvBelowClassCount.setText(sum.daili_number.score + "人");
+        }
+
+
     }
 
 

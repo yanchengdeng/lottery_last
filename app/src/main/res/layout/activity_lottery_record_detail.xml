@@ -1,9 +1,445 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.LotteryRecordDetailActivity">
+    android:background="@color/white">
 
-</android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".activities.LotteryRecordDetailActivity">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/activity_horizontal_margin">
+
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="@dimen/ball_circle_size"
+                android:layout_height="@dimen/ball_circle_size" />
+
+            <TextView
+                android:id="@+id/tv_lid_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/image_padding_big"
+                android:text="福建11选5"
+                android:textColor="@color/color_tittle"
+                android:textSize="@dimen/text_size_normal_up"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/tv_award_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/image_padding_big"
+                android:text="底20102322期"
+                android:textColor="@color/color_date"
+                android:textSize="@dimen/text_size_normal" />
+
+
+        </LinearLayout>
+
+        <include layout="@layout/view_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/image_padding_big"
+                android:paddingTop="@dimen/image_padding_big">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="投注积分"
+                    android:textColor="@color/color_date"
+                    android:textSize="@dimen/text_size_normal" />
+
+
+                <TextView
+                    android:id="@+id/tv_touzhu_integery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/image_padding_big"
+                    android:text="0积分"
+                    android:textColor="@color/color_info"
+                    android:textSize="@dimen/text_size_normal" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="@dimen/nav_bar_height"
+                android:layout_gravity="center_vertical"
+                android:background="@color/list_divider_color" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/image_padding_big"
+                android:paddingTop="@dimen/image_padding_big">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="状态"
+                    android:textColor="@color/color_date"
+                    android:textSize="@dimen/text_size_normal" />
+
+
+                <TextView
+                    android:id="@+id/tv_touzhu_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/image_padding_big"
+                    android:text="未中奖"
+                    android:textColor="@color/color_info"
+                    android:textSize="@dimen/text_size_normal" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="@dimen/nav_bar_height"
+                android:layout_gravity="center_vertical"
+                android:background="@color/list_divider_color" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/image_padding_big"
+                android:paddingTop="@dimen/image_padding_big">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="奖励积分"
+                    android:textColor="@color/color_date"
+                    android:textSize="@dimen/text_size_normal" />
+
+
+                <TextView
+                    android:id="@+id/tv_touzhu_jiali"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/image_padding_big"
+                    android:text="0"
+                    android:textColor="@color/color_info"
+                    android:textSize="@dimen/text_size_normal" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <include layout="@layout/view_line" />
+
+
+        <include
+            layout="@layout/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="@dimen/activity_horizontal_margin" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:text="开奖号码"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal" />
+
+        <include layout="@layout/view_line" />
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/image_padding_big">
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycle_records"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/normal_submit_btn_gray_trans" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:background="@color/color_info" />
+
+        </FrameLayout>
+
+
+        <include
+            layout="@layout/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="@dimen/image_padding_big" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="倍数"
+                android:textColor="@color/color_date"
+                android:textSize="@dimen/text_size_normal" />
+
+
+            <TextView
+                android:id="@+id/tv_times"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="1倍"
+                android:textColor="@color/color_info"
+                android:textSize="@dimen/text_size_normal" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/view_line" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="出票详情"
+                android:textColor="@color/color_date"
+                android:textSize="@dimen/text_size_normal" />
+
+
+            <TextView
+                android:id="@+id/tv_order_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:drawablePadding="@dimen/image_padding"
+                android:drawableRight="@mipmap/icon_arrow_right"
+                android:text="普通订单"
+                android:textColor="@color/red"
+                android:textSize="@dimen/text_size_normal" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/view_line" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="中奖状态"
+                android:textColor="@color/color_date"
+                android:textSize="@dimen/text_size_normal" />
+
+
+            <TextView
+                android:id="@+id/tv_award_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:drawablePadding="@dimen/image_padding"
+                android:drawableRight="@mipmap/icon_arrow_right"
+                android:text="未中奖"
+                android:textColor="@color/color_info"
+                android:textSize="@dimen/text_size_normal" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/view_line" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="订单编号"
+                android:textColor="@color/color_date"
+                android:textSize="@dimen/text_size_normal" />
+
+
+            <TextView
+                android:id="@+id/tv_order_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="234234234234"
+                android:textColor="@color/color_info"
+                android:textSize="@dimen/text_size_normal" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/view_line" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="下单时间"
+                android:textColor="@color/color_date"
+                android:textSize="@dimen/text_size_normal" />
+
+
+            <TextView
+                android:id="@+id/tv_create_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="2018-09-09"
+                android:textColor="@color/color_info"
+                android:textSize="@dimen/text_size_normal" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/view_line" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="是否追号"
+                android:textColor="@color/color_date"
+                android:textSize="@dimen/text_size_normal" />
+
+
+            <TextView
+                android:id="@+id/tv_is_chase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="否"
+                android:textColor="@color/color_info"
+                android:textSize="@dimen/text_size_normal" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/view_line" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="追号中奖中止"
+                android:textColor="@color/color_date"
+                android:textSize="@dimen/text_size_normal" />
+
+
+            <TextView
+                android:id="@+id/tv_is_win_chase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="是"
+                android:textColor="@color/color_info"
+                android:textSize="@dimen/text_size_normal" />
+
+        </RelativeLayout>
+        <include layout="@layout/view_line" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/tv_cancle_chase"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/image_padding_big"
+                android:layout_marginRight="@dimen/image_padding_big"
+                android:layout_weight="1"
+                android:background="@drawable/normal_submit_btn_orange"
+                android:gravity="center"
+                android:visibility="gone"
+                android:padding="@dimen/image_padding_big"
+                android:text="停止追号"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tv_goon_touzhu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/image_padding_big"
+                android:layout_marginRight="@dimen/image_padding_big"
+                android:layout_weight="1"
+                android:background="@drawable/normal_submit_btn_green"
+                android:gravity="center"
+                android:padding="@dimen/image_padding_big"
+                android:text="继续本次投注"
+                android:textColor="@color/white" />
+
+
+            <TextView
+                android:id="@+id/tv_cancle_order"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/image_padding_big"
+                android:layout_marginRight="@dimen/image_padding_big"
+                android:layout_weight="1"
+                android:visibility="gone"
+                android:background="@drawable/normal_submit_btn_red"
+                android:gravity="center"
+                android:padding="@dimen/image_padding_big"
+                android:text="撤单"
+                android:textColor="@color/white" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</android.support.v4.widget.NestedScrollView>

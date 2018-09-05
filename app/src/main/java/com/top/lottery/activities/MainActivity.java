@@ -3,8 +3,10 @@ package com.top.lottery.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,15 +21,19 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.top.lottery.R;
+import com.top.lottery.adapters.AwardCodeWinAdapter;
 import com.top.lottery.base.Constants;
 import com.top.lottery.beans.LasterLotteryAwardInfo;
 import com.top.lottery.beans.LotteryResponse;
 import com.top.lottery.beans.MainPrizeCodeInfo;
+import com.top.lottery.beans.MainWinCode;
 import com.top.lottery.utils.NewsCallback;
+import com.top.lottery.utils.ScrollLinearLayoutManager;
 import com.top.lottery.utils.StatusBarUtil;
 import com.top.lottery.utils.Utils;
 
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,16 +48,6 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.tv_lottery_tittle)
     TextView tvLotteryTittle;
-    @BindView(R.id.tv_ball_one)
-    TextView tvBallOne;
-    @BindView(R.id.tv_ball_two)
-    TextView tvBallTwo;
-    @BindView(R.id.tv_ball_three)
-    TextView tvBallThree;
-    @BindView(R.id.tv_ball_four)
-    TextView tvBallFour;
-    @BindView(R.id.tv_ball_five)
-    TextView tvBallFive;
     @BindView(R.id.iv_awards)
     CardView ivAwards;
     @BindView(R.id.iv_account)
@@ -85,8 +81,18 @@ public class MainActivity extends BaseActivity {
     ImageView ivTimeSecondOne;
     @BindView(R.id.iv_time_second_two)
     ImageView ivTimeSecondTwo;
+    @BindView(R.id.recycle_one)
+    RecyclerView recycleOne;
+    @BindView(R.id.recycle_two)
+    RecyclerView recycleTwo;
+    @BindView(R.id.recycle_thre)
+    RecyclerView recycleThre;
+    @BindView(R.id.recycle_four)
+    RecyclerView recycleFour;
+    @BindView(R.id.recycle_five)
+    RecyclerView recycleFive;
     private CountDownTimer countDownTimer;
-
+    private MainPrizeCodeInfo mainPrizeCodeInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,15 +104,45 @@ public class MainActivity extends BaseActivity {
         hideTittle();
         showContentView();
 
+
+        recycleOne.setLayoutManager(new ScrollLinearLayoutManager(this));
+
+        recycleTwo.setLayoutManager(new ScrollLinearLayoutManager(this));
+
+        recycleThre.setLayoutManager(new ScrollLinearLayoutManager(this));
+
+        recycleFour.setLayoutManager(new ScrollLinearLayoutManager(this));
+
+        recycleFive.setLayoutManager(new ScrollLinearLayoutManager(this));
+
+        initRecycleViewData();
+
         refresh.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
+
+                initRecycleViewData();
                 doMainRequest();
             }
         });
 
-        doMainRequest();
 
+        refresh.autoRefresh();
+//        doMainRequest();
+
+    }
+
+    private void initRecycleViewData() {
+        recycleOne.setAdapter(new AwardCodeWinAdapter(R.layout.adapter_award_win_item, Utils.get12Code(R.mipmap.ball_01)));
+        recycleTwo.setAdapter(new AwardCodeWinAdapter(R.layout.adapter_award_win_item, Utils.get12Code(R.mipmap.ball_02)));
+        recycleThre.setAdapter(new AwardCodeWinAdapter(R.layout.adapter_award_win_item, Utils.get12Code(R.mipmap.ball_03)));
+        recycleFour.setAdapter(new AwardCodeWinAdapter(R.layout.adapter_award_win_item, Utils.get12Code(R.mipmap.ball_04)));
+        recycleFive.setAdapter(new AwardCodeWinAdapter(R.layout.adapter_award_win_item, Utils.get12Code(R.mipmap.ball_05)));
+        recycleOne.smoothScrollToPosition(0);
+        recycleTwo.smoothScrollToPosition(0);
+        recycleThre.smoothScrollToPosition(0);
+        recycleFour.smoothScrollToPosition(0);
+        recycleFive.smoothScrollToPosition(0);
     }
 
 
@@ -138,6 +174,9 @@ public class MainActivity extends BaseActivity {
                 ActivityUtils.startActivity(TrendChartActivity.class);
                 break;
             case R.id.iv_record:
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.PASS_STRING, "1");
+                Utils.openActivity(mContext, BuyLotteryRecordActivity.class, bundle);
                 break;
             case R.id.iv_bottom:
                 break;
@@ -163,13 +202,16 @@ public class MainActivity extends BaseActivity {
                         if (lasterLotteryAwardInfo != null) {
                             Constants.LASTER_AWARD_END_TIME = lasterLotteryAwardInfo.current_time;
                             Constants.LASTEST_AWARD_ID = lasterLotteryAwardInfo.award_id;
-                            isCanTouzhu = lasterLotteryAwardInfo.status==1;
+                            isCanTouzhu = lasterLotteryAwardInfo.status == 1;
                             if (lasterLotteryAwardInfo.status == 1) {
                                 tvUntilTimeTips.setText(getString(R.string.can_do_until_stop_for_main));
                             } else {
                                 tvUntilTimeTips.setText(getString(R.string.can_do_until_start_for_main));
                             }
 
+                            //todo  测试
+//                            lasterLotteryAwardInfo.server_time = "2018-09-04 12:01:21";
+//                            lasterLotteryAwardInfo.current_time = "2018-09-04 12:0、6:00";
                             curretDifServer = getCurrentDifServer(lasterLotteryAwardInfo.server_time, lasterLotteryAwardInfo.current_time);
 
                             initStartCountDown();
@@ -189,7 +231,7 @@ public class MainActivity extends BaseActivity {
 
 
     private void initStartCountDown() {
-        if (countDownTimer!=null){
+        if (countDownTimer != null) {
             countDownTimer.cancel();
             countDownTimer = null;
         }
@@ -284,6 +326,58 @@ public class MainActivity extends BaseActivity {
     private void finishRequest() {
         if (isReqeustAwardTime && isRequestNuminfo) {
             refresh.finishRefresh();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doLoopCodes();
+                }
+            }, 1200);
+        }
+    }
+
+
+    //循环球操作
+    private void doLoopCodes() {
+        if (mainPrizeCodeInfo!=null && !TextUtils.isEmpty(mainPrizeCodeInfo.prize_code)) {
+            final String codes[] = mainPrizeCodeInfo.prize_code.split(" ");
+            if (codes != null && codes.length == 5) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        recycleOne.smoothScrollToPosition(getRecyclePositon(codes[0]));
+                    }
+                }, (long) ScrollLinearLayoutManager.MILLISECONDS_PER_INCH);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        recycleTwo.smoothScrollToPosition(getRecyclePositon(codes[1]));
+                    }
+                }, (long) (ScrollLinearLayoutManager.MILLISECONDS_PER_INCH * 2));
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        recycleThre.smoothScrollToPosition(getRecyclePositon(codes[2]));
+                    }
+                }, (long) (ScrollLinearLayoutManager.MILLISECONDS_PER_INCH * 3));
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        recycleFour.smoothScrollToPosition(getRecyclePositon(codes[3]));
+                    }
+                }, (long) (ScrollLinearLayoutManager.MILLISECONDS_PER_INCH * 4));
+
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        recycleFive.smoothScrollToPosition(getRecyclePositon(codes[4]));
+                    }
+                }, (long) (ScrollLinearLayoutManager.MILLISECONDS_PER_INCH * 5));
+            }
         }
     }
 
@@ -299,23 +393,12 @@ public class MainActivity extends BaseActivity {
                 .execute(new NewsCallback<LotteryResponse<MainPrizeCodeInfo>>() {
                     @Override
                     public void onSuccess(Response<LotteryResponse<MainPrizeCodeInfo>> response) {
-                        MainPrizeCodeInfo mainPrizeCodeInfo = response.body().body;
+                        mainPrizeCodeInfo = response.body().body;
                         if (mainPrizeCodeInfo != null) {
                             if (!TextUtils.isEmpty(mainPrizeCodeInfo.id)) {
                                 if (!TextUtils.isEmpty(mainPrizeCodeInfo.id)) {
                                     tvLotteryTittle.setText(String.format(getString(R.string.main_open_award), mainPrizeCodeInfo.id
                                     ));
-                                }
-                            }
-
-                            if (!TextUtils.isEmpty(mainPrizeCodeInfo.prize_code)) {
-                                String codes[] = mainPrizeCodeInfo.prize_code.split(" ");
-                                if (codes != null && codes.length == 5) {
-                                    tvBallOne.setText(codes[0]);
-                                    tvBallTwo.setText(codes[1]);
-                                    tvBallThree.setText(codes[2]);
-                                    tvBallFour.setText(codes[3]);
-                                    tvBallFive.setText(codes[4]);
                                 }
                             }
                         }
@@ -331,6 +414,17 @@ public class MainActivity extends BaseActivity {
                         finishRequest();
                     }
                 });
+    }
+
+    private int getRecyclePositon(String code) {
+        int posotin = 0;
+        List<MainWinCode> mainWinCodes = Utils.get12Code(0);
+        for (int i = 0; i < mainWinCodes.size(); i++) {
+            if (mainWinCodes.get(i).code.equals(code)) {
+                posotin = i;
+            }
+        }
+        return posotin;
     }
 
     @Override

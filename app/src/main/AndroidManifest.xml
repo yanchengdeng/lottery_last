@@ -11,9 +11,9 @@
     <application
         android:name=".base.LotteryApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/uz_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/uz_icon"
         android:supportsRtl="true">
         <activity
             android:name=".activities.LoginActivity"
@@ -72,8 +72,24 @@
         <activity
             android:name=".activities.ForgetPasswordActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".activities.AccountBillsActivity"
-            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".activities.AccountBillsActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.AccountBillsTypeActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.BelowClassCountActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.TicketDetailActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.AwardGotDetailActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.TicketOutListActivity"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

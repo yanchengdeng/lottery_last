@@ -97,6 +97,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/tv_funcuton_tools"
+        android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/list_divider_color"
         android:orientation="horizontal">
 
@@ -339,8 +345,11 @@
 
     </LinearLayout>
 
+    </LinearLayout>
+
     <TextView
         android:text="账户明细"
+        android:id="@+id/tv_accout_tips"
         android:textSize="@dimen/text_size_normal"
         android:paddingTop="@dimen/image_padding_big"
         android:paddingBottom="@dimen/image_padding_big"

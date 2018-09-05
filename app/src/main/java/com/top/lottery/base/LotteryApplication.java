@@ -4,7 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.view.Gravity;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
@@ -52,6 +54,8 @@ public class LotteryApplication extends Application {
         super.onCreate();
 
         Utils.init(this);
+        ToastUtils.setBgResource(R.drawable.normal_toast_black);
+        ToastUtils.setGravity(Gravity.CENTER,0,0);
         initTextSize(this);
         //侧滑初始化
         BGASwipeBackHelper.init(this, null);

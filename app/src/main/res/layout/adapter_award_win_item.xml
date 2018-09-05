@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_ball"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="6dp"
+    android:layout_marginLeft="2dp"
+    android:layout_marginRight="2dp"
+    android:layout_marginTop="6dp"
+    android:background="@mipmap/ball_01"
+    android:gravity="center"
+    android:text="11"
+    android:textColor="@color/color_tittle"
+    android:textSize="@dimen/text_size_larger"
+    android:textStyle="bold" />
+
+

@@ -14,6 +14,9 @@ import com.lzy.okgo.model.Response;
 import com.top.lottery.base.Constants;
 import com.top.lottery.beans.AwardBallInfo;
 import com.top.lottery.beans.LotteryResponse;
+import com.top.lottery.beans.MainWinCode;
+import com.top.lottery.beans.TerdNormalBall;
+import com.top.lottery.beans.TrendCodeInfo;
 import com.top.lottery.beans.UserInfo;
 
 import java.util.ArrayList;
@@ -330,6 +333,42 @@ public class Utils {
         return awardBallInfos;
     }
 
+    //十一个球 序列   再加一个空球
+    public static List<MainWinCode> get12Code(int colorMipmap) {
+        List<MainWinCode> awardBallInfos = new ArrayList<>();
+        MainWinCode empty = new MainWinCode();
+        empty.code = " ";
+        empty.codeBg = colorMipmap;
+        awardBallInfos.add(empty);
+        for (int i = 1; i < 12; i++) {
+            MainWinCode awardBallInfo = new MainWinCode();
+            if (i < 10) {
+                awardBallInfo.code = "0" + i;
+            } else {
+                awardBallInfo.code = String.valueOf(i);
+            }
+            awardBallInfo.codeBg = colorMipmap;
+            awardBallInfos.add(awardBallInfo);
+        }
+        return awardBallInfos;
+    }
+
+//
+//    //十一个球 序列
+//    public static List<AwardBallInfo> get11Code() {
+//        List<AwardBallInfo> awardBallInfos = new ArrayList<>();
+//        for (int i = 1; i < 12; i++) {
+//            AwardBallInfo awardBallInfo = new AwardBallInfo();
+//            if (i < 10) {
+//                awardBallInfo.value = "0" + i;
+//            } else {
+//                awardBallInfo.value = String.valueOf(i);
+//            }
+//            awardBallInfos.add(awardBallInfo);
+//        }
+//        return awardBallInfos;
+//    }
+
 
     /**
      * 计算组合数，即C(n, m) = n!/((n-m)! * m!)
@@ -361,5 +400,81 @@ public class Utils {
 
     public static LinkedTreeMap<String, String> getMissValues() {
         return missValus;
+    }
+
+    //获取走势图数据
+
+    /**
+     *
+     * @param trendCodeInfo
+     * @param hideShow    :hide   show
+     * @return
+     */
+    public static List<TerdNormalBall> get11CodeForTrend(TrendCodeInfo trendCodeInfo,String hideShow) {
+        List<TerdNormalBall> terdNormalBalls = new ArrayList<>();
+
+        TerdNormalBall awardBallInfoFist = new TerdNormalBall();
+        awardBallInfoFist.awardId = trendCodeInfo.award_id.substring(trendCodeInfo.award_id.length() - 2, trendCodeInfo.award_id.length());
+        terdNormalBalls.add(awardBallInfoFist);
+
+        for (int i = 1; i < 12; i++) {
+            TerdNormalBall awardBallInfo = new TerdNormalBall();
+            if (i < 10) {
+                awardBallInfo.value = "0" + i;
+            } else {
+                awardBallInfo.value = String.valueOf(i);
+            }
+            awardBallInfo.missVlaue = trendCodeInfo.missing_value.get(awardBallInfo.value);
+            awardBallInfo.isShowMiss = hideShow.equals("show")?true:false;
+            awardBallInfo.isAwardCode = getIsAwardValue(awardBallInfo.value, trendCodeInfo.prize_code);
+
+            terdNormalBalls.add(awardBallInfo);
+        }
+
+
+
+
+        return terdNormalBalls;
+    }
+
+
+    //获取统计球的信息
+    public static List<TerdNormalBall> get11CodeForTrendCount(String name,LinkedTreeMap<String, String> number){
+        List<TerdNormalBall> terdNormalBalls = new ArrayList<>();
+
+        TerdNormalBall awardBallInfoFist = new TerdNormalBall();
+        awardBallInfoFist.awardId = name;
+        terdNormalBalls.add(awardBallInfoFist);
+
+
+        for (int i = 1; i < 12; i++) {
+            TerdNormalBall awardBallInfo = new TerdNormalBall();
+            if (i < 10) {
+                awardBallInfo.value = "0" + i;
+            } else {
+                awardBallInfo.value = String.valueOf(i);
+            }
+            awardBallInfo.missVlaue = number.get(awardBallInfo.value);
+            awardBallInfo.isAwardCode = false;
+            awardBallInfo.isCount = true;
+
+            terdNormalBalls.add(awardBallInfo);
+        }
+
+        return terdNormalBalls;
+
+
+    }
+
+    //是否是选中的值
+    private static boolean getIsAwardValue(String value, String[] prize_code) {
+        boolean isAward = false;
+
+        for (String item : prize_code) {
+            if (value.equals(item)) {
+                isAward = true;
+            }
+        }
+        return isAward;
     }
 }
