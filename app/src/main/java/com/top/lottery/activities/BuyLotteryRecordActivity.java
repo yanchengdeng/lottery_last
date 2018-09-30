@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -65,14 +66,15 @@ public class BuyLotteryRecordActivity extends BaseActivity {
     RecyclerView recycle;
     @BindView(R.id.ll_error_refresh_else)
     LinearLayout llErrorRefresh;
+    @BindView(R.id.line)
+    TextView line;
     private int page = 1;
-    private String[] dates = new String[]{"today", "week", "month", "three_month"};
-    private String[] dates_info = new String[]{"今日", "一周", "1个月", "3个月"};
 
+
+    private List<LotteryType> peridsData = new ArrayList<>();
+    private List<LotteryType> statusData = new ArrayList<>();
     //如果是追号记录  则
-    // 1：进行中2：已完成3：已中止
-    private String[] status = new String[]{"1", "2", "3"};
-    private String[] status_info = new String[]{"进行中", "已完成", "已中止"};
+
     private String search_date, lid = "0", start_date, end_date, lottery_status;
     private List<AwardRecodList> awardRecodLists = new ArrayList<>();
     private AwardRecordAdapter awardRecordAdapter;
@@ -94,22 +96,25 @@ public class BuyLotteryRecordActivity extends BaseActivity {
         setContentView(R.layout.activity_buy_lottery_record);
         ButterKnife.bind(this);
         type = getIntent().getStringExtra(Constants.PASS_STRING);
+        peridsData = Utils.gePeriData();
+        statusData = Utils.geStatusData();
         // 1：购彩记录2：中奖记录3
         if ("1".equals(type)) {
             setTitle("购彩记录");
             initPopALLPeriod();
-            tvPeriod.setText(dates_info[0]);
-            search_date = dates[0];
+            tvPeriod.setText(peridsData.get(1).title);
+            search_date = peridsData.get(1).lottery_type;
         } else if ("2".equals(type)) {
             initPopALLPeriod();
+
             setTitle("中奖记录");
-            tvPeriod.setText(dates_info[0]);
-            search_date = dates[0];
+            tvPeriod.setText(peridsData.get(0).title);
+            search_date = peridsData.get(0).lottery_type;
         } else {
             setTitle("追号记录");
             initPopALLStatus();
-            tvPeriod.setText(status_info[0]);
-            lottery_status = status[0];
+            tvPeriod.setText(statusData.get(0).title);
+            lottery_status = statusData.get(0).lottery_type;
         }
 
         recycle.setLayoutManager(new LinearLayoutManager(this));
@@ -210,8 +215,15 @@ public class BuyLotteryRecordActivity extends BaseActivity {
                 .execute(new NewsCallback<LotteryResponse<List<LotteryType>>>() {
                     @Override
                     public void onSuccess(Response<LotteryResponse<List<LotteryType>>> response) {
-                        List<LotteryType> lotteryTypes = response.body().body;
-                        if (lotteryTypes != null && lotteryTypes.size() > 0) {
+                        List<LotteryType> lotteryTypes = new ArrayList<>();
+                        LotteryType allType = new LotteryType();
+                        allType.isSelect = true;
+                        allType.title = "所有彩种";
+                        allType.lid = "0";
+                        lotteryTypes.add(allType);
+                        List<LotteryType> lotteryResponse = response.body().body;
+                        if (lotteryResponse != null && lotteryResponse.size() > 0) {
+                            lotteryTypes.addAll(lotteryResponse);
                             initPopAllLottery(lotteryTypes);
                         }
 
@@ -229,7 +241,7 @@ public class BuyLotteryRecordActivity extends BaseActivity {
         gridAllLottery = popGrid.findViewById(R.id.grid);
         gridLotteryTypeAdapter = new GridPeridAdapter(mContext, lotteryTypes);
         gridAllLottery.setAdapter(gridLotteryTypeAdapter);
-        PopallLottery = new PopupWindow(tvAllLottery, ScreenUtils.getScreenWidth(), (int) (ScreenUtils.getScreenHeight() * 0.8));
+        PopallLottery = new PopupWindow(tvAllLottery, ScreenUtils.getScreenWidth(), Utils.getPeriodPopHeight(mContext));
         PopallLottery.setContentView(popGrid);
         PopallLottery.setFocusable(true);
         PopallLottery.setOutsideTouchable(true);
@@ -242,12 +254,15 @@ public class BuyLotteryRecordActivity extends BaseActivity {
                 lid = lotteryTypes.get(position).lid;
                 PopallLottery.dismiss();
                 tvAllLottery.setText(lotteryTypes.get(position).title);
+                for (LotteryType item : lotteryTypes) {
+                    item.isSelect = false;
+                }
+                lotteryTypes.get(position).isSelect = true;
+                gridLotteryTypeAdapter.notifyDataSetChanged();
                 page = 1;
                 getAwardRecord();
             }
         });
-
-
     }
 
 
@@ -255,10 +270,10 @@ public class BuyLotteryRecordActivity extends BaseActivity {
     private void initPopALLPeriod() {
         View popGrid = LayoutInflater.from(mContext).inflate(R.layout.pop_period_view, null, false);
         gridAllPeriod = popGrid.findViewById(R.id.grid);
-        gridPeriodTypeAdpter = new GridPeridAdapter(mContext, getSearchTime());
+        gridPeriodTypeAdpter = new GridPeridAdapter(mContext, peridsData);
         gridAllPeriod.setAdapter(gridPeriodTypeAdpter);
 
-        Popperidod = new PopupWindow(tvPeriod, ScreenUtils.getScreenWidth(), (int) (ScreenUtils.getScreenHeight() * 0.8));
+        Popperidod = new PopupWindow(tvPeriod, ScreenUtils.getScreenWidth(), Utils.getPeriodPopHeight(mContext));
         Popperidod.setContentView(popGrid);
         Popperidod.setFocusable(true);
         ColorDrawable dw = new ColorDrawable(0x55000000);//
@@ -266,8 +281,13 @@ public class BuyLotteryRecordActivity extends BaseActivity {
         gridAllPeriod.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                search_date = dates[position];
-                tvPeriod.setText(dates_info[position]);
+                search_date = peridsData.get(position).lottery_type;
+                tvPeriod.setText(peridsData.get(position).title);
+                for (LotteryType item : peridsData) {
+                    item.isSelect = false;
+                }
+                peridsData.get(position).isSelect = true;
+                gridPeriodTypeAdpter.notifyDataSetChanged();
                 Popperidod.dismiss();
                 page = 1;
                 getAwardRecord();
@@ -280,10 +300,10 @@ public class BuyLotteryRecordActivity extends BaseActivity {
     private void initPopALLStatus() {
         View popGrid = LayoutInflater.from(mContext).inflate(R.layout.pop_period_view, null, false);
         gridAllStatus = popGrid.findViewById(R.id.grid);
-        gridStatusAdapter = new GridPeridAdapter(mContext, getSearchStatus());
+        gridStatusAdapter = new GridPeridAdapter(mContext, statusData);
         gridAllStatus.setAdapter(gridStatusAdapter);
 
-        PopulaStatus = new PopupWindow(tvPeriod, ScreenUtils.getScreenWidth(), (int) (ScreenUtils.getScreenHeight() * 0.8));
+        PopulaStatus = new PopupWindow(tvPeriod, ScreenUtils.getScreenWidth(), Utils.getPeriodPopHeight(mContext));
         PopulaStatus.setContentView(popGrid);
         PopulaStatus.setFocusable(true);
         ColorDrawable dw = new ColorDrawable(0x55000000);//
@@ -291,8 +311,13 @@ public class BuyLotteryRecordActivity extends BaseActivity {
         gridAllStatus.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                lottery_status = status[position];
-                tvPeriod.setText(status_info[position]);
+                lottery_status = statusData.get(position).lottery_type;
+                tvPeriod.setText(statusData.get(position).title);
+                for (LotteryType item : statusData) {
+                    item.isSelect = false;
+                }
+                statusData.get(position).isSelect = true;
+                gridStatusAdapter.notifyDataSetChanged();
                 PopulaStatus.dismiss();
                 page = 1;
                 getAwardRecord();
@@ -400,7 +425,7 @@ public class BuyLotteryRecordActivity extends BaseActivity {
             if (maps.containsKey(item.create_date)) {
                 maps.get(item.create_date).add(item);
             } else {
-              List<AwardRecordItem>  newRecords =   new ArrayList<AwardRecordItem>();
+                List<AwardRecordItem> newRecords = new ArrayList<AwardRecordItem>();
                 newRecords.add(item);
                 maps.put(item.create_date, newRecords);
             }
@@ -428,43 +453,22 @@ public class BuyLotteryRecordActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.tv_all_lottery:
                 if (PopallLottery != null) {
-                    PopallLottery.showAsDropDown(tvAllLottery, 0, 0);
+                    PopallLottery.showAtLocation(viewRoot, Gravity.BOTTOM , 0, 0);
                 }
                 break;
             case R.id.tv_period:
                 if ("1".equals(type) || "2".equals(type)) {
                     if (Popperidod != null) {
-                        Popperidod.showAsDropDown(tvPeriod, 0, 0);
+                        Popperidod.showAtLocation(viewRoot, Gravity.BOTTOM , 0, 0);
                     }
                 } else if ("3".equals(type)) {
                     if (PopulaStatus != null) {
-                        PopulaStatus.showAsDropDown(tvPeriod, 0, 0);
+                        PopulaStatus.showAtLocation(viewRoot, Gravity.BOTTOM , 0, 0);
                     }
                 }
                 break;
         }
     }
 
-    //获取时间段
-    private List<LotteryType> getSearchTime() {
-        List<LotteryType> lotterySearchTimes = new ArrayList<>();
-        for (String item : dates_info) {
-            LotteryType lotterySearchTime = new LotteryType();
-            lotterySearchTime.title = item;
-            lotterySearchTimes.add(lotterySearchTime);
-        }
-        return lotterySearchTimes;
-    }
 
-
-    //获取时间段
-    private List<LotteryType> getSearchStatus() {
-        List<LotteryType> lotterySearchTimes = new ArrayList<>();
-        for (String item : status_info) {
-            LotteryType lotterySearchTime = new LotteryType();
-            lotterySearchTime.title = item;
-            lotterySearchTimes.add(lotterySearchTime);
-        }
-        return lotterySearchTimes;
-    }
 }

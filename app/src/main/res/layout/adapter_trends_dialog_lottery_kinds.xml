@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_values"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/normal_submit_btn_white"
+    android:gravity="center"
+    android:paddingBottom="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_horizontal_margin"
+    android:text="任选5"
+    android:textColor="@color/color_tittle"
+    android:textSize="@dimen/text_size_normal"
+    android:textStyle="bold" />
+
+
+
+
+
+

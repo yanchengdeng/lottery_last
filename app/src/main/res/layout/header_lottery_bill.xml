@@ -95,267 +95,204 @@
 
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
         android:id="@+id/tv_funcuton_tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/list_divider_color"
-        android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/ll_charger_intergry"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_horizontal_margin">
+            android:background="@color/list_divider_color"
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/ll_charger_intergry"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="充值积分"
-                android:textColor="@color/color_tittle"
-                android:textSize="@dimen/text_size_normal" />
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_horizontal_margin">
 
-            <TextView
-                android:id="@+id/tv_charge_intergry"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="充值积分"
+                    android:textColor="@color/color_tittle"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:id="@+id/tv_charge_intergry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/image_padding_big"
+                    android:gravity="center"
+                    android:text="0积分"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/text_size_normal" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_award_intergry"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/image_padding_big"
-                android:gravity="center"
-                android:text="0积分"
-                android:textColor="@color/red"
-                android:textSize="@dimen/text_size_normal" />
+                android:layout_marginLeft="1px"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_horizontal_margin">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="中奖积分"
+                    android:textColor="@color/color_tittle"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:id="@+id/tv_award_intergry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/image_padding_big"
+                    android:gravity="center"
+                    android:text="0积分"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/text_size_normal" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_award_intergry"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="1px"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_horizontal_margin">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="中奖积分"
-                android:textColor="@color/color_tittle"
-                android:textSize="@dimen/text_size_normal" />
-
-            <TextView
-                android:id="@+id/tv_award_intergry"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/image_padding_big"
-                android:gravity="center"
-                android:text="0积分"
-                android:textColor="@color/red"
-                android:textSize="@dimen/text_size_normal" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_withdraw_intergry"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="1px"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_horizontal_margin">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="提取积分"
-                android:textColor="@color/color_tittle"
-                android:textSize="@dimen/text_size_normal" />
-
-            <TextView
-                android:id="@+id/tv_withdraw_intergry"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/image_padding_big"
-                android:gravity="center"
-                android:text="0积分"
-                android:textColor="@color/red"
-                android:textSize="@dimen/text_size_normal" />
-
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-    <include layout="@layout/view_line" />
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/list_divider_color"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:id="@+id/ll_pay_out"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_horizontal_margin">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="购彩支出"
-                android:textColor="@color/color_tittle"
-                android:textSize="@dimen/text_size_normal" />
-
-            <TextView
-                android:id="@+id/tv_pay_out"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/image_padding_big"
-                android:gravity="center"
-                android:text="0积分"
-                android:textColor="@color/red"
-                android:textSize="@dimen/text_size_normal" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_pay_reback"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="1px"
-            android:visibility="gone"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_horizontal_margin">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="购彩反点"
-                android:textColor="@color/color_tittle"
-                android:textSize="@dimen/text_size_normal" />
-
-            <TextView
-                android:id="@+id/tv_pay_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/image_padding_big"
-                android:gravity="center"
-                android:text="0积分"
-                android:textColor="@color/red"
-                android:textSize="@dimen/text_size_normal" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_total_proxy_back"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="1px"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_horizontal_margin">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="累积代理返点"
-                android:textColor="@color/color_tittle"
-                android:textSize="@dimen/text_size_normal" />
-
-            <TextView
-                android:id="@+id/tv_total_proxy_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/image_padding_big"
-                android:gravity="center"
-                android:text="0积分"
-                android:textColor="@color/red"
-                android:textSize="@dimen/text_size_normal" />
-
-        </LinearLayout>
+        <include layout="@layout/view_line" />
 
 
         <LinearLayout
-            android:id="@+id/ll_below_class_count"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="1px"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_horizontal_margin">
+            android:background="@color/list_divider_color"
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/ll_withdraw_intergry"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="下级总数"
-                android:textColor="@color/color_tittle"
-                android:textSize="@dimen/text_size_normal" />
+                android:layout_marginLeft="1px"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_horizontal_margin">
 
-            <TextView
-                android:id="@+id/tv_below_class_count"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="提取积分"
+                    android:textColor="@color/color_tittle"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:id="@+id/tv_withdraw_intergry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/image_padding_big"
+                    android:gravity="center"
+                    android:text="0积分"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/text_size_normal" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_pay_out"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/image_padding_big"
-                android:gravity="center"
-                android:text="2人"
-                android:textColor="@color/red"
-                android:textSize="@dimen/text_size_normal" />
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:layout_marginLeft="1px"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_horizontal_margin">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="购彩支出"
+                    android:textColor="@color/color_tittle"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:id="@+id/tv_pay_out"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/image_padding_big"
+                    android:gravity="center"
+                    android:text="0积分"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/text_size_normal" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_pay_reback"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1px"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_horizontal_margin"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="购彩反点"
+                    android:textColor="@color/color_tittle"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:id="@+id/tv_pay_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/image_padding_big"
+                    android:gravity="center"
+                    android:text="0积分"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/text_size_normal" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
-
-
-    </LinearLayout>
 
     </LinearLayout>
 
     <TextView
-        android:text="账户明细"
         android:id="@+id/tv_accout_tips"
-        android:textSize="@dimen/text_size_normal"
-        android:paddingTop="@dimen/image_padding_big"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/list_divider_color"
         android:paddingBottom="@dimen/image_padding_big"
         android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:background="@color/list_divider_color"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:paddingTop="@dimen/image_padding_big"
+        android:text="账户明细"
+        android:textSize="@dimen/text_size_normal" />
 
 </LinearLayout>

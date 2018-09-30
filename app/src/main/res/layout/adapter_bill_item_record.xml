@@ -12,6 +12,7 @@
         android:id="@+id/tv_bill_tittle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/tv_status"
         android:textColor="@color/color_tittle"
         android:textSize="@dimen/text_size_normal" />
 
@@ -34,6 +35,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:drawablePadding="@dimen/image_padding"
+        android:layout_marginLeft="@dimen/image_padding_big"
         android:gravity="center_vertical"
         android:text="0"
         android:textColor="@color/red" />

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -27,9 +26,9 @@ import com.top.lottery.beans.LasterLotteryAwardInfo;
 import com.top.lottery.beans.LotteryResponse;
 import com.top.lottery.beans.MainPrizeCodeInfo;
 import com.top.lottery.beans.MainWinCode;
+import com.top.lottery.utils.AppManager;
 import com.top.lottery.utils.NewsCallback;
 import com.top.lottery.utils.ScrollLinearLayoutManager;
-import com.top.lottery.utils.StatusBarUtil;
 import com.top.lottery.utils.Utils;
 
 import java.util.HashMap;
@@ -49,15 +48,15 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.tv_lottery_tittle)
     TextView tvLotteryTittle;
     @BindView(R.id.iv_awards)
-    CardView ivAwards;
+    ImageView ivAwards;
     @BindView(R.id.iv_account)
-    CardView ivAccount;
+    ImageView ivAccount;
     @BindView(R.id.iv_lottery_funny)
-    CardView ivLotteryFunny;
+    ImageView ivLotteryFunny;
     @BindView(R.id.iv_trend)
-    CardView ivTrend;
+    ImageView ivTrend;
     @BindView(R.id.iv_record)
-    CardView ivRecord;
+    ImageView ivRecord;
     @BindView(R.id.iv_bottom)
     ImageView ivBottom;
     @BindView(R.id.refresh)
@@ -99,7 +98,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        StatusBarUtil.setLightMode(this);
+//        StatusBarUtil.setLightMode(this);
         mSwipeBackHelper.setSwipeBackEnable(false);
         hideTittle();
         showContentView();
@@ -210,8 +209,8 @@ public class MainActivity extends BaseActivity {
                             }
 
                             //todo  测试
-//                            lasterLotteryAwardInfo.server_time = "2018-09-04 12:01:21";
-//                            lasterLotteryAwardInfo.current_time = "2018-09-04 12:0、6:00";
+//                            lasterLotteryAwardInfo.server_time = "2018-09-09 08:11:21";
+//                            lasterLotteryAwardInfo.current_time = "2018-09-09 08:16:00";
                             curretDifServer = getCurrentDifServer(lasterLotteryAwardInfo.server_time, lasterLotteryAwardInfo.current_time);
 
                             initStartCountDown();
@@ -266,6 +265,9 @@ public class MainActivity extends BaseActivity {
             ivTimeSecondOne.setVisibility(View.VISIBLE);
             ivTimeSecondTwo.setVisibility(View.VISIBLE);
             ivTimeMinQuatationCode.setVisibility(View.VISIBLE);
+            ivTimeHourOne.setVisibility(View.GONE);
+            ivTimeHourTwo.setVisibility(View.GONE);
+            ivTimeHourQuatationCode.setVisibility(View.GONE);
         } else if (times.length == 6) {
             ivTimeHourOne.setImageResource(getTimeResourseByNum(times[0]));
             ivTimeHourTwo.setImageResource(getTimeResourseByNum(times[1]));
@@ -444,5 +446,27 @@ public class MainActivity extends BaseActivity {
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        doubleClickExist();
+    }
+
+    private long mExitTime;
+
+    /****
+     * 连续两次点击退出
+     */
+    private boolean doubleClickExist() {
+        if ((System.currentTimeMillis() - mExitTime) > 2000) {
+            ToastUtils.showShort(R.string.double_click_exit);
+            mExitTime = System.currentTimeMillis();
+            return true;
+        } else {
+            AppManager.getAppManager().AppExit(this);
+            finish();
+        }
+        return false;
     }
 }

@@ -10,7 +10,7 @@
     <dimen name="text_size_normal_up">16sp</dimen>
     <dimen name="text_size_normal">14sp</dimen>
     <dimen name="text_size_normal_down">12sp</dimen>
-    <dimen name="text_size_small">9sp</dimen>
+    <dimen name="text_size_small">10sp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="nav_bar_height">56dp</dimen>
     <!--渐变时还没到布局全部就已经不透明了，距离 45dp-->

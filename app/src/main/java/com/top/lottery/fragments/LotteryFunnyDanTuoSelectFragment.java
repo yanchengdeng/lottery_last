@@ -22,6 +22,7 @@ import com.top.lottery.R;
 import com.top.lottery.activities.BaseActivity;
 import com.top.lottery.activities.ConfirmCodesActivity;
 import com.top.lottery.activities.LotteryFunnyActivity;
+import com.top.lottery.activities.TrendChartActivity;
 import com.top.lottery.adapters.AwardBallAdapter;
 import com.top.lottery.base.Constants;
 import com.top.lottery.beans.AwardBallInfo;
@@ -30,6 +31,7 @@ import com.top.lottery.beans.LotteryInfo;
 import com.top.lottery.beans.LotteryResponse;
 import com.top.lottery.beans.MechineChoosInfo;
 import com.top.lottery.beans.MissLotteryCode;
+import com.top.lottery.liseners.PerfectClickListener;
 import com.top.lottery.utils.NewsCallback;
 import com.top.lottery.utils.Utils;
 
@@ -65,9 +67,11 @@ public class LotteryFunnyDanTuoSelectFragment extends Fragment {
     RecyclerView recycleDan;
     @BindView(R.id.recycle_tuo)
     RecyclerView recycleTuo;
+    @BindView(R.id.tv_trend_chart)
+    TextView tvTrendChart;
 
     private LotteryInfo lotteryInfo;
-        private AwardBallAdapter awardDanAdapter,awawrdTuoAdapter;
+    private AwardBallAdapter awardDanAdapter, awawrdTuoAdapter;
     private boolean isMechineChoose;//是否可以允许机选  允许则可以机选  清除 切换  否则是可以清除操作
 
     @Nullable
@@ -87,18 +91,26 @@ public class LotteryFunnyDanTuoSelectFragment extends Fragment {
         awardDanAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (getSelectBallsDan().size()>=lotteryInfo.num-1){
-                    ToastUtils.showShort("最多只能选择"+getSelectBallsDan().size()+"个胆码");
+                if (getSelectBallsDan().size() >= lotteryInfo.num - 1) {
+                    ToastUtils.showShort("最多只能选择" + getSelectBallsDan().size() + "个胆码");
                     return;
                 }
                 awardDanAdapter.getData().get(position).isSelected = !awardDanAdapter.getData().get(position).isSelected;
-                if ( awardDanAdapter.getData().get(position).isSelected) {
+                if (awardDanAdapter.getData().get(position).isSelected) {
                     awawrdTuoAdapter.getData().get(position).isSelected = false;
                     awawrdTuoAdapter.notifyItemChanged(position);
                 }
 //                checkTouHasSame(awardDanAdapter.getData().get(position).value);
                 awardDanAdapter.notifyItemChanged(position);
                 countIntergary();
+            }
+        });
+
+        //走势图
+        tvTrendChart.setOnClickListener(new PerfectClickListener() {
+            @Override
+            protected void onNoDoubleClick(View v) {
+                ActivityUtils.startActivity(TrendChartActivity.class);
             }
         });
 
@@ -114,7 +126,7 @@ public class LotteryFunnyDanTuoSelectFragment extends Fragment {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 awawrdTuoAdapter.getData().get(position).isSelected = !awawrdTuoAdapter.getData().get(position).isSelected;
-                if ( awawrdTuoAdapter.getData().get(position).isSelected) {
+                if (awawrdTuoAdapter.getData().get(position).isSelected) {
                     awardDanAdapter.getData().get(position).isSelected = false;
                     awardDanAdapter.notifyItemChanged(position);
                 }
@@ -131,8 +143,8 @@ public class LotteryFunnyDanTuoSelectFragment extends Fragment {
 
     //检查拖码是否存在胆码数据 有则恢复未选
     private void checkTouHasSame(String value) {
-        for (AwardBallInfo item:getSelectBallsTuo()){
-            if (item.value.equals(value)){
+        for (AwardBallInfo item : getSelectBallsTuo()) {
+            if (item.value.equals(value)) {
                 item.isSelected = false;
             }
         }
@@ -141,8 +153,8 @@ public class LotteryFunnyDanTuoSelectFragment extends Fragment {
 
     //检查胆码是否存在拖码数据 有则恢复未选
     private void checkDanHasSame(String value) {
-        for (AwardBallInfo item:getSelectBallsDan()){
-            if (item.value.equals(value)){
+        for (AwardBallInfo item : getSelectBallsDan()) {
+            if (item.value.equals(value)) {
                 item.isSelected = false;
             }
         }
@@ -153,17 +165,16 @@ public class LotteryFunnyDanTuoSelectFragment extends Fragment {
     private void countIntergary() {
 //        if (getSelectBallsDanTuo().size() >= lotteryInfo.num) {
         if (getSelectBallsTuo().size() >= lotteryInfo.num) {
-            tvIntergry.setText("积分：" + 2 * Utils.combination(getSelectBallsTuo().size(), lotteryInfo.num-getSelectBallsDan().size()));
-            tvNoteNumbers.setText("注数：" + Utils.combination(getSelectBallsTuo().size(), lotteryInfo.num-getSelectBallsDan().size()));
+            tvIntergry.setText("积分：" + 2 * Utils.combination(getSelectBallsTuo().size(), lotteryInfo.num - getSelectBallsDan().size()));
+            tvNoteNumbers.setText("注数：" + Utils.combination(getSelectBallsTuo().size(), lotteryInfo.num - getSelectBallsDan().size()));
             lotteryInfo.codes = getSelectBallsCode();
-            lotteryInfo.TOUZHU_COUNT = Utils.combination(getSelectBallsTuo().size(), lotteryInfo.num-getSelectBallsDan().size());
-            lotteryInfo.TOUZHU_INTEGRY = 2 * Utils.combination(getSelectBallsTuo().size(), lotteryInfo.num-getSelectBallsDan().size());
+            lotteryInfo.TOUZHU_COUNT = Utils.combination(getSelectBallsTuo().size(), lotteryInfo.num - getSelectBallsDan().size());
+            lotteryInfo.TOUZHU_INTEGRY = 2 * Utils.combination(getSelectBallsTuo().size(), lotteryInfo.num - getSelectBallsDan().size());
         } else {
             tvIntergry.setText("积分：0");
             tvNoteNumbers.setText("注数：0");
         }
     }
-
 
 
     //已选择胆拖所有的球数
@@ -201,7 +212,6 @@ public class LotteryFunnyDanTuoSelectFragment extends Fragment {
         }
 
 
-
         return awardBallInfos;
     }
 
@@ -221,9 +231,6 @@ public class LotteryFunnyDanTuoSelectFragment extends Fragment {
     }
 
 
-
-
-
     //获取所选球号
     private String[][] getSelectBallsCode() {
         List<AwardBallInfo> awardBallDans = getSelectBallsDan();
@@ -231,7 +238,6 @@ public class LotteryFunnyDanTuoSelectFragment extends Fragment {
         for (int i = 0; i < awardBallDans.size(); i++) {
             codesDan[i] = awardBallDans.get(i).value;
         }
-
 
 
         List<AwardBallInfo> awardBallTuos = getSelectBallsTuo();
@@ -250,9 +256,9 @@ public class LotteryFunnyDanTuoSelectFragment extends Fragment {
 
     //创建任意选球
     private void initAwardNum() {
-        if (lotteryInfo.num-1==1){
+        if (lotteryInfo.num - 1 == 1) {
             tvSelectTips.setText(String.format(getString(R.string.tips_for_tuodan), "1"));
-        }else {
+        } else {
             tvSelectTips.setText(String.format(getString(R.string.tips_for_tuodan), "1~" + (lotteryInfo.num - 1)));
         }
     }
@@ -287,10 +293,9 @@ public class LotteryFunnyDanTuoSelectFragment extends Fragment {
             }
             checkAwardId();
         } else {
-            ToastUtils.showShort("胆码+拖码至少选择大于4");
+            ToastUtils.showShort("胆码+拖码至少选择大于" + lotteryInfo.num);
         }
     }
-
 
 
     //校验期号
@@ -310,8 +315,10 @@ public class LotteryFunnyDanTuoSelectFragment extends Fragment {
 
                     @Override
                     public void onError(Response response) {
-                        ToastUtils.showShort(Utils.toastInfo(response));
-                        if (getActivity()!=null) {
+                        if (!Utils.toastInfo(response).equals(Constants.ERROR_CODE_AWARD_EXPERID)) {
+                            ToastUtils.showShort(Utils.toastInfo(response));
+                        }
+                        if (getActivity() != null) {
                             ((BaseActivity) getActivity()).dismissLoadingBar();
                         }
 
@@ -337,8 +344,10 @@ public class LotteryFunnyDanTuoSelectFragment extends Fragment {
 
                     @Override
                     public void onError(Response response) {
-                        ToastUtils.showShort(Utils.toastInfo(response));
-                        if (getActivity()!=null) {
+                        if (!Utils.toastInfo(response).equals(Constants.ERROR_CODE_AWARD_EXPERID)) {
+                            ToastUtils.showShort(Utils.toastInfo(response));
+                        }
+                        if (getActivity() != null) {
                             ((BaseActivity) getActivity()).dismissLoadingBar();
                         }
                     }
@@ -347,10 +356,10 @@ public class LotteryFunnyDanTuoSelectFragment extends Fragment {
 
 
     //加入购物车
-    private void addCar(){
+    private void addCar() {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
-        data.put("award_id",Constants.LASTEST_AWARD_ID);
+        data.put("award_id", Constants.LASTEST_AWARD_ID);
         data.put("lottery_id", lotteryInfo.lottery_id);// 最新彩种期数id
         data.put("codes", new Gson().toJson(getSelectBallsCode()));
         OkGo.<LotteryResponse<CheckSelectCodeInfo>>post(Constants.Net.CART_ADDCART)//
@@ -359,8 +368,9 @@ public class LotteryFunnyDanTuoSelectFragment extends Fragment {
                 .execute(new NewsCallback<LotteryResponse<CheckSelectCodeInfo>>() {
                     @Override
                     public void onSuccess(Response<LotteryResponse<CheckSelectCodeInfo>> response) {
+                        clearSelectBalls();
                         checkCodeAndAward();
-                        if (getActivity()!=null) {
+                        if (getActivity() != null) {
                             ((BaseActivity) getActivity()).dismissLoadingBar();
                         }
                     }
@@ -368,8 +378,10 @@ public class LotteryFunnyDanTuoSelectFragment extends Fragment {
 
                     @Override
                     public void onError(Response response) {
-                        ToastUtils.showShort(Utils.toastInfo(response));
-                        if (getActivity()!=null) {
+                        if (!Utils.toastInfo(response).equals(Constants.ERROR_CODE_AWARD_EXPERID)) {
+                            ToastUtils.showShort(Utils.toastInfo(response));
+                        }
+                        if (getActivity() != null) {
                             ((BaseActivity) getActivity()).dismissLoadingBar();
                         }
                     }
@@ -431,7 +443,9 @@ public class LotteryFunnyDanTuoSelectFragment extends Fragment {
 
                     @Override
                     public void onError(Response response) {
-                        ToastUtils.showShort(Utils.toastInfo(response));
+                        if (!Utils.toastInfo(response).equals(Constants.ERROR_CODE_AWARD_EXPERID)) {
+                            ToastUtils.showShort(Utils.toastInfo(response));
+                        }
 
                     }
                 });
@@ -452,13 +466,13 @@ public class LotteryFunnyDanTuoSelectFragment extends Fragment {
                         MissLotteryCode missLotteryCode = response.body().body;
                         if (missLotteryCode != null && missLotteryCode.missing_value != null && missLotteryCode.missing_value.size() > 0) {
                             Utils.parseMissValue(missLotteryCode.missing_value);
-                            for (AwardBallInfo item:awardDanAdapter.getData()){
+                            for (AwardBallInfo item : awardDanAdapter.getData()) {
                                 item.isShowMissValue = true;
                             }
                             awardDanAdapter.notifyDataSetChanged();
 
 
-                            for (AwardBallInfo item:awawrdTuoAdapter.getData()){
+                            for (AwardBallInfo item : awawrdTuoAdapter.getData()) {
                                 item.isShowMissValue = true;
                             }
                             awawrdTuoAdapter.notifyDataSetChanged();
@@ -469,7 +483,9 @@ public class LotteryFunnyDanTuoSelectFragment extends Fragment {
 
                     @Override
                     public void onError(Response response) {
-                        ToastUtils.showShort(Utils.toastInfo(response));
+                        if (!Utils.toastInfo(response).equals(Constants.ERROR_CODE_AWARD_EXPERID)) {
+                            ToastUtils.showShort(Utils.toastInfo(response));
+                        }
                     }
                 });
 
@@ -483,26 +499,26 @@ public class LotteryFunnyDanTuoSelectFragment extends Fragment {
     }
 
     public void setShowLotteryMiss() {
-        if (getActivity()!=null) {
-            if (((LotteryFunnyActivity)getActivity()).isShowMissValue) {
-                if (Utils.getMissValues()!=null && Utils.getMissValues().size()>0){
-                    for (AwardBallInfo item:awardDanAdapter.getData()){
+        if (getActivity() != null) {
+            if (((LotteryFunnyActivity) getActivity()).isShowMissValue) {
+                if (Utils.getMissValues() != null && Utils.getMissValues().size() > 0) {
+                    for (AwardBallInfo item : awardDanAdapter.getData()) {
                         item.isShowMissValue = true;
                     }
                     awardDanAdapter.notifyDataSetChanged();
-                    for (AwardBallInfo item:awawrdTuoAdapter.getData()){
+                    for (AwardBallInfo item : awawrdTuoAdapter.getData()) {
                         item.isShowMissValue = true;
                     }
                     awawrdTuoAdapter.notifyDataSetChanged();
-                }else {
+                } else {
                     getMissValue();
                 }
-            }else{
-                for (AwardBallInfo item:awardDanAdapter.getData()){
+            } else {
+                for (AwardBallInfo item : awardDanAdapter.getData()) {
                     item.isShowMissValue = false;
                 }
 
-                for (AwardBallInfo item:awawrdTuoAdapter.getData()){
+                for (AwardBallInfo item : awawrdTuoAdapter.getData()) {
                     item.isShowMissValue = false;
                 }
                 awardDanAdapter.notifyDataSetChanged();

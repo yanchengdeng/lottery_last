@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.IntergrateHandleActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/list_divider_color"
+        android:orientation="horizontal"
+        android:padding="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/icon_fanlijifen"
+            android:drawablePadding="@dimen/image_padding"
+            android:gravity="center_vertical"
+            android:text="当前返利积分：" />
+
+
+        <TextView
+            android:id="@+id/tv_fanlijifen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.0"
+            android:textColor="@color/red"
+            android:textSize="@dimen/text_size_normal_up" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tv_fanlijifen_rollout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:drawableLeft="@mipmap/icon_roll_out"
+        android:drawablePadding="@dimen/image_padding_big"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:text="转出"
+        android:textColor="@color/red"
+        android:textSize="@dimen/text_size_normal" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/list_divider_color"
+        android:orientation="horizontal"
+        android:padding="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/fenhong_intergary"
+            android:drawablePadding="@dimen/image_padding"
+            android:gravity="center_vertical"
+            android:text="当前分红积分：" />
+
+
+        <TextView
+            android:id="@+id/tv_fenhong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.0"
+            android:textColor="@color/green"
+            android:textSize="@dimen/text_size_normal_up" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tv_fenhong_rollout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:drawableLeft="@mipmap/icon_roll_out"
+        android:drawablePadding="@dimen/image_padding_big"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:text="转出"
+        android:textColor="@color/red"
+        android:textSize="@dimen/text_size_normal" />
+
+    <include layout="@layout/view_line" />
+
+    <TextView
+        android:id="@+id/tv_fenhong_rollin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/image_padding"
+        android:background="@color/white"
+        android:drawableLeft="@mipmap/icon_roll_in"
+        android:drawablePadding="@dimen/image_padding_big"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:text="转入"
+        android:textColor="@color/green"
+        android:textSize="@dimen/text_size_normal" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/list_divider_color"
+        android:orientation="horizontal"
+        android:padding="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/xinyong_jifen"
+            android:drawablePadding="@dimen/image_padding"
+            android:gravity="center_vertical"
+            android:text="当前信用积分额度：" />
+
+
+        <TextView
+            android:id="@+id/tv_credit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.0"
+            android:textColor="@color/color_info"
+            android:textSize="@dimen/text_size_normal_up" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tv_credit_rollin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:drawableLeft="@mipmap/icon_roll_in"
+        android:drawablePadding="@dimen/image_padding_big"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:text="转入"
+        android:textColor="@color/green"
+        android:textSize="@dimen/text_size_normal" />
+
+    <include layout="@layout/view_line" />
+</LinearLayout>

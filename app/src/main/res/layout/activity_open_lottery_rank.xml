@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/activity_horizontal_margin"
-        android:text="78期/天，每日每期10分钟开奖 "
+        android:text="90期/天，每日每期10分钟开奖 "
         android:textColor="@color/color_tittle"
         android:textSize="@dimen/text_size_normal" />
 

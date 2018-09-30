@@ -9,7 +9,6 @@
     android:text="中奖记录"
     android:background="@color/white"
     android:textColor="@color/color_tittle"
-    android:textStyle="bold"
-    android:textSize="@dimen/text_size_normal_up" />
+    android:textSize="@dimen/text_size_normal" />
 
 

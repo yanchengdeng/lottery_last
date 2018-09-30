@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        tools:context=".activities.MemberCreditSettingActivity">
+
+
+        <TextView
+            android:id="@+id/tv_current_score_total"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:text="您当前可操作积分为：0"
+            android:gravity="center_vertical"
+            android:drawableLeft="@mipmap/fenhong_intergary"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_up"
+            android:textStyle="bold" />
+
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:text="充值ID:"
+            android:textColor="@color/color_info"
+            android:textSize="@dimen/text_size_normal" />
+
+        <EditText
+            android:id="@+id/et_autor_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:background="@drawable/normal_submit_btn_gray_trans"
+            android:hint="充值ID"
+            android:inputType="number"
+            android:padding="@dimen/image_padding"
+            android:textColor="@color/color_info"
+            android:textSize="@dimen/text_size_normal" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:text="充值积分:"
+            android:textColor="@color/color_info"
+            android:textSize="@dimen/text_size_normal" />
+
+        <EditText
+            android:id="@+id/et_autor_money"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:background="@drawable/normal_submit_btn_gray_trans"
+            android:hint="充值积分"
+            android:inputType="phone"
+            android:padding="@dimen/image_padding"
+            android:textColor="@color/color_info"
+            android:textSize="@dimen/text_size_normal" />
+
+    <TextView
+            android:id="@+id/tv_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:background="@drawable/normal_submit_btn_green"
+            android:gravity="center"
+            android:padding="@dimen/image_padding_big"
+            android:text="确定"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_normal" />
+
+    </LinearLayout>

@@ -28,8 +28,7 @@
             android:layout_height="wrap_content"
             android:text="01 02 03"
             android:textColor="@color/red"
-            android:textSize="@dimen/text_size_normal_up"
-            android:textStyle="bold" />
+            android:textSize="@dimen/text_size_normal_up" />
 
         <TextView
             android:id="@+id/tv_values_tips"
@@ -38,8 +37,7 @@
             android:layout_marginTop="@dimen/image_padding_big"
             android:text="任选三共1注2积分"
             android:textColor="@color/color_info"
-            android:textSize="@dimen/text_size_normal_up"
-            android:textStyle="bold" />
+            android:textSize="@dimen/text_size_normal_up" />
 
     </LinearLayout>
 

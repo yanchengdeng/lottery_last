@@ -34,7 +34,10 @@ public class OpenLotteryCodeAdapter extends BaseQuickAdapter<OpenLotteryCode, Ba
 //            item.prize_code = "06 05 03 10 09";
             String[] codes = item.prize_code.split(" ");
 
-            ((TagGroup) helper.getView(R.id.tag_code)).setTags(codes);
+
+
+            ((TagGroup) helper.getView(R.id.tag_code)).setTags(new String[]{codes[0],codes[1],codes[2]});
+            ((TagGroup) helper.getView(R.id.tag_code_red)).setTags(new String[]{codes[3],codes[4]});
         }
 
     }

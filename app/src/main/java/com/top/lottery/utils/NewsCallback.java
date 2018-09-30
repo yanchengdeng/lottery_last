@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.top.lottery.base.Constants;
 import com.top.lottery.beans.LotteryResponse;
 import com.top.lottery.beans.TokenTimeOut;
+import com.top.lottery.events.AwardIDExperidEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -68,8 +69,11 @@ public abstract class NewsCallback<T> extends AbsDYCCallback<T> {
                         ) {
                     EventBus.getDefault().post(new TokenTimeOut());
                     throw new IllegalStateException("登陆超时");
+                } else if (collegeResponseSimple.code == -99) {
+                    EventBus.getDefault().post(new AwardIDExperidEvent());
+                    throw new IllegalStateException(new Gson().toJson(collegeResponseSimple));
                 } else {
-                    throw new IllegalStateException(collegeResponseSimple.msg);
+                    throw new IllegalStateException(new Gson().toJson(collegeResponseSimple));
                 }
             }
         } else {

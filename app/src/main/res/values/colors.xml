@@ -2,20 +2,29 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#F95871</color>
+    <color name="colorAccent">#D81122</color>
     <color name="white">#ffffff</color>
 
     <color name="color_date">#ababab</color>
     <color name="color_info">#3A424D</color>
+    <color name="color_info_transe">#55000000</color>
     <color name="color_tittle">#252525</color>
     <color name="deep_black">#7f000000</color>
     <color name="orange">#F2AE47</color>
 
-    <color name="list_divider_color">#f0f0f0</color>
+    <color name="list_divider_color">#eeeef2</color>
     <color name="color_blue">#4FBAFC</color>
 
-    <color name="red">#F95871</color>
+    <color name="red">#D81122</color>
     <color name="ball_red">#D02D35</color>
     <color name="trans_black">#3f000000</color>
+    <color name="trans_black_for_login">#1f000000</color>
+    <color name="process_color">#585858</color>
+    <color name="green">#60B660</color>
+    <color name="oranage_deep">#FC6621</color>
+
+    <color name="login_bg_color">#83A7B0</color>
+
+    <color name="blue_ball">#1B59A0</color>
 
 </resources>

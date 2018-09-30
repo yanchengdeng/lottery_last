@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:orientation="vertical"
+        tools:context=".activities.AddNewMemberActivity">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="用户ID："
+                android:textColor="@color/color_tittle"
+                android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold" />
+
+
+            <EditText
+                android:id="@+id/et_member_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:background="@drawable/normal_submit_btn_gray_trans"
+                android:gravity="right"
+                android:hint="用户ID"
+                android:inputType="phone"
+                android:padding="@dimen/image_padding"
+                android:textColor="@color/color_info"
+                android:textSize="@dimen/text_size_normal" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="@dimen/image_padding_big"
+            android:layout_marginTop="@dimen/image_padding_big"
+            android:gravity="right"
+            android:text="系统推荐用户ID，可更改"
+            android:textColor="@color/color_date"
+            android:textSize="@dimen/text_size_normal_down" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="昵称："
+                android:textColor="@color/color_tittle"
+                android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold" />
+
+
+            <EditText
+                android:id="@+id/et_member_nickname"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:background="@drawable/normal_submit_btn_gray_trans"
+                android:gravity="right"
+                android:hint="昵称"
+                android:padding="@dimen/image_padding"
+                android:textColor="@color/color_info"
+                android:textSize="@dimen/text_size_normal" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="@dimen/image_padding_big"
+            android:layout_marginTop="@dimen/image_padding_big"
+            android:gravity="right"
+            android:text="用户昵称"
+            android:textColor="@color/color_date"
+            android:textSize="@dimen/text_size_normal_down" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="备注："
+                android:textColor="@color/color_tittle"
+                android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold" />
+
+
+            <EditText
+                android:id="@+id/et_member_remark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:background="@drawable/normal_submit_btn_gray_trans"
+                android:gravity="right"
+                android:hint="备注"
+                android:padding="@dimen/image_padding"
+                android:textColor="@color/color_info"
+                android:textSize="@dimen/text_size_normal" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="@dimen/image_padding_big"
+            android:layout_marginTop="@dimen/image_padding_big"
+            android:gravity="right"
+            android:text="备注"
+            android:textColor="@color/color_date"
+            android:textSize="@dimen/text_size_normal_down" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="手机号码："
+                android:textColor="@color/color_tittle"
+                android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold" />
+
+
+            <EditText
+                android:id="@+id/et_member_phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:background="@drawable/normal_submit_btn_gray_trans"
+                android:gravity="right"
+                android:hint="手机号码"
+                android:inputType="phone"
+                android:padding="@dimen/image_padding"
+                android:textColor="@color/color_info"
+                android:textSize="@dimen/text_size_normal" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="@dimen/image_padding_big"
+            android:layout_marginTop="@dimen/image_padding_big"
+            android:gravity="right"
+            android:text="手机号码"
+            android:textColor="@color/color_date"
+            android:textSize="@dimen/text_size_normal_down" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="登录密码："
+                android:textColor="@color/color_tittle"
+                android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold" />
+
+
+            <EditText
+                android:id="@+id/et_member_password"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:background="@drawable/normal_submit_btn_gray_trans"
+                android:gravity="right"
+                android:hint="登录密码"
+                android:padding="@dimen/image_padding"
+                android:textColor="@color/color_info"
+                android:textSize="@dimen/text_size_normal" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="@dimen/image_padding_big"
+            android:layout_marginTop="@dimen/image_padding_big"
+            android:gravity="right"
+            android:text="登录密码"
+            android:textColor="@color/color_date"
+            android:textSize="@dimen/text_size_normal_down" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="用户类型："
+                android:textColor="@color/color_tittle"
+                android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:padding="@dimen/image_padding" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="上级ID："
+                android:textColor="@color/color_tittle"
+                android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/tv_above_clsass"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:background="@drawable/normal_submit_btn_gray_trans"
+                android:hint="请选择"
+                android:padding="@dimen/image_padding"
+                android:textColor="@color/color_info"
+                android:textSize="@dimen/text_size_normal" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_do_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:background="@drawable/normal_submit_btn_green"
+            android:gravity="center"
+            android:padding="@dimen/image_padding_big"
+            android:text="确定"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_normal" />
+
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

@@ -39,9 +39,10 @@ public class AwardRecodeItemAdapter extends BaseQuickAdapter<AwardRecordItem, Ba
 
         ((TextView) helper.getView(R.id.tv_intergray)).setText(  item.cost_score+" 积分");
 
+        ((TextView)  helper.getView(R.id.tv_status)).setText(""+item.reward_title);
 
 
-        ((TextView)  helper.getView(R.id.tv_intergray)).setText(""+item.reward_title);
+
 
 
         helper.getView(R.id.rl_lottery_record).setOnClickListener(new View.OnClickListener() {

@@ -4,10 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,19 +17,28 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
 import com.top.lottery.R;
-import com.top.lottery.adapters.GridPersonAdapter;
+import com.top.lottery.adapters.PercentCenterMenuAdapter;
 import com.top.lottery.base.Constants;
 import com.top.lottery.beans.LotteryResponse;
+import com.top.lottery.beans.MenuCenterItem;
+import com.top.lottery.beans.UnreadMsgSum;
 import com.top.lottery.beans.UseAuth;
 import com.top.lottery.beans.UserInfo;
+import com.top.lottery.events.MemberSuccess;
 import com.top.lottery.utils.NewsCallback;
 import com.top.lottery.utils.Utils;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,7 +59,7 @@ public class PercentInfoActivity extends BaseActivity {
     @BindView(R.id.tv_intergray)
     TextView tvIntergray;
     @BindView(R.id.grid)
-    GridView grid;
+    RecyclerView grid;
     @BindView(R.id.tv_login_out)
     TextView tvLoginOut;
     @BindView(R.id.tv_intergray_proxy)
@@ -62,15 +71,8 @@ public class PercentInfoActivity extends BaseActivity {
     UserInfo userInfo;
 
 
-    //<!-- A级用户才有员工管理，这些员工只有充值以及加人的功能 -->
-    private String[] actions = new String[]{"购彩记录", "中奖记录", "追号记录", "账户明细", "站内信", "设置"};
-    private int[] icons = new int[]{R.mipmap.setting1, R.mipmap.setting2, R.mipmap.setting3
-            , R.mipmap.setting4, R.mipmap.setting5, R.mipmap.setting6};
+    private PercentCenterMenuAdapter percentCenterMenuAdapter;
 
-
-    private String[] actionsalL = new String[]{"购彩记录", "中奖记录", "追号记录", "账户明细", "站内信", "设置", "后台管理"};
-    private int[] iconsAll = new int[]{R.mipmap.setting1, R.mipmap.setting2, R.mipmap.setting3
-            , R.mipmap.setting4, R.mipmap.setting5, R.mipmap.setting6, R.mipmap.setting7};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,46 +102,80 @@ public class PercentInfoActivity extends BaseActivity {
             }
         });
 
-        grid.setAdapter(new GridPersonAdapter(mContext, actions, icons));
+        grid.setLayoutManager(new GridLayoutManager(mContext,3));
+//        grid.addItemDecoration(RecycleViewUtils.getItemDecoration(this));
+//        grid.addItemDecoration(RecycleViewUtils.getItemDecorationHorizontal(this));
+        percentCenterMenuAdapter = new PercentCenterMenuAdapter(R.layout.adapter_grid_person_centre_new,new ArrayList<MenuCenterItem>());
+        grid.setAdapter(percentCenterMenuAdapter);
 
-        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        percentCenterMenuAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Bundle bundle = new Bundle();
-                switch (i) {
-                    case 0:
+                switch (percentCenterMenuAdapter.getData().get(position).type){
+                    case 1:
                         bundle.putString(Constants.PASS_STRING, "1");
                         Utils.openActivity(mContext, BuyLotteryRecordActivity.class, bundle);
                         break;
-                    case 1:
+                    case 2:
                         bundle.putString(Constants.PASS_STRING, "2");
                         Utils.openActivity(mContext, BuyLotteryRecordActivity.class, bundle);
                         break;
-                    case 2:
+                    case 3:
                         bundle.putString(Constants.PASS_STRING, "3");
                         Utils.openActivity(mContext, BuyLotteryRecordActivity.class, bundle);
                         break;
-                    case 3:
+                    case 4:
                         ActivityUtils.startActivity(AccountBillsActivity.class);
                         break;
-                    case 4:
+                    case 5:
                         ActivityUtils.startActivity(MessageListActivity.class);
                         break;
-                    case 5:
-                        ActivityUtils.startActivity(SettingActivity.class);
-
+                    case 6:
+                        ActivityUtils.startActivityForResult(mContext,SettingActivity.class,400);
+                        break;
+                    case 7:
+                        ActivityUtils.startActivity(ManageActivity.class);
+                        break;
+                    case 8:
+                        ActivityUtils.startActivity(ProfitActivity.class);
+                        break;
+                    case 9:
+                        ActivityUtils.startActivity(IntergrateHandleActivity.class);
+                        break;
+                    case 10:
+                        UseAuth useAuth = Utils.getAuth();
+                        if (useAuth != null) {
+                            if (useAuth.caiwu_deposit == 1) {
+                                ActivityUtils.startActivityForResult(mContext, FinanceRechargeActivity.class, 300);
+                            } else {
+                                ToastUtils.showShort("权限不足");
+                            }
+                        }else{
+                            ToastUtils.showShort("权限不足");
+                        }
                         break;
                 }
             }
         });
 
 
+
         getUserDetailInfo();
 
         getUerAuthor();
 
+        getMenuCenter();
+
     }
 
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(MemberSuccess event) {
+        getUserDetailInfo();
+    }
 
     //后去用户权限
     private void getUerAuthor() {
@@ -152,11 +188,12 @@ public class PercentInfoActivity extends BaseActivity {
                     @Override
                     public void onSuccess(Response<LotteryResponse<UseAuth>> response) {
                         UseAuth useAuth = response.body().body;
-                        if (useAuth.rollout==1){
-                            tvIntergrayProxyOut.setVisibility(View.VISIBLE);
-                        }else{
-                            tvIntergrayProxyOut.setVisibility(View.GONE);
-                        }
+//                        if (useAuth.rollout == 1) {
+//                            llProxyUi.setVisibility(View.VISIBLE);
+//                        } else {
+//                            llProxyUi.setVisibility(View.GONE);
+//                        }
+                        Utils.saveUserAuth(useAuth);
 
                     }
 
@@ -189,7 +226,7 @@ public class PercentInfoActivity extends BaseActivity {
                         userInfo = response.body().body;
                         if (userInfo != null) {
                             if (!TextUtils.isEmpty(userInfo.username)) {
-                                tvAccout.setText(userInfo.username);
+                                tvAccout.setText(userInfo.nickname+"\n"+userInfo.username);
                             }
 
                             if (!TextUtils.isEmpty(userInfo.score)) {
@@ -199,6 +236,9 @@ public class PercentInfoActivity extends BaseActivity {
                             if (userInfo.daili_score > 0) {
                                 tvIntergrayProxy.setText("代理返利积分：" + userInfo.daili_score);
                             }
+
+
+                            Utils.saveUserInfo(userInfo);
                         }
                     }
 
@@ -208,6 +248,70 @@ public class PercentInfoActivity extends BaseActivity {
                     }
                 });
     }
+
+
+    private void getMenuCenter(){
+        showLoadingBar();
+        HashMap<String, String> data = new HashMap<>();
+        data.put("uid", getUserInfo().uid);
+        OkGo.<LotteryResponse<List<MenuCenterItem>>>post(Constants.Net.USER_GETCENTERMENULIST)//
+                .cacheMode(CacheMode.NO_CACHE)
+                .params(Utils.getParams(data))
+                .execute(new NewsCallback<LotteryResponse<List<MenuCenterItem>>>() {
+                    @Override
+                    public void onSuccess(Response<LotteryResponse<List<MenuCenterItem>>> response) {
+                        List<MenuCenterItem> menuCenterItems = response.body().body;
+                        if (menuCenterItems!=null && menuCenterItems.size()>0){
+                            percentCenterMenuAdapter.setNewData(menuCenterItems);
+                        }
+                        dismissLoadingBar();
+
+                        getUnreadNum();
+                    }
+
+                    @Override
+                    public void onError(Response response) {
+                        ToastUtils.showShort(Utils.toastInfo(response));
+                        finish();
+                        dismissLoadingBar();
+                    }
+                });
+    }
+
+    private void getUnreadNum() {
+        HashMap<String, String> data = new HashMap<>();
+        data.put("uid", getUserInfo().uid);
+        OkGo.<LotteryResponse<UnreadMsgSum>>post(Constants.Net.MESSAGE_NEWMESSSAGESUM)//
+                .cacheMode(CacheMode.NO_CACHE)
+                .params(Utils.getParams(data))
+                .execute(new NewsCallback<LotteryResponse<UnreadMsgSum>>() {
+                    @Override
+                    public void onSuccess(Response<LotteryResponse<UnreadMsgSum>> response) {
+                        UnreadMsgSum unreadMsgSum = response.body().body;
+                        if (percentCenterMenuAdapter!=null) {
+                            if (unreadMsgSum != null && unreadMsgSum.sum > 0) {
+                                for (MenuCenterItem item : percentCenterMenuAdapter.getData()) {
+                                    if (item.type == 5) {
+                                        item.isShowRedPoint = true;
+                                    } else {
+                                        item.isShowRedPoint = false;
+                                    }
+                                }
+                            } else {
+                                for (MenuCenterItem item : percentCenterMenuAdapter.getData()) {
+                                    item.isShowRedPoint = false;
+                                }
+                            }
+                            percentCenterMenuAdapter.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response response) {
+                    }
+                });
+    }
+
 
     //退出登陆
     private void showExitDialog() {
@@ -245,7 +349,6 @@ public class PercentInfoActivity extends BaseActivity {
                 .execute(new NewsCallback<LotteryResponse<UserInfo[]>>() {
                     @Override
                     public void onSuccess(Response<LotteryResponse<UserInfo[]>> response) {
-                        ToastUtils.showShort("退出登录");
                         SPUtils.getInstance().put(Constants.USER_INFO, "");
                         Intent intent = new Intent(mContext, LoginActivity.class);
                         startActivity(intent);
@@ -265,7 +368,7 @@ public class PercentInfoActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 200) {
+        if (requestCode == 200 || requestCode == 300 || requestCode==400) {
             if (resultCode == RESULT_OK) {
                 getUserDetailInfo();
             }

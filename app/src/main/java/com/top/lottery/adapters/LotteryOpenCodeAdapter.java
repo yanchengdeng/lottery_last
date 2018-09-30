@@ -1,7 +1,6 @@
 package com.top.lottery.adapters;
 
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -22,7 +21,7 @@ public class LotteryOpenCodeAdapter extends BaseQuickAdapter<AwardOrderScore, Ba
     protected void convert(BaseViewHolder helper, final AwardOrderScore item) {
         ((TextView) helper.getView(R.id.tv_code)).setText("" + item.record_code_string);
 
-        ((TextView) helper.getView(R.id.tv_name)).setText(item.record_code_string+"，共注" + item.cost_score+"积分");
+        ((TextView) helper.getView(R.id.tv_name)).setText(item.lottery_title+"，共注" + item.cost_score+"积分");
 
 
     }

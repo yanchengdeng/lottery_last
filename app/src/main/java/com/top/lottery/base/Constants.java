@@ -18,6 +18,7 @@ public class Constants {
     public static final String APP_ID = "ANDRIOD_1_0_0";
     public static final String APP_SERCET = "EncBigData2018";
     public static final String USER_INFO = "user_info";
+    public static final String USER_AUTH = "user_auth";
     public static final String IMEI = "imei";
 
     //可投注时间
@@ -29,6 +30,8 @@ public class Constants {
     public static final int BACK_TO_MAIN = 300;
     public static final String USER_NAME = "username";
     public static final String PASSWORD = "password";
+    public static final String TOKEN = "user_token";
+    public static final String ERROR_CODE_AWARD_EXPERID = "-99";
     public static String LASTEST_AWARD_ID = "2018082601";
     public static String LASTER_AWARD_END_TIME = "2018-08-26 17:00:00";
 
@@ -74,12 +77,24 @@ public class Constants {
         public static final String USER_SETPASSWORD = BASE_API + "user/setPassword";
         //用户权限
         public static final String USER_GETAUTH = BASE_API + "user/getAuth";
-        //代理返利积分转出
-        public static final String USER_ROLLOUT = BASE_API + "user/rollout";
+        //积分转出
+        /**
+         * 10：返利转出
+         15：分红积分转出
+         16：分红积分转入
+         17：信用积分转入
+         */
+        public static final String USER_SCOREOPERATE= BASE_API + "user/scoreOperate";
+
+
+        //个人中心菜单
+        public static final String USER_GETCENTERMENULIST = BASE_API+"user/getCenterMenuList";
         //站内信
         public static final String MESSAGE_GETLIST = BASE_API + "message/getlist";
         //站内信详情
         public static final String MESSAGE_DETAIL = BASE_API + "message/detail";
+        //新消息
+        public static final String MESSAGE_NEWMESSSAGESUM = BASE_API+"message/newMesssageSum";
 
 
         //获取最新可以投注的期数信息
@@ -142,6 +157,46 @@ public class Constants {
         public static final String USER_GETTRENDCHARTCONFIG = BASE_API + "user/getTrendchartConfig";
         //设置走势图配置信息
         public static final String USER_SETTRENDCHARTCONFIG = BASE_API + "user/setTrendchartConfig";
+
+
+        //后台管理
+//        获取各级别会员列表
+        public static final String LEADER_GETCHILDLIST = BASE_API+"leader/getChildList";
+        //充值积分
+        public static final String USER_DEPOSIT = BASE_API+"user/deposit";
+        //新增、修改员工配置信息
+        public static final String LEADER_GETUSEROPTION = BASE_API+"leader/getUserOption";
+        //获取会员权限
+        public static final String LEADER_GETAUTHOPTION = BASE_API+"leader/getAuthOption";
+        //设置会员权限
+        public static final String LEADER_SETAUTH = BASE_API+"leader/setAuth";
+        //会员积分操作
+        //1：给会员充值，
+        //3：给会员提现，
+        //19：给会员信用分授权，
+        //21：会员信用分收回
+        public static final String LEADER_CHILDSCOREOPERATE = BASE_API+"leader/childScoreOperate";
+        //添加会员
+        public static final String LEADER_ADDUSER = BASE_API+"leader/addUser";
+        //修改会员信息
+        public static final String LEADER_SETUSER = BASE_API+"leader/setUser";
+        //获取会员基本信息
+        public static final String LEADER_GETUSERINFO = BASE_API+"leader/getUserInfo";
+
+        //利润收益
+        public static final String STATISTICS_GETSTATISTICSBYUID = BASE_API+"statistics/getStatisticsByUid";
+        //收益参数
+        public static final String STATISTICS_GETPARAMS = BASE_API+"statistics/getParams";
+        //获取统计信息
+        public static final String STATISTICS_GETSCORESTATISTICSBYUID = BASE_API+"statistics/getScoreStatisticsByUid";
+        //积分统计类型
+        public static final String STATISTICS_GETSCORETYPELIST = BASE_API+"statistics/getScoreTypeList";
+        //积分列表
+        public static final String STATISTICS_GETSCOREDETAILLISTBYUID = BASE_API+"statistics/getScoreDetailListByUid";
+        //积分日志
+        public static final String STATISTICS_DETAILSCORELOG = BASE_API+"statistics/detailScoreLog";
+        //利益汇总
+        public static final String STATISTICS_GETLIST = BASE_API+"statistics/getList";
 
 
     }

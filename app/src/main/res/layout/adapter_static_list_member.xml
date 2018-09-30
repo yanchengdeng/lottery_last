@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/image_padding_big">
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/tv_uid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="100000"
+        android:textColor="@color/color_tittle"
+        android:textSize="@dimen/text_size_normal" />
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/tv_score_title"
+        android:layout_toRightOf="@+id/tv_uid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="(代理返利+1)"
+        android:textColor="@color/green"
+        android:textSize="@dimen/text_size_normal" />
+
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/tv_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0,0"
+        android:layout_toLeftOf="@+id/iv_arrow"
+        android:textColor="@color/color_tittle"
+        android:textSize="@dimen/text_size_normal" />
+
+
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/tv_create_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2018-09-09 10：23"
+        android:layout_below="@+id/tv_uid"
+        android:layout_marginTop="@dimen/image_padding_big"
+        android:textColor="@color/color_date"
+        android:textSize="@dimen/text_size_normal_down" />
+
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/tv_accout_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="可用积分： 0"
+        android:layout_toLeftOf="@+id/iv_arrow"
+        android:layout_below="@+id/tv_uid"
+        android:layout_marginTop="@dimen/image_padding_big"
+        android:textColor="@color/color_info"
+        android:textSize="@dimen/text_size_normal_down" />
+
+
+
+    <ImageView
+        android:id="@+id/iv_arrow"
+        android:src="@mipmap/icon_arrow_right"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="@dimen/image_padding_big"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+</RelativeLayout>
+

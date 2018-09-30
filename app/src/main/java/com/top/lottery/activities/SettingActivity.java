@@ -165,6 +165,8 @@ public class SettingActivity extends BaseActivity {
                             UserInfo userInfo = Utils.getUserInfo();
                             userInfo.nickname = nickname;
                             Utils.saveUserInfo(userInfo);
+                            setResult(RESULT_OK);
+                            finish();
                         }
                     }
 
@@ -180,6 +182,7 @@ public class SettingActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 200) {
             if (resultCode == RESULT_OK) {
+                setResult(RESULT_OK);
                 finish();
             }
         } else if (requestCode == 100) {

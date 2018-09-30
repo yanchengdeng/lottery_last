@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_horizontal_margin"
+        tools:context=".activities.IntergrateHandleActivity">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:drawablePadding="@dimen/image_padding_big"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:text="你当前的账户可用积分："
+            android:textColor="@color/color_info"
+            android:textSize="@dimen/text_size_normal" />
+
+        <TextView
+            android:id="@+id/tv_useable_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:drawablePadding="@dimen/image_padding_big"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:text="0.0"
+            android:textColor="@color/color_info"
+            android:textSize="@dimen/text_size_normal" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:drawablePadding="@dimen/image_padding_big"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:text="可用积分转入至信用积分账户："
+            android:textColor="@color/color_info"
+            android:textSize="@dimen/text_size_normal" />
+
+        <EditText
+            android:id="@+id/et_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/normal_submit_btn_gray_trans"
+            android:hint="输入金额"
+            android:inputType="phone"
+            android:padding="@dimen/image_padding_big"
+            android:textSize="@dimen/text_size_normal" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:drawableLeft="@mipmap/xinyong_jifen"
+            android:drawablePadding="@dimen/image_padding"
+            android:gravity="center_vertical"
+            android:text="您当前的信用积分余额：" />
+
+
+        <TextView
+            android:id="@+id/tv_credit_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/image_padding"
+            android:text="0.0"
+            android:textColor="@color/red"
+            android:textSize="@dimen/text_size_normal_up" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:drawablePadding="@dimen/image_padding"
+            android:gravity="center_vertical"
+            android:text="您当前的信用积分授权额度：" />
+
+
+        <TextView
+            android:id="@+id/tv_credit_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/image_padding"
+            android:text="0.0"
+            android:textColor="@color/green"
+            android:textSize="@dimen/text_size_normal_up" />
+
+
+        <TextView
+            android:id="@+id/tv_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:background="@drawable/normal_submit_btn_green"
+            android:gravity="center"
+            android:padding="@dimen/image_padding_big"
+            android:text="确定"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_normal" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:background="@color/oranage_deep"
+            android:padding="@dimen/image_padding"
+            android:text="注意"
+            android:textColor="@color/white" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:padding="@dimen/image_padding"
+            android:text="信用积分补充完整,便于结算利润，同时便于给下级授权拓展。信用积分补充与余额相加总数不能超过授权额度。"
+            android:textColor="@color/color_info" />
+
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

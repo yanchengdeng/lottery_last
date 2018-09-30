@@ -1,24 +1,30 @@
 package com.top.lottery.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.EncodeUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ScreenUtils;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 import com.lzy.okgo.model.Response;
 import com.top.lottery.base.Constants;
 import com.top.lottery.beans.AwardBallInfo;
 import com.top.lottery.beans.LotteryResponse;
+import com.top.lottery.beans.LotteryType;
 import com.top.lottery.beans.MainWinCode;
 import com.top.lottery.beans.TerdNormalBall;
 import com.top.lottery.beans.TrendCodeInfo;
+import com.top.lottery.beans.UseAuth;
 import com.top.lottery.beans.UserInfo;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +34,7 @@ public class Utils {
 
     ///遗漏值
     static LinkedTreeMap<String, String> missValus = new LinkedTreeMap<String, String>();
+    public static Activity context;
 
     public static String getImei() {
         return SPUtils.getInstance().getString(Constants.IMEI, "354765086202488");
@@ -104,7 +111,7 @@ public class Utils {
 
 
     public static HashMap<String, String> getParams(HashMap<String, String> data) {
-        data.put("version", "1.0");
+        data.put("version", "V1.0");
         data.put("app_imei", getImei());
         data.put("app_id", Constants.APP_ID);
         data.put("app_sign", getAppSign());
@@ -130,9 +137,8 @@ public class Utils {
 
 
     private static String getToken() {
-        UserInfo userInfo = getUserInfo();
-        if (userInfo != null && userInfo.tokens != null) {
-            String json = new Gson().toJson(userInfo.tokens);
+        String json = SPUtils.getInstance().getString(Constants.TOKEN);
+        if (!TextUtils.isEmpty(json)) {
             return new String(EncodeUtils.base64Encode(json));
         } else {
             return "";
@@ -141,19 +147,29 @@ public class Utils {
 
 
     //加载类通用提示
-    public static String toastInfo(Response<LotteryResponse<Object>> response) {
+    public static String toastInfo(Response<LotteryResponse<LotteryResponse>> response) {
         if (response.getException() == null || TextUtils.isEmpty(response.getException().getMessage())) {
             return "当前网络环境较差，请检查您的网络";
         }
         String toast = response.getException().getMessage();
-        if (toast.startsWith("Unable to resolve host") || toast.startsWith("java.lang.IllegalStateException: Expected BEGIN_OBJECT") || toast.startsWith("Failed to connect") || toast.startsWith("failed to connect") || toast.startsWith("network")) {
-            toast = "加载失败，似乎断网了~";
-        } else if (toast.contains("time")) {
-            toast = "当前网络环境较差，请检查您的网络";
-        } else if (toast.contains("TimeoutException")) {
-            toast = "当前网络环境较差，请检查您的网络";
+        try {
+            LotteryResponse info = new Gson().fromJson(toast, LotteryResponse.class);
+            if (info != null) {
+                if (TextUtils.isEmpty(info.msg)) {
+                    return "稍后再试";
+                } else {
+                    if (info.code == -99) {
+                        return "-99";
+                    } else {
+                        return info.msg;
+                    }
+                }
+            }
+        } catch (Exception ex) {
+
         }
-        return toast;
+
+        return "稍后再试";
     }
 
 
@@ -405,12 +421,11 @@ public class Utils {
     //获取走势图数据
 
     /**
-     *
      * @param trendCodeInfo
-     * @param hideShow    :hide   show
+     * @param hideShow      :hide   show
      * @return
      */
-    public static List<TerdNormalBall> get11CodeForTrend(TrendCodeInfo trendCodeInfo,String hideShow) {
+    public static List<TerdNormalBall> get11CodeForTrend(TrendCodeInfo trendCodeInfo, String hideShow) {
         List<TerdNormalBall> terdNormalBalls = new ArrayList<>();
 
         TerdNormalBall awardBallInfoFist = new TerdNormalBall();
@@ -425,13 +440,12 @@ public class Utils {
                 awardBallInfo.value = String.valueOf(i);
             }
             awardBallInfo.missVlaue = trendCodeInfo.missing_value.get(awardBallInfo.value);
-            awardBallInfo.isShowMiss = hideShow.equals("show")?true:false;
+            awardBallInfo.isShowMiss = hideShow.equals("show") ? true : false;
             awardBallInfo.isAwardCode = getIsAwardValue(awardBallInfo.value, trendCodeInfo.prize_code);
+            awardBallInfo.isTopThree = getisTopThree(awardBallInfo.value, trendCodeInfo.prize_code);
 
             terdNormalBalls.add(awardBallInfo);
         }
-
-
 
 
         return terdNormalBalls;
@@ -439,7 +453,7 @@ public class Utils {
 
 
     //获取统计球的信息
-    public static List<TerdNormalBall> get11CodeForTrendCount(String name,LinkedTreeMap<String, String> number){
+    public static List<TerdNormalBall> get11CodeForTrendCount(String name, LinkedTreeMap<String, String> number) {
         List<TerdNormalBall> terdNormalBalls = new ArrayList<>();
 
         TerdNormalBall awardBallInfoFist = new TerdNormalBall();
@@ -476,5 +490,97 @@ public class Utils {
             }
         }
         return isAward;
+    }
+
+    //是否是选中的值
+    private static boolean getisTopThree(String value, String[] prize_code) {
+        boolean isTopsThree = false;
+
+        for (String item : prize_code) {
+            if (value.equals(prize_code[0]) || value.equals(prize_code[1]) || value.equals(prize_code[2])) {
+                isTopsThree = true;
+            }
+        }
+        return isTopsThree;
+    }
+
+    /***
+     * 用户权限
+     * @return
+     */
+    public static UseAuth getAuth() {
+        String useauth = SPUtils.getInstance().getString(Constants.USER_AUTH);
+        if (TextUtils.isEmpty(useauth)) {
+            return new UseAuth();
+        } else {
+            UseAuth useAuth = new Gson().fromJson(useauth, UseAuth.class);
+            return useAuth;
+        }
+    }
+
+
+    /***
+     * 用户权限
+     * @return
+     */
+    public static void saveUserAuth(UseAuth useAuth) {
+        String useauth = new Gson().toJson(useAuth);
+        SPUtils.getInstance().put(Constants.USER_AUTH, useauth);
+    }
+
+    public static List<LotteryType> gePeriData() {
+        String[] dates = new String[]{"today", "week", "month", "three_month"};
+        String[] dates_info = new String[]{"当天", "近一周", "近一月", "近三月"};
+        List<LotteryType> LotteryTypes = new ArrayList<>();
+        for (int i = 0; i < dates.length; i++) {
+            LotteryType lotteryType = new LotteryType();
+            lotteryType.title = dates_info[i];
+            lotteryType.lottery_type = dates[i];
+            if (i == 0) {
+                lotteryType.isSelect = true;
+            }
+            LotteryTypes.add(lotteryType);
+        }
+
+        return LotteryTypes;
+    }
+
+
+    public static List<LotteryType> geStatusData() {
+        // 1：进行中2：已完成3：已中止
+        String[] status = new String[]{"1", "2", "3"};
+        String[] status_info = new String[]{"进行中", "已完成", "已中止"};
+        List<LotteryType> LotteryTypes = new ArrayList<>();
+        for (int i = 0; i < status.length; i++) {
+            LotteryType lotteryType = new LotteryType();
+            lotteryType.title = status_info[i];
+            lotteryType.lottery_type = status[i];
+            if (i == 0) {
+                lotteryType.isSelect = true;
+            }
+            LotteryTypes.add(lotteryType);
+        }
+
+        return LotteryTypes;
+    }
+
+    public static int getPeriodPopHeight(Context context) {
+        return ScreenUtils.getScreenHeight() - ConvertUtils.dp2px(56)-ConvertUtils.dp2px(48)-getStateBar2(context);
+    }
+
+
+    private static int getStateBar2(Context context) {
+        Class c = null;
+        try {
+            c = Class.forName("com.android.internal.R$dimen");
+            Object obj = c.newInstance();
+            Field field = c.getField("status_bar_height");
+            int x = Integer.parseInt(field.get(obj).toString());
+            int statusBarHeight = context.getResources().getDimensionPixelSize(x);
+            return statusBarHeight;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ConvertUtils.dp2px(20);
     }
 }

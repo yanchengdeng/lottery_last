@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_error_refresh"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tips"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_bar_height"
+        android:gravity="center"
+        android:textColor="@color/color_tittle"
+        android:textSize="@dimen/text_size_normal_up" />
+
+    <include layout="@layout/view_line"/>
+
+
+
+    <EditText
+        android:id="@+id/et_input"
+        android:inputType="phone"
+        android:textColor="@color/color_tittle"
+        android:textSize="@dimen/text_size_normal_up"
+        android:padding="@dimen/image_padding_big"
+        android:layout_width="150dp"
+        android:hint="1"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:background="@drawable/normal_submit_btn_gray_trans"
+        android:layout_height="wrap_content" />
+
+
+    <include layout="@layout/view_line" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_bar_height"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_continu_left"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_up" />
+
+
+        <TextView
+            android:id="@+id/tv_continu_right"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/red"
+            android:gravity="center"
+            android:text="确认"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_normal_up" />
+
+    </LinearLayout>
+</LinearLayout>
+
+

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">顶上大数据</string>
+    <string name="app_name">蓝钻大数据</string>
     <string name="no_data">暂无数据</string>
     <string name="user_name">用户名</string>
     <string name="input_user_name">请输入用户名</string>
@@ -8,7 +8,7 @@
     <string name="confirm">确认</string>
     <string name="forget_pwd">忘记密码</string>
     <string name="forget_pwd_answer">忘记密码？</string>
-    <string name="login_tittle">顶上大数据网登录</string>
+    <string name="login_tittle">蓝钻大数据网登录</string>
     <string name="can_do_until_start_for_main">暂不能投注\n距离投注时间</string>
     <string name="can_do_until_stop_for_main">距离截止\n投注时间</string>
     <string name="can_do_until_start_for_funny">暂无可销售的期号，距离下次第%s期开售还有%s</string>
@@ -23,4 +23,5 @@
     <string name="input_ask">请输入安全问题</string>
     <string name="input_answer">请输入回答内容</string>
     <string name="loading">加载中...</string>
+    <string name="double_click_exit">连续点击两次退出</string>
 </resources>

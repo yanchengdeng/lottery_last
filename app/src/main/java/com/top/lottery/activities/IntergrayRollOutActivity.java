@@ -62,6 +62,14 @@ public class IntergrayRollOutActivity extends BaseActivity {
 
     }
 
+    /**
+     * 操作类型
+     10：返利转出
+     15：分红积分转出
+     16：分红积分转入
+     17：信用积分转入
+     operate_type
+     */
     private void doRollOut(final String intergay) {
         if (TextUtils.isEmpty(intergay)) {
             ToastUtils.showShort("请输入转出积分");
@@ -77,7 +85,8 @@ public class IntergrayRollOutActivity extends BaseActivity {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", getUserInfo().uid);
         data.put("score", intergay);
-        OkGo.<LotteryResponse<UserInfo[]>>post(Constants.Net.USER_ROLLOUT)//
+        data.put("operate_type","10");
+        OkGo.<LotteryResponse<UserInfo[]>>post(Constants.Net.USER_SCOREOPERATE)//
                 .cacheMode(CacheMode.NO_CACHE)
                 .params(Utils.getParams(data))
                 .execute(new NewsCallback<LotteryResponse<UserInfo[]>>() {

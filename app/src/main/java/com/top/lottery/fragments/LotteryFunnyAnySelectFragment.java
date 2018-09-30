@@ -22,6 +22,7 @@ import com.top.lottery.R;
 import com.top.lottery.activities.BaseActivity;
 import com.top.lottery.activities.ConfirmCodesActivity;
 import com.top.lottery.activities.LotteryFunnyActivity;
+import com.top.lottery.activities.TrendChartActivity;
 import com.top.lottery.adapters.AwardBallAdapter;
 import com.top.lottery.base.Constants;
 import com.top.lottery.beans.AwardBallInfo;
@@ -30,6 +31,7 @@ import com.top.lottery.beans.LotteryInfo;
 import com.top.lottery.beans.LotteryResponse;
 import com.top.lottery.beans.MechineChoosInfo;
 import com.top.lottery.beans.MissLotteryCode;
+import com.top.lottery.liseners.PerfectClickListener;
 import com.top.lottery.utils.NewsCallback;
 import com.top.lottery.utils.Utils;
 
@@ -62,6 +64,8 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
     Unbinder unbinder;
     @BindView(R.id.tv_select_tips)
     TextView tvSelectTips;
+    @BindView(R.id.tv_trend_chart)
+    TextView tvTrendChart;
     private LotteryInfo lotteryInfo;
     private AwardBallAdapter awardBallAdapter;
     private boolean isMechineChoose;//是否可以允许机选  允许则可以机选  清除 切换  否则是可以清除操作
@@ -93,6 +97,14 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
                 awardBallAdapter.getData().get(position).isSelected = !awardBallAdapter.getData().get(position).isSelected;
                 awardBallAdapter.notifyItemChanged(position);
                 countIntergary();
+            }
+        });
+
+        //走势图
+        tvTrendChart.setOnClickListener(new PerfectClickListener() {
+            @Override
+            protected void onNoDoubleClick(View v) {
+                ActivityUtils.startActivity(TrendChartActivity.class);
             }
         });
 
@@ -144,10 +156,10 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
                     @Override
                     public void onSuccess(Response<LotteryResponse<MissLotteryCode>> response) {
                         MissLotteryCode missLotteryCode = response.body().body;
-                        if (missLotteryCode != null && missLotteryCode.missing_value != null && missLotteryCode.missing_value.size()>0) {
+                        if (missLotteryCode != null && missLotteryCode.missing_value != null && missLotteryCode.missing_value.size() > 0) {
 //                            JSONObject jsonObject = missLotteryCode.missing_value;
                             Utils.parseMissValue(missLotteryCode.missing_value);
-                            for (AwardBallInfo item:awardBallAdapter.getData()){
+                            for (AwardBallInfo item : awardBallAdapter.getData()) {
                                 item.isShowMissValue = true;
                             }
                             awardBallAdapter.notifyDataSetChanged();
@@ -157,7 +169,9 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
 
                     @Override
                     public void onError(Response response) {
-                        ToastUtils.showShort(Utils.toastInfo(response));
+                        if (!Utils.toastInfo(response).equals(Constants.ERROR_CODE_AWARD_EXPERID)) {
+                            ToastUtils.showShort(Utils.toastInfo(response));
+                        }
                     }
                 });
 
@@ -224,7 +238,9 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
 
                     @Override
                     public void onError(Response response) {
-                        ToastUtils.showShort(Utils.toastInfo(response));
+                        if (!Utils.toastInfo(response).equals(Constants.ERROR_CODE_AWARD_EXPERID)) {
+                            ToastUtils.showShort(Utils.toastInfo(response));
+                        }
 
                     }
                 });
@@ -249,7 +265,7 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
 
     private void checkSelect() {
         if (getSelectBalls().size() >= lotteryInfo.num) {
-            if (getActivity()!=null) {
+            if (getActivity() != null) {
                 ((BaseActivity) getActivity()).showLoadingBar();
             }
             checkAwardId();
@@ -276,8 +292,10 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
 
                     @Override
                     public void onError(Response response) {
-                        ToastUtils.showShort(Utils.toastInfo(response));
-                        if (getActivity()!=null) {
+                        if (!Utils.toastInfo(response).equals(Constants.ERROR_CODE_AWARD_EXPERID)) {
+                            ToastUtils.showShort(Utils.toastInfo(response));
+                        }
+                        if (getActivity() != null) {
                             ((BaseActivity) getActivity()).dismissLoadingBar();
                         }
 
@@ -297,14 +315,16 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
                 .execute(new NewsCallback<LotteryResponse<CheckSelectCodeInfo>>() {
                     @Override
                     public void onSuccess(Response<LotteryResponse<CheckSelectCodeInfo>> response) {
-                       addCar();
+                        addCar();
                     }
 
 
                     @Override
                     public void onError(Response response) {
-                        ToastUtils.showShort(Utils.toastInfo(response));
-                        if (getActivity()!=null) {
+                        if (!Utils.toastInfo(response).equals(Constants.ERROR_CODE_AWARD_EXPERID)) {
+                            ToastUtils.showShort(Utils.toastInfo(response));
+                        }
+                        if (getActivity() != null) {
                             ((BaseActivity) getActivity()).dismissLoadingBar();
                         }
                     }
@@ -313,10 +333,10 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
 
 
     //加入购物车
-    private void addCar(){
+    private void addCar() {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
-        data.put("award_id",Constants.LASTEST_AWARD_ID);
+        data.put("award_id", Constants.LASTEST_AWARD_ID);
         data.put("lottery_id", lotteryInfo.lottery_id);// 最新彩种期数id
         data.put("codes", new Gson().toJson(getSelectBallsCode()));
         OkGo.<LotteryResponse<CheckSelectCodeInfo>>post(Constants.Net.CART_ADDCART)//
@@ -325,8 +345,9 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
                 .execute(new NewsCallback<LotteryResponse<CheckSelectCodeInfo>>() {
                     @Override
                     public void onSuccess(Response<LotteryResponse<CheckSelectCodeInfo>> response) {
+                        clearSelectBalls();
                         checkCodeAndAward();
-                        if (getActivity()!=null) {
+                        if (getActivity() != null) {
                             ((BaseActivity) getActivity()).dismissLoadingBar();
                         }
                     }
@@ -334,8 +355,10 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
 
                     @Override
                     public void onError(Response response) {
-                        ToastUtils.showShort(Utils.toastInfo(response));
-                        if (getActivity()!=null) {
+                        if (!Utils.toastInfo(response).equals(Constants.ERROR_CODE_AWARD_EXPERID)) {
+                            ToastUtils.showShort(Utils.toastInfo(response));
+                        }
+                        if (getActivity() != null) {
                             ((BaseActivity) getActivity()).dismissLoadingBar();
                         }
                     }
@@ -349,7 +372,6 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
         bundle.putSerializable(Constants.PASS_OBJECT, lotteryInfo);
         ActivityUtils.startActivity(bundle, ConfirmCodesActivity.class);
     }
-
 
 
     //已选择的球数
@@ -381,18 +403,18 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
 
     //设置 遗漏值 是否显示
     public void setShowLotteryMiss() {
-        if (getActivity()!=null) {
-            if (((LotteryFunnyActivity)getActivity()).isShowMissValue) {
+        if (getActivity() != null) {
+            if (((LotteryFunnyActivity) getActivity()).isShowMissValue) {
 //                if (Utils.getMissValues()!=null && Utils.getMissValues().size()>0){
 //                    for (AwardBallInfo item:awardBallAdapter.getData()){
 //                        item.isShowMissValue = true;
 //                    }
 //                    awardBallAdapter.notifyDataSetChanged();
 //                }else {
-                    getMissValue();
+                getMissValue();
 //                }
-            }else{
-                for (AwardBallInfo item:awardBallAdapter.getData()){
+            } else {
+                for (AwardBallInfo item : awardBallAdapter.getData()) {
                     item.isShowMissValue = false;
                 }
                 awardBallAdapter.notifyDataSetChanged();
@@ -402,7 +424,7 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        if (Utils.getMissValues()!=null) {
+        if (Utils.getMissValues() != null) {
             Utils.getMissValues().clear();
         }
         super.onDestroy();

@@ -23,6 +23,7 @@ import com.top.lottery.R;
 import com.top.lottery.activities.BaseActivity;
 import com.top.lottery.activities.ConfirmCodesActivity;
 import com.top.lottery.activities.LotteryFunnyActivity;
+import com.top.lottery.activities.TrendChartActivity;
 import com.top.lottery.adapters.AwardBallAdapter;
 import com.top.lottery.base.Constants;
 import com.top.lottery.beans.AwardBallInfo;
@@ -31,6 +32,7 @@ import com.top.lottery.beans.LotteryInfo;
 import com.top.lottery.beans.LotteryResponse;
 import com.top.lottery.beans.MechineChoosInfo;
 import com.top.lottery.beans.MissLotteryCode;
+import com.top.lottery.liseners.PerfectClickListener;
 import com.top.lottery.utils.NewsCallback;
 import com.top.lottery.utils.Utils;
 
@@ -72,6 +74,8 @@ public class LotteryFunnyPreDirectSelectFragment extends Fragment {
     TextView tvSelectTipsThree;
     @BindView(R.id.recycle_three)
     RecyclerView recycleThree;
+    @BindView(R.id.tv_trend_chart)
+    TextView tvTrendChart;
 
     private LotteryInfo lotteryInfo;
     private AwardBallAdapter awardBallAdapterOne, awardBallAdapterTwo, awardBallAdapterThree;
@@ -132,6 +136,17 @@ public class LotteryFunnyPreDirectSelectFragment extends Fragment {
         });
 
 
+
+        //走势图
+        tvTrendChart.setOnClickListener(new PerfectClickListener() {
+            @Override
+            protected void onNoDoubleClick(View v) {
+                ActivityUtils.startActivity(TrendChartActivity.class);
+            }
+        });
+
+
+
         initChangeButton();
         initAwardNum();
 //        getMissValue();
@@ -162,7 +177,7 @@ public class LotteryFunnyPreDirectSelectFragment extends Fragment {
 
             if (lotteryInfo.num == 3) {
                 //TODO  直选三种类型的算法
-                touzhuCount =getDoubleAppear();
+                touzhuCount = getDoubleAppear();
                 tvIntergry.setText("积分：" + 2 * touzhuCount);
                 tvNoteNumbers.setText("注数：" + touzhuCount);
                 lotteryInfo.codes = getSelectBallsCode();
@@ -452,7 +467,9 @@ public class LotteryFunnyPreDirectSelectFragment extends Fragment {
 
                     @Override
                     public void onError(Response response) {
-                        ToastUtils.showShort(Utils.toastInfo(response));
+                        if (!Utils.toastInfo(response).equals(Constants.ERROR_CODE_AWARD_EXPERID)) {
+                            ToastUtils.showShort(Utils.toastInfo(response));
+                        }
                         if (getActivity() != null) {
                             ((BaseActivity) getActivity()).dismissLoadingBar();
                         }
@@ -479,7 +496,9 @@ public class LotteryFunnyPreDirectSelectFragment extends Fragment {
 
                     @Override
                     public void onError(Response response) {
-                        ToastUtils.showShort(Utils.toastInfo(response));
+                        if (!Utils.toastInfo(response).equals(Constants.ERROR_CODE_AWARD_EXPERID)) {
+                            ToastUtils.showShort(Utils.toastInfo(response));
+                        }
                         if (getActivity() != null) {
                             ((BaseActivity) getActivity()).dismissLoadingBar();
                         }
@@ -501,6 +520,7 @@ public class LotteryFunnyPreDirectSelectFragment extends Fragment {
                 .execute(new NewsCallback<LotteryResponse<CheckSelectCodeInfo>>() {
                     @Override
                     public void onSuccess(Response<LotteryResponse<CheckSelectCodeInfo>> response) {
+                        clearSelectBalls();
                         checkCodeAndAward();
                         if (getActivity() != null) {
                             ((BaseActivity) getActivity()).dismissLoadingBar();
@@ -510,7 +530,9 @@ public class LotteryFunnyPreDirectSelectFragment extends Fragment {
 
                     @Override
                     public void onError(Response response) {
-                        ToastUtils.showShort(Utils.toastInfo(response));
+                        if (!Utils.toastInfo(response).equals(Constants.ERROR_CODE_AWARD_EXPERID)) {
+                            ToastUtils.showShort(Utils.toastInfo(response));
+                        }
                         if (getActivity() != null) {
                             ((BaseActivity) getActivity()).dismissLoadingBar();
                         }
@@ -579,7 +601,9 @@ public class LotteryFunnyPreDirectSelectFragment extends Fragment {
 
                     @Override
                     public void onError(Response response) {
-                        ToastUtils.showShort(Utils.toastInfo(response));
+                        if (!Utils.toastInfo(response).equals(Constants.ERROR_CODE_AWARD_EXPERID)) {
+                            ToastUtils.showShort(Utils.toastInfo(response));
+                        }
 
                     }
                 });
@@ -650,7 +674,9 @@ public class LotteryFunnyPreDirectSelectFragment extends Fragment {
 
                     @Override
                     public void onError(Response response) {
-                        ToastUtils.showShort(Utils.toastInfo(response));
+                        if (!Utils.toastInfo(response).equals(Constants.ERROR_CODE_AWARD_EXPERID)) {
+                            ToastUtils.showShort(Utils.toastInfo(response));
+                        }
                     }
                 });
 

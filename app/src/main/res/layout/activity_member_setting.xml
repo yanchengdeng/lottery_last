@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.MemberSettingActivity">
+
+
+    <TextView
+        android:id="@+id/tv_settin_base"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/base_setting"
+        android:drawablePadding="@dimen/image_padding"
+        android:drawableRight="@mipmap/icon_arrow_right"
+        android:gravity="center_vertical"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:text="基础设置"
+        android:textColor="@color/color_tittle"
+        android:textSize="@dimen/text_size_normal" />
+
+    <include layout="@layout/view_line"/>
+
+
+    <TextView
+        android:id="@+id/tv_settin_permission"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/auth_setting"
+        android:drawablePadding="@dimen/image_padding"
+        android:drawableRight="@mipmap/icon_arrow_right"
+        android:gravity="center_vertical"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:text="权限设置"
+        android:textColor="@color/color_tittle"
+        android:textSize="@dimen/text_size_normal" />
+
+    <include layout="@layout/view_line"/>
+
+    <TextView
+        android:id="@+id/tv_settin_credit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/xinyongjifen"
+        android:drawablePadding="@dimen/image_padding"
+        android:drawableRight="@mipmap/icon_arrow_right"
+        android:gravity="center_vertical"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:text="信用分设置"
+        android:textColor="@color/color_tittle"
+        android:textSize="@dimen/text_size_normal" />
+
+    <include layout="@layout/view_line"/>
+
+</LinearLayout>

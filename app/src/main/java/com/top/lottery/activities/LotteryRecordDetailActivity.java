@@ -21,7 +21,6 @@ import com.top.lottery.beans.AwardOrderDetail;
 import com.top.lottery.beans.AwardOrderScore;
 import com.top.lottery.beans.AwardRecordItem;
 import com.top.lottery.beans.LotteryResponse;
-import com.top.lottery.beans.MessageListInfo;
 import com.top.lottery.beans.TicketOutInfo;
 import com.top.lottery.utils.NewsCallback;
 import com.top.lottery.utils.RecycleViewUtils;
@@ -217,12 +216,12 @@ public class LotteryRecordDetailActivity extends BaseActivity {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", getUserInfo().uid);
         data.put("order_id", awardOrderDetail.order_id);
-        OkGo.<LotteryResponse<MessageListInfo>>post(Constants.Net.CART_ADDBYORDERID)//
+        OkGo.<LotteryResponse<String>>post(Constants.Net.CART_ADDBYORDERID)//
                 .cacheMode(CacheMode.NO_CACHE)
                 .params(Utils.getParams(data))
-                .execute(new NewsCallback<LotteryResponse<MessageListInfo>>() {
+                .execute(new NewsCallback<LotteryResponse<String>>() {
                     @Override
-                    public void onSuccess(Response<LotteryResponse<MessageListInfo>> response) {
+                    public void onSuccess(Response<LotteryResponse<String>> response) {
                         ToastUtils.showShort(""+response.body().msg);
                         if (response.body().code==1){
                             ActivityUtils.startActivity(mContext, ConfirmCodesActivity.class);
@@ -232,8 +231,9 @@ public class LotteryRecordDetailActivity extends BaseActivity {
 
                     @Override
                     public void onError(Response response) {
-                        ToastUtils.showShort(Utils.toastInfo(response));
-                        LogUtils.w("dyc", response + "");
+                        if (!Utils.toastInfo(response).equals(Constants.ERROR_CODE_AWARD_EXPERID)) {
+                            ToastUtils.showShort(Utils.toastInfo(response));
+                        }
                     }
                 });
 

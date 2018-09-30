@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:textSize="@dimen/text_size_small"
+    android:id="@+id/tv_actions"
+    android:paddingTop="@dimen/image_padding"
+    android:paddingBottom="@dimen/image_padding"
+    android:textColor="@color/white"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:text="充值"
+    android:background="@color/color_blue"
+    android:layout_height="wrap_content" />
+
+

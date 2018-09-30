@@ -1,7 +1,6 @@
 package com.top.lottery.adapters;
 
 import android.support.annotation.Nullable;
-import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -24,9 +23,9 @@ public class MessageAdapter extends BaseQuickAdapter<MessageItem, BaseViewHolder
         ((TextView) helper.getView(R.id.tv_title)).setText("" + item.title);
         ((TextView) helper.getView(R.id.tv_date)).setText("" + item.create_time);
         if (item.is_read == 1) {
-            helper.getView(R.id.iv_read_status).setVisibility(View.GONE);
+            ((TextView) helper.getView(R.id.tv_unread_tips)).setText(" ");
         } else {
-            helper.getView(R.id.iv_read_status).setVisibility(View.VISIBLE);
+            ((TextView) helper.getView(R.id.tv_unread_tips)).setText("【未读】");
         }
     }
 }

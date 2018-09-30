@@ -26,6 +26,7 @@ import com.lzy.okgo.OkGo;
 import com.top.lottery.R;
 import com.top.lottery.base.Constants;
 import com.top.lottery.beans.TokenTimeOut;
+import com.top.lottery.utils.AppManager;
 import com.top.lottery.utils.StatusBarUtil;
 import com.top.lottery.utils.Utils;
 import com.top.lottery.views.LoadDialog;
@@ -41,7 +42,7 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 
 public abstract class BaseActivity extends AppCompatActivity implements BGASwipeBackHelper.Delegate, View.OnClickListener {
     protected BGASwipeBackHelper mSwipeBackHelper;
-    private View viewRoot, contentView;
+    public View viewRoot, contentView;
     private View tittleUi, tvTtittleLine;
     private View refresh;
 //    private MaterialDialog loadDialog;
@@ -72,6 +73,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
         initSwipeBackFinish();
         this.mContext = this;
 //        StatusBarUtil.setLightMode(this);
+        AppManager.getAppManager().addActivity(this);
         EventBus.getDefault().register(this);
         viewRoot = getLayoutInflater().inflate(R.layout.activity_base, null);
 //        viewRoot =   LayoutInflater.from(BaseActivity.this).inflate(R.layout.activity_base,null,false);
@@ -403,6 +405,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
     protected void onDestroy() {
         super.onDestroy();
         OkGo.getInstance().cancelAll();
+        AppManager.getAppManager().finishActivity(this);
     }
 
     @Override
@@ -452,4 +455,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
             loadDialog = null;
         }
     }
+
+
 }

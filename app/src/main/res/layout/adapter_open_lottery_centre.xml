@@ -14,17 +14,36 @@
         android:textColor="@color/color_tittle"
         android:textSize="@dimen/text_size_normal_up" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_below="@+id/tv_open_times"
+        android:layout_height="wrap_content">
+
     <me.gujun.android.taggroup.TagGroup
         android:id="@+id/tag_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/image_padding_big"
-        android:layout_below="@+id/tv_open_times"
-        app:atg_backgroundColor="@color/ball_red"
-        app:atg_borderColor="@color/ball_red"
+        app:atg_backgroundColor="@color/blue_ball"
+        app:atg_borderColor="@color/blue_ball"
         app:atg_textColor="@color/white"
         app:atg_horizontalPadding="5dp"
         app:atg_textSize="@dimen/text_size_normal_up" />
+
+        <me.gujun.android.taggroup.TagGroup
+            android:id="@+id/tag_code_red"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/image_padding_big"
+            app:atg_backgroundColor="@color/ball_red"
+            app:atg_borderColor="@color/ball_red"
+            app:atg_textColor="@color/white"
+            app:atg_horizontalPadding="5dp"
+            app:atg_textSize="@dimen/text_size_normal_up" />
+
+
+    </LinearLayout>
 
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/tv_open_date"

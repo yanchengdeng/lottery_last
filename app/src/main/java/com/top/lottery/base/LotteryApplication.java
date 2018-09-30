@@ -1,10 +1,16 @@
 package com.top.lottery.base;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
@@ -14,14 +20,24 @@ import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.cookie.CookieJarImpl;
 import com.lzy.okgo.cookie.store.DBCookieStore;
 import com.lzy.okgo.https.HttpsUtils;
+import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.top.lottery.R;
+import com.top.lottery.beans.GetCart;
+import com.top.lottery.beans.LotteryResponse;
+import com.top.lottery.events.AwardIDExperidEvent;
+import com.top.lottery.utils.NewsCallback;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
@@ -29,6 +45,9 @@ import okhttp3.OkHttpClient;
 
 public class LotteryApplication extends Application {
 
+    private  Context context;
+    private AlertDialog successDialog;
+    private View viewSuccess;
 
     static {
         //设置全局的Header构建器
@@ -49,17 +68,131 @@ public class LotteryApplication extends Application {
 //        });
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(Object event) {
+        if (event instanceof AwardIDExperidEvent) {
+            if (com.top.lottery.utils.Utils.context!=null && com.top.lottery.utils.Utils.context instanceof Activity) {
+                onShowExpire();
+            }
+        }
+    }
+
+    private void onShowExpire() {
+        viewSuccess = LayoutInflater.from(com.top.lottery.utils.Utils.context).inflate(R.layout.dialog_pay_success_view, null);
+        successDialog = new AlertDialog.Builder(com.top.lottery.utils.Utils.context)
+                .setView(viewSuccess)
+                .create();
+
+        ((TextView) viewSuccess.findViewById(R.id.tips)).setText("使用最新期号进行投注");
+        ((TextView) viewSuccess.findViewById(R.id.tv_continu_left)).setText("放弃投注");
+        ((TextView) viewSuccess.findViewById(R.id.tv_continu_right)).setText("使用最新期号");
+        viewSuccess.findViewById(R.id.tv_continu_left).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                successDialog.dismiss();
+                doUserNewTermCode("0");
+            }
+        });
+
+        viewSuccess.findViewById(R.id.tv_continu_right).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                successDialog.dismiss();
+                doUserNewTermCode("1");
+            }
+        });
+
+        successDialog.setCancelable(false);
+        successDialog.setCanceledOnTouchOutside(false);
+        successDialog.show();
+    }
+
+    /**
+     * 0——不使用最新期数投注，以前购物车的信息全部清空
+     1——使用最新期数投注，保留以前购物车的信息
+     */
+    private void doUserNewTermCode(final String flag) {
+        HashMap<String, String> data = new HashMap<>();
+        data.put("uid", com.top.lottery.utils.Utils.getUserInfo().uid);
+        data.put("use_new_award_id", flag);
+        data.put("lid","1");
+        OkGo.<LotteryResponse<GetCart>>post(Constants.Net.CART_SAVECART)//
+                .cacheMode(CacheMode.NO_CACHE)
+                .params(com.top.lottery.utils.Utils.getParams(data))
+                .execute(new NewsCallback<LotteryResponse<GetCart>>() {
+                    @Override
+                    public void onSuccess(Response<LotteryResponse<GetCart>> response) {
+//                        ToastUtils.showShort(""+response.body().msg);
+                    }
+
+
+                    @Override
+                    public void onError(Response response) {
+                        ToastUtils.showShort(com.top.lottery.utils.Utils.toastInfo(response));
+                    }
+                });
+
+    }
+
+
     @Override
     public void onCreate() {
         super.onCreate();
 
         Utils.init(this);
+        EventBus.getDefault().register(this);
         ToastUtils.setBgResource(R.drawable.normal_toast_black);
         ToastUtils.setGravity(Gravity.CENTER,0,0);
         initTextSize(this);
         //侧滑初始化
         BGASwipeBackHelper.init(this, null);
         initOkGo(this);
+        initContext(this);
+    }
+
+
+    private  void initContext(Application application) {
+        context = application.getApplicationContext();
+        application.registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                if (activity.getParent() != null) {
+                    com.top.lottery.utils.Utils.context = activity.getParent();
+                } else {
+                    com.top.lottery.utils.Utils.context = activity;
+                }
+
+            }
+
+            public void onActivityStarted(Activity activity) {
+                if (activity.getParent() != null) {
+                    com.top.lottery.utils.Utils.context = activity.getParent();
+                } else {
+                    com.top.lottery.utils.Utils.context = activity;
+                }
+
+            }
+
+            public void onActivityResumed(Activity activity) {
+                if (activity.getParent() != null) {
+                    com.top.lottery.utils.Utils.context = activity.getParent();
+                } else {
+                    com.top.lottery.utils.Utils.context = activity;
+                }
+
+            }
+
+            public void onActivityPaused(Activity activity) {
+            }
+
+            public void onActivityStopped(Activity activity) {
+            }
+
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+            }
+
+            public void onActivityDestroyed(Activity activity) {
+            }
+        });
     }
 
 

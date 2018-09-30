@@ -36,8 +36,12 @@ public class TrendListItemAdapter extends BaseQuickAdapter<TerdNormalBall, BaseV
         } else {
             if (item.isAwardCode) {
                 ((TextView) helper.getView(R.id.tv_values)).setText(item.value);
-                helper.getView(R.id.tv_values).setBackground(mContext.getResources().getDrawable(R.drawable.shap_circle_num_red_small));
                 ((TextView) helper.getView(R.id.tv_values)).setTextColor(mContext.getResources().getColor(R.color.white));
+                if (item.isTopThree){
+                    helper.getView(R.id.tv_values).setBackground(mContext.getResources().getDrawable(R.drawable.shap_circle_num_blue_small));
+                }else{
+                    helper.getView(R.id.tv_values).setBackground(mContext.getResources().getDrawable(R.drawable.shap_circle_num_red_small));
+                }
             } else if (item.isCount){
                 helper.getView(R.id.tv_values).setBackground(null);
                 ((TextView) helper.getView(R.id.tv_values)).setText("" + item.missVlaue);

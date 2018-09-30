@@ -27,41 +27,32 @@
         <include layout="@layout/view_line" />
 
 
-        <TextView
-            android:id="@+id/tv_trend_chart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:background="@drawable/normal_submit_btn_red"
-            android:drawableLeft="@mipmap/icon_trend"
-            android:paddingLeft="@dimen/image_padding_big"
-            android:paddingRight="@dimen/image_padding_big"
-            android:paddingTop="@dimen/image_padding"
-            android:paddingBottom="@dimen/image_padding"
-            android:text="走势图"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_normal" />
-
-
         <FrameLayout
             android:id="@+id/fl_content"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
 
+
     </LinearLayout>
 
 
-    <com.top.lottery.views.LineGridView
-        android:id="@+id/grid"
+    <RelativeLayout
+        android:id="@+id/rl_select_ui"
         android:layout_width="match_parent"
+        android:clickable="true"
+        android:background="@color/trans_black"
         android:layout_height="match_parent"
-        android:horizontalSpacing="1dp"
-        android:background="@color/white"
-        android:numColumns="3"
-        android:verticalSpacing="1dp"
-        android:visibility="gone" />
+        android:visibility="gone">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/grid"
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:layout_height="wrap_content"
+            />
+
+
+    </RelativeLayout>
 
 </RelativeLayout>

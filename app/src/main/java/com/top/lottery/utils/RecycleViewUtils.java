@@ -20,13 +20,20 @@ import com.top.lottery.R;
 public class RecycleViewUtils {
 
 
-    //5个dp 横线
+    //1个dp 横线
     public static DividerItemDecoration getItemDecoration(Context context) {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context, DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(context.getResources().getDrawable(R.drawable.list_line_diver));
         return dividerItemDecoration;
     }
 
+
+    //1个dp 横线
+    public static DividerItemDecoration getItemDecorationHorizontal(Context context) {
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL);
+        dividerItemDecoration.setDrawable(context.getResources().getDrawable(R.drawable.list_line_diver));
+        return dividerItemDecoration;
+    }
 
 
     //九宫格 间隔

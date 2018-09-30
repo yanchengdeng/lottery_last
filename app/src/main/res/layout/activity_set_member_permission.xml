@@ -1,0 +1,827 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:fillViewport="true"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:orientation="vertical"
+        tools:context=".activities.AddNewMemberActivity">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="用户ID："
+                android:textColor="@color/color_tittle"
+                android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/tv_member_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:padding="@dimen/image_padding"
+                android:textColor="@color/color_info"
+                android:textSize="@dimen/text_size_normal" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="彩种权限："
+                android:textColor="@color/color_tittle"
+                android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:padding="@dimen/image_padding" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_show_fenhong"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/image_padding_big"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="是否分红："
+                android:textColor="@color/color_tittle"
+                android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold" />
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:textColor="@color/color_info"
+                    android:textSize="@dimen/text_size_normal">
+
+                    <RadioButton
+                        android:id="@+id/rb_fenhong"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="分红"
+                        android:checked="false"
+                        android:textColor="@color/color_info"
+                        android:textSize="@dimen/text_size_normal" />
+
+                    <RadioButton
+                        android:id="@+id/rb_bufenhong"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:text="不分红"
+                        
+                        android:textColor="@color/color_info"
+                        android:textSize="@dimen/text_size_normal" />
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/tv_fenhong_tips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="right"
+                    android:text="分红说明"
+                    android:textColor="@color/color_date"
+                    android:textSize="@dimen/text_size_normal_down" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_reward_scal_ui"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/image_padding_big"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="奖金比例："
+                android:textColor="@color/color_tittle"
+                android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold" />
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/et_reward_scale"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/normal_submit_btn_gray_trans"
+                    android:padding="@dimen/image_padding"
+                    android:text="0"
+                    android:inputType="number"
+                    android:textColor="@color/color_info"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:id="@+id/tv_reward_scale_max"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="@dimen/image_padding_big"
+                    android:layout_marginTop="@dimen/image_padding_big"
+                    android:gravity="right"
+                    android:text="分红比例上限：4"
+                    android:textColor="@color/color_tittle"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:id="@+id/tv_reward_scale_max_tips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="如果修改，下级所有人的奖金比例设置为0"
+                    android:textColor="@color/color_date"
+                    android:textSize="@dimen/text_size_normal_down" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_bonus_scal_ui"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/image_padding_big"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:paddingRight="@dimen/image_padding"
+                android:text="责任分红\n比例："
+                android:textColor="@color/color_tittle"
+                android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold" />
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_weight="3"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/et_bonus_scale"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/normal_submit_btn_gray_trans"
+                    android:padding="@dimen/image_padding"
+                    android:text="0"
+                    android:inputType="number"
+                    android:textColor="@color/color_info"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:id="@+id/tv_bonus_scale_max"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="@dimen/image_padding_big"
+                    android:layout_marginTop="@dimen/image_padding_big"
+                    android:gravity="right"
+                    android:text="分红比例上限：0"
+                    android:textColor="@color/color_tittle"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:id="@+id/tv_bonus_scale_max_tips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="如果修改，下级所有人的奖金比例为0 ，如利润亏损，则按照责任分红比例承担亏损"
+                    android:textColor="@color/color_date"
+                    android:textSize="@dimen/text_size_normal_down" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_show_fanli"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="是否开启    \n购彩返利："
+                android:textColor="@color/color_tittle"
+                android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold" />
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:textColor="@color/color_info"
+                    android:textSize="@dimen/text_size_normal">
+
+                    <RadioButton
+                        android:id="@+id/rb_rebate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="开"
+                        android:checked="false"
+                        android:textColor="@color/color_info"
+                        android:textSize="@dimen/text_size_normal" />
+
+                    <RadioButton
+                        android:id="@+id/rb_not_rebate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:text="不开"
+                        android:textColor="@color/color_info"
+                        android:textSize="@dimen/text_size_normal" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_rebate_tips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="right"
+                    android:text="返利说明"
+                    android:textColor="@color/color_date"
+                    android:textSize="@dimen/text_size_normal_down" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/ll_rebate_scal_ui"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:layout_marginTop="@dimen/image_padding_big"
+                android:text="返利比例："
+                android:textColor="@color/color_tittle"
+                android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold" />
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/et_rebate_scale"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/normal_submit_btn_gray_trans"
+                    android:padding="@dimen/image_padding"
+                    android:text="0"
+                    android:inputType="number"
+                    android:textColor="@color/color_info"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:id="@+id/tv_rebate_scale_max"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="@dimen/image_padding_big"
+                    android:gravity="right"
+                    android:text="分红比例上限：4"
+                    android:textColor="@color/color_tittle"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:id="@+id/tv_rebate_scale_max_tips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:visibility="gone"
+                    android:textColor="@color/color_date"
+                    android:textSize="@dimen/text_size_normal_down" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/ll_show_kaihao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="@dimen/image_padding_big"
+                android:gravity="right"
+                android:text="开号权限："
+                android:textColor="@color/color_tittle"
+                android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold" />
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:textColor="@color/color_info"
+                    android:textSize="@dimen/text_size_normal">
+
+                    <RadioButton
+                        android:id="@+id/rb_open_member"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="开"
+                        android:checked="false"
+                        android:textColor="@color/color_info"
+                        android:textSize="@dimen/text_size_normal" />
+
+                    <RadioButton
+                        android:id="@+id/rb_not_open_member"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:text="不开"
+                        
+                        android:textColor="@color/color_info"
+                        android:textSize="@dimen/text_size_normal" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_open_member_tips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="right"
+                    android:text="返利说明"
+                    android:textColor="@color/color_date"
+                    android:textSize="@dimen/text_size_normal_down" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_show_goucaichongzhi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="@dimen/image_padding_big"
+                android:gravity="right"
+                android:text="购彩充值："
+                android:textColor="@color/color_tittle"
+                android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold" />
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:textColor="@color/color_info"
+                    android:textSize="@dimen/text_size_normal">
+
+                    <RadioButton
+                        android:id="@+id/rb_deposit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="开"
+                        android:checked="false"
+                        android:textColor="@color/color_info"
+                        android:textSize="@dimen/text_size_normal" />
+
+                    <RadioButton
+                        android:id="@+id/rb_not_deposit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:text="不开"
+                        
+                        android:textColor="@color/color_info"
+                        android:textSize="@dimen/text_size_normal" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_deposit_tips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="right"
+                    android:text="返利说明"
+                    android:textColor="@color/color_date"
+                    android:textSize="@dimen/text_size_normal_down" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_show_goucaigongneng"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="@dimen/image_padding_big"
+                android:gravity="right"
+                android:text="购彩功能："
+                android:textColor="@color/color_tittle"
+                android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold" />
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:textColor="@color/color_info"
+                    android:textSize="@dimen/text_size_normal">
+
+                    <RadioButton
+                        android:id="@+id/rb_purchase"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="开"
+                        
+                        android:textColor="@color/color_info"
+                        android:textSize="@dimen/text_size_normal" />
+
+                    <RadioButton
+                        android:id="@+id/rb_not_purchase"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:text="不开"
+                        
+                        android:textColor="@color/color_info"
+                        android:textSize="@dimen/text_size_normal" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_purchase_tips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="right"
+                    android:text="返利说明"
+                    android:textColor="@color/color_date"
+                    android:textSize="@dimen/text_size_normal_down" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/ll_show_jifentixian"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/image_padding_big"
+            android:gravity="right"
+            android:text="积分提现："
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal"
+            android:textStyle="bold" />
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:textColor="@color/color_info"
+                android:textSize="@dimen/text_size_normal">
+
+                <RadioButton
+                    android:id="@+id/rb_withdraw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="开"
+                    android:checked="false"
+                    android:textColor="@color/color_info"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <RadioButton
+                    android:id="@+id/rb_not_withdraw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:text="不开"
+                    
+                    android:textColor="@color/color_info"
+                    android:textSize="@dimen/text_size_normal" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_withdraw_tips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="right"
+                android:text="返利说明"
+                android:textColor="@color/color_date"
+                android:textSize="@dimen/text_size_normal_down" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+
+        <LinearLayout
+            android:id="@+id/ll_show_goucaifanli"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="@dimen/image_padding_big"
+                android:gravity="right"
+                android:text="购彩返利     \n转出功能："
+                android:textColor="@color/color_tittle"
+                android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold" />
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:textColor="@color/color_info"
+                    android:textSize="@dimen/text_size_normal">
+
+                    <RadioButton
+                        android:id="@+id/rb_rollout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="开"
+                        android:checked="false"
+                        android:textColor="@color/color_info"
+                        android:textSize="@dimen/text_size_normal" />
+
+                    <RadioButton
+                        android:id="@+id/rb_not_rollout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:text="不开"
+                        
+                        android:textColor="@color/color_info"
+                        android:textSize="@dimen/text_size_normal" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_rollout_tips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="right"
+                    android:text="返利说明"
+                    android:textColor="@color/color_date"
+                    android:textSize="@dimen/text_size_normal_down" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/ll_show_fenhongzhuanchu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="@dimen/image_padding_big"
+                android:gravity="right"
+                android:text="分红转出："
+                android:textColor="@color/color_tittle"
+                android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold" />
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:textColor="@color/color_info"
+                    android:textSize="@dimen/text_size_normal">
+
+                    <RadioButton
+                        android:id="@+id/rb_bonus_rollout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="开"
+                        android:checked="false"
+                        android:textColor="@color/color_info"
+                        android:textSize="@dimen/text_size_normal" />
+
+                    <RadioButton
+                        android:id="@+id/rb_not_bonus_rollout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:text="不开"
+                        
+                        android:textColor="@color/color_info"
+                        android:textSize="@dimen/text_size_normal" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_bonus_rollout_tips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="right"
+                    android:text="返利说明"
+                    android:textColor="@color/color_date"
+                    android:textSize="@dimen/text_size_normal_down" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+
+
+
+
+        <TextView
+            android:id="@+id/tv_do_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:background="@drawable/normal_submit_btn_green"
+            android:gravity="center"
+            android:padding="@dimen/image_padding_big"
+            android:text="确定"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_normal" />
+
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

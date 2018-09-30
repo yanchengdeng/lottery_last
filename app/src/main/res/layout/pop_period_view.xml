@@ -4,18 +4,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/trans_black"
     android:orientation="vertical">
 
-   <GridView
-       android:id="@+id/grid"
-       android:background="@color/white"
-       android:padding="@dimen/activity_horizontal_margin"
-       android:verticalSpacing="@dimen/activity_horizontal_margin"
-       android:horizontalSpacing="@dimen/activity_horizontal_margin"
-       android:numColumns="2"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"/>
+
+    <include layout="@layout/view_line"/>
+    <GridView
+        android:id="@+id/grid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:horizontalSpacing="@dimen/activity_horizontal_margin"
+        android:numColumns="2"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:verticalSpacing="@dimen/activity_horizontal_margin" />
+
+
 </LinearLayout>
 
 

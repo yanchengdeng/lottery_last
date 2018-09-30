@@ -14,7 +14,7 @@
         android:gravity="center"
         android:text="01"
         android:textStyle="bold"
-        android:layout_marginTop="@dimen/image_padding_big"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_normal_up" />
 

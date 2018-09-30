@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        tools:context=".activities.MemberCreditSettingActivity">
+
+
+        <TextView
+            android:id="@+id/tv_current_credit_total"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:text="您当前的信用分额度：0"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_up"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_give_total"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:text="可授权额度：0"
+            android:textColor="@color/red"
+            android:textSize="@dimen/text_size_normal_up"
+            android:textStyle="bold" />
+
+
+        <include layout="@layout/view_line" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:text="操作方式"
+            android:textColor="@color/color_info"
+            android:textSize="@dimen/text_size_normal_up"
+            android:textStyle="bold" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/ch_anthor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="信用分授权"
+                android:textColor="@color/color_info"
+                android:textSize="@dimen/text_size_normal" />
+
+
+            <RadioButton
+                android:id="@+id/ch_recycle_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:checked="false"
+                android:text="信用分回收"
+                android:textColor="@color/color_info"
+                android:textSize="@dimen/text_size_normal" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:text="请输入需要授权的ID:"
+            android:textColor="@color/color_info"
+            android:textSize="@dimen/text_size_normal_up" />
+
+        <EditText
+            android:id="@+id/et_autor_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:background="@drawable/normal_submit_btn_gray_trans"
+            android:hint="授权ID"
+            android:inputType="number"
+            android:padding="@dimen/image_padding"
+            android:textColor="@color/color_info"
+            android:textSize="@dimen/text_size_normal" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:text="请输入需要授权的金额:"
+            android:textColor="@color/color_info"
+            android:textSize="@dimen/text_size_normal_up" />
+
+        <EditText
+            android:id="@+id/et_autor_money"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:background="@drawable/normal_submit_btn_gray_trans"
+            android:hint="授权金额"
+            android:inputType="number"
+            android:padding="@dimen/image_padding"
+            android:textColor="@color/color_info"
+            android:textSize="@dimen/text_size_normal" />
+
+        <TextView
+            android:id="@+id/tv_id_credit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:text="该ID目前信用分额度:暂无"
+            android:textColor="@color/color_info"
+            android:textSize="@dimen/text_size_normal_up" />
+
+        <TextView
+            android:id="@+id/tv_id_credit_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:text="该ID目前信用分余额:暂无"
+            android:textColor="@color/color_info"
+            android:textSize="@dimen/text_size_normal_up" />
+
+        <TextView
+            android:id="@+id/tv_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:background="@drawable/normal_submit_btn_green"
+            android:gravity="center"
+            android:padding="@dimen/image_padding_big"
+            android:text="确定"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_normal" />
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

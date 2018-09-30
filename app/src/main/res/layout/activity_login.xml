@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,8 +9,14 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/red"
         android:scaleType="fitXY"
         android:src="@mipmap/login_bg" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/trans_black_for_login" />
 
 
     <TextView
@@ -23,7 +28,7 @@
         android:text="@string/login_tittle"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_larger_big"
-        android:textStyle="bold" />
+        android:visibility="invisible" />
 
 
     <LinearLayout
@@ -40,15 +45,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/normal_submit_btn_white_trans"
             android:orientation="horizontal">
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/activity_horizontal_margin"
-                android:text="@string/user_name"
-                android:textColor="@color/color_tittle"
-                android:textSize="@dimen/text_size_normal" />
+                android:layout_gravity="center_vertical"
+                android:padding="@dimen/image_padding"
+                android:src="@mipmap/icon_accout" />
 
             <EditText
                 android:id="@+id/et_user_name"
@@ -58,40 +63,37 @@
                 android:background="@null"
                 android:gravity="right"
                 android:hint="@string/input_user_name"
-                android:singleLine="true"
                 android:padding="@dimen/activity_horizontal_margin"
-                android:textColor="@color/color_info"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
                 android:textCursorDrawable="@drawable/edit_cursor_drawable"
                 android:textSize="@dimen/text_size_normal" />
 
             <ImageView
                 android:id="@+id/iv_clear_username"
                 android:layout_width="wrap_content"
-                android:src="@mipmap/clear"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:padding="@dimen/image_padding_big"
-                android:layout_height="wrap_content" />
+                android:src="@mipmap/clear" />
 
         </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/list_divider_color" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:background="@drawable/normal_submit_btn_white_trans"
             android:orientation="horizontal">
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/activity_horizontal_margin"
-                android:text="@string/pwd"
-                android:textColor="@color/color_tittle"
-                android:textSize="@dimen/text_size_normal" />
+                android:layout_gravity="center_vertical"
+                android:padding="@dimen/image_padding"
+                android:src="@mipmap/icon_password" />
 
             <EditText
                 android:id="@+id/et_password"
@@ -99,12 +101,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@null"
-                android:inputType="textPassword"
                 android:gravity="right"
-                android:singleLine="true"
                 android:hint="@string/input_user_pwd"
+                android:inputType="textPassword"
                 android:padding="@dimen/activity_horizontal_margin"
-                android:textColor="@color/color_info"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
                 android:textCursorDrawable="@drawable/edit_cursor_drawable"
                 android:textSize="@dimen/text_size_normal" />
 
@@ -112,18 +115,13 @@
             <ImageView
                 android:id="@+id/iv_clear_password"
                 android:layout_width="wrap_content"
-                android:src="@mipmap/clear"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:padding="@dimen/image_padding_big"
-                android:layout_height="wrap_content" />
+                android:src="@mipmap/clear" />
 
 
         </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/list_divider_color" />
 
 
         <TextView
@@ -133,7 +131,7 @@
             android:layout_gravity="right"
             android:padding="@dimen/image_padding_big"
             android:text="@string/forget_pwd_answer"
-            android:textColor="@color/color_blue"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_size_normal_down" />
 
 

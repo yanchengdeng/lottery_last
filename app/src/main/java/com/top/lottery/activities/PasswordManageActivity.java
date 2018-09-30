@@ -79,6 +79,8 @@ public class PasswordManageActivity extends BaseActivity {
                     public void onSuccess(Response<LotteryResponse<UserInfo[]>> response) {
                         ToastUtils.showShort("" + response.body().msg);
                         KeyboardUtils.hideSoftInput(etSafeAnswer);
+                        setResult(RESULT_OK);
+                        finish();
                     }
 
                     @Override

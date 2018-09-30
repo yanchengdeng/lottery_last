@@ -51,9 +51,9 @@ public class AccountBillsActivity extends BaseActivity {
     TimePickerView start, end;
     private String start_date, end_date, score_type;
     private View viewHeader;
-    LinearLayout llStartTime, llChargeIntergry, llAwardIntergry, llWithdrawIntergry, llPayOut, llPayReback, llTotalProxyBack, llBelowClassCount;
+    LinearLayout llStartTime, llChargeIntergry, llAwardIntergry, llWithdrawIntergry, llPayOut;
     LinearLayout llEndTime;
-    TextView tvStartTime, tvEndTime, tvChargeIntergry, tvAwardIntergry, tvWithdrawIntergry, tvPayOut, tvPayReback, tvTotalProxyBack, tvBelowClassCount;
+    TextView tvStartTime, tvEndTime, tvChargeIntergry, tvAwardIntergry, tvWithdrawIntergry, tvPayOut;
     TextView tvSearch;
     TextView tvAccoutTips;
 
@@ -108,16 +108,7 @@ public class AccountBillsActivity extends BaseActivity {
         llPayOut = viewHeader.findViewById(R.id.ll_pay_out);
         tvPayOut = viewHeader.findViewById(R.id.tv_pay_out);
 
-        llPayReback = viewHeader.findViewById(R.id.ll_pay_reback);
-        tvPayReback = viewHeader.findViewById(R.id.tv_pay_back);
 
-
-        llTotalProxyBack = viewHeader.findViewById(R.id.ll_total_proxy_back);
-        tvTotalProxyBack = viewHeader.findViewById(R.id.tv_total_proxy_back);
-
-
-        llBelowClassCount = viewHeader.findViewById(R.id.ll_below_class_count);
-        tvBelowClassCount = viewHeader.findViewById(R.id.tv_below_class_count);
 
         //时间选择器
         start = new TimePickerBuilder(mContext, new OnTimeSelectListener() {
@@ -210,40 +201,13 @@ public class AccountBillsActivity extends BaseActivity {
             public void onClick(View v) {
                 score_type = "4";
                 Bundle bundle = new Bundle();
-                bundle.putString(Constants.PASS_NAME, "账户购彩明细");
+                bundle.putString(Constants.PASS_NAME, "账户购彩支出");
                 bundle.putString(Constants.PASS_STRING, score_type);
                 ActivityUtils.startActivity(bundle, AccountBillsTypeActivity.class);
             }
         });
 
-        //购彩返点
-        llPayReback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                score_type = "6";
-                Bundle bundle = new Bundle();
-                bundle.putString(Constants.PASS_NAME, "账户返利明细");
-                bundle.putString(Constants.PASS_STRING, score_type);
-                ActivityUtils.startActivity(bundle, AccountBillsTypeActivity.class);
-            }
-        });
 
-        //累积代理返点
-        llTotalProxyBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtils.showShort("敬请期待");
-            }
-        });
-
-        //下级总数
-        llBelowClassCount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                ActivityUtils.startActivity(BelowClassCountActivity.class);
-            }
-        });
 
 
         tvSearch.setOnClickListener(new View.OnClickListener() {
@@ -282,7 +246,7 @@ public class AccountBillsActivity extends BaseActivity {
      */
     private void getAcountData() {
 
-        if (page==1){
+        if (page == 1) {
             showLoadingBar();
         }
         final HashMap<String, String> data = new HashMap<>();
@@ -347,10 +311,10 @@ public class AccountBillsActivity extends BaseActivity {
     }
 
     private void initHeaderData(AcounBillIInfo.AccountBillSum sum) {
-        if (sum==null){
+        if (sum == null) {
             viewHeader.findViewById(R.id.tv_funcuton_tools).setVisibility(View.GONE);
             return;
-        }else{
+        } else {
             viewHeader.findViewById(R.id.tv_funcuton_tools).setVisibility(View.VISIBLE);
         }
 
@@ -370,17 +334,6 @@ public class AccountBillsActivity extends BaseActivity {
         if (sum.cost != null && !TextUtils.isEmpty(sum.cost.score)) {
             tvPayOut.setText(sum.cost.score + "积分");
         }
-
-        if (sum.daili != null && !TextUtils.isEmpty(sum.daili.score)) {
-            tvTotalProxyBack.setText(sum.daili.score + "积分");
-        }
-
-
-        if (sum.daili_number != null && !TextUtils.isEmpty(sum.daili_number.score)) {
-            tvBelowClassCount.setText(sum.daili_number.score + "人");
-        }
-
-
     }
 
 

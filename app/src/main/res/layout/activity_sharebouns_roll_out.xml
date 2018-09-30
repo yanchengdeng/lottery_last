@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_horizontal_margin"
+    android:background="@color/white"
+    android:layout_height="match_parent"
+    tools:context=".activities.IntergrateHandleActivity">
+
+
+
+
+    <TextView
+        android:drawableLeft="@mipmap/fenhong_intergary"
+        android:text="您当前的分红积分："
+        android:drawablePadding="@dimen/image_padding"
+        android:gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <TextView
+        android:id="@+id/tv_fanlijifen"
+        android:text="0.0"
+        android:layout_margin="@dimen/image_padding"
+        android:textSize="@dimen/text_size_normal_up"
+        android:textColor="@color/green"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+
+    <TextView
+        android:text="分红积分转出至积分账户："
+        android:textColor="@color/color_info"
+        android:textSize="@dimen/text_size_normal"
+        android:layout_width="wrap_content"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:background="@color/white"
+        android:drawablePadding="@dimen/image_padding_big"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/et_input"
+        android:textSize="@dimen/text_size_normal"
+        android:hint="输入金额"
+        android:inputType="phone"
+        android:background="@drawable/normal_submit_btn_gray_trans"
+        android:padding="@dimen/image_padding_big"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+
+    <TextView
+        android:text="你当前的账户可用积分："
+        android:textColor="@color/color_info"
+        android:textSize="@dimen/text_size_normal"
+        android:layout_width="wrap_content"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:background="@color/white"
+        android:drawablePadding="@dimen/image_padding_big"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_useable_total"
+        android:text="0.0"
+        android:textColor="@color/color_info"
+        android:textSize="@dimen/text_size_normal"
+        android:layout_width="wrap_content"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:background="@color/white"
+        android:drawablePadding="@dimen/image_padding_big"
+        android:layout_height="wrap_content" />
+
+
+
+    <TextView
+        android:id="@+id/tv_confirm"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_normal"
+        android:padding="@dimen/image_padding_big"
+        android:gravity="center"
+        android:background="@drawable/normal_submit_btn_green"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+
+</LinearLayout>

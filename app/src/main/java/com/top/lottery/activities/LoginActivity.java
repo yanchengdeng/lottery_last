@@ -29,7 +29,6 @@ import com.top.lottery.base.Constants;
 import com.top.lottery.beans.LotteryResponse;
 import com.top.lottery.beans.UserInfo;
 import com.top.lottery.utils.NewsCallback;
-import com.top.lottery.utils.StatusBarUtil;
 import com.top.lottery.utils.Utils;
 
 import java.util.HashMap;
@@ -61,7 +60,6 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        StatusBarUtil.setLightMode(this);
         hideTittle();
 
         if (Utils.isLogin()) {
@@ -189,9 +187,9 @@ public class LoginActivity extends BaseActivity {
                         UserInfo userInfo = response.body().body;
                         if (userInfo != null) {
                             SPUtils.getInstance().put(Constants.USER_INFO, new Gson().toJson(userInfo));
+                            SPUtils.getInstance().put(Constants.TOKEN,new Gson().toJson(userInfo.tokens));
                             SPUtils.getInstance().put(Constants.USER_NAME, etUserName.getEditableText().toString());
                             SPUtils.getInstance().put(Constants.PASSWORD, etPassword.getEditableText().toString());
-                            ToastUtils.showShort("登陆成功");
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
                         }

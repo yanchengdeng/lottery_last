@@ -29,7 +29,7 @@ public class GridPlayWayAdapter extends BaseAdapter {
     public GridPlayWayAdapter(Activity mContext, List<LotteryPlayWay> lotteryPlayWays) {
         this.mContext = mContext;
         this.lotteryPlayWays = lotteryPlayWays;
-        layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ScreenUtils.getScreenWidth() /4);
+        layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ScreenUtils.getScreenWidth() /6);
     }
 
     @Override

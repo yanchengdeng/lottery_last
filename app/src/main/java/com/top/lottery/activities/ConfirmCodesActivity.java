@@ -6,10 +6,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -81,10 +85,11 @@ public class ConfirmCodesActivity extends BaseActivity {
     private GetCart getCart;
     private int record_times = 1;//倍数
     private int append_terms = 1;//追加期数
+    private int MAX_TIMES = 1000;
 
     private GetCartAdapter getCartAdapter;
-    private View viewSuccess;
-    private AlertDialog successDialog;
+    private View viewSuccess, viewEditCount;
+    private AlertDialog successDialog, editCountDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +103,7 @@ public class ConfirmCodesActivity extends BaseActivity {
         recycle.setLayoutManager(new LinearLayoutManager(mContext));
         recycle.setAdapter(getCartAdapter);
         viewSuccess = LayoutInflater.from(mContext).inflate(R.layout.dialog_pay_success_view, null);
-        tvEndTime.setText("截止投注时间："+ Constants.LASTER_AWARD_END_TIME);
+        tvEndTime.setText("截止投注时间：" + Constants.LASTER_AWARD_END_TIME);
 
         getCartAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
@@ -141,7 +146,9 @@ public class ConfirmCodesActivity extends BaseActivity {
 
                     @Override
                     public void onError(Response response) {
-                        ToastUtils.showShort(Utils.toastInfo(response));
+                        if (!Utils.toastInfo(response).equals(Constants.ERROR_CODE_AWARD_EXPERID)) {
+                            ToastUtils.showShort(Utils.toastInfo(response));
+                        }
 
                     }
                 });
@@ -168,8 +175,9 @@ public class ConfirmCodesActivity extends BaseActivity {
 
                     @Override
                     public void onError(Response response) {
-                        ToastUtils.showShort(Utils.toastInfo(response));
-
+                        if (!Utils.toastInfo(response).equals(Constants.ERROR_CODE_AWARD_EXPERID)) {
+                            ToastUtils.showShort(Utils.toastInfo(response));
+                        }
                     }
                 });
     }
@@ -189,18 +197,25 @@ public class ConfirmCodesActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.tv_deal, R.id.tv_add_auto, R.id.tv_add_machine, R.id.iv_clear_car, R.id.iv_add_term, R.id.iv_minus_times, R.id.iv_add_times, R.id.iv_minus_term, R.id.tv_confirm})
+    @OnClick({R.id.tv_deal, R.id.tv_add_auto, R.id.tv_term_count,R.id.tv_term_times, R.id.tv_add_machine, R.id.iv_clear_car, R.id.iv_add_term, R.id.iv_minus_times, R.id.iv_add_times, R.id.iv_minus_term, R.id.tv_confirm})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_deal:
                 Bundle bundle = new Bundle();
-                bundle.putString(Constants.PASS_NAME,"委托投注协议");
-                bundle.putString(Constants.PASS_STRING,Constants.Net.WEB_DEAL);
-                ActivityUtils.startActivity(bundle,OpenWebViewActivity.class);
+                bundle.putString(Constants.PASS_NAME, "委托投注协议");
+                bundle.putString(Constants.PASS_STRING, Constants.Net.WEB_DEAL);
+                ActivityUtils.startActivity(bundle, OpenWebViewActivity.class);
                 break;
             case R.id.tv_add_auto:
                 setResult(RESULT_OK);
                 finish();
+                break;
+            //编辑
+            case R.id.tv_term_count:
+                showEditNumDialog(false);
+                break;
+            case R.id.tv_term_times:
+                showEditNumDialog(true);
                 break;
             case R.id.tv_add_machine:
                 doMechineAction();
@@ -234,9 +249,93 @@ public class ConfirmCodesActivity extends BaseActivity {
                 }
                 break;
             case R.id.tv_confirm:
-                doCardPay();
+                if (ckAgreeDeal.isChecked()) {
+                    doCardPay();
+                } else {
+                    ToastUtils.showShort("请确认阅读与同意");
+                }
                 break;
         }
+    }
+
+    private void showEditNumDialog(final boolean isTimes) {
+
+        viewEditCount = LayoutInflater.from(mContext).inflate(R.layout.dialog_edit_num_view, null);
+        editCountDialog = new AlertDialog.Builder(com.top.lottery.utils.Utils.context)
+                .setView(viewEditCount)
+                .create();
+
+        if (!isTimes){
+            ((TextView) viewEditCount.findViewById(R.id.tips)).setText("输入期数");
+        }else{
+            ((TextView) viewEditCount.findViewById(R.id.tips)).setText("输入倍数");
+        }
+
+        final EditText editText = viewEditCount.findViewById(R.id.et_input);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(s.toString())){
+                    if (isTimes){
+                        record_times = 1;
+                    }else{
+                        append_terms = 1;
+                    }
+                }else {
+                        if (s.toString().startsWith("0")){
+                            editText.setText("1");
+                            if (isTimes){
+                                record_times = 1;
+                            }else{
+                                append_terms = 1;
+                            }
+                        }else{
+                            if (Integer.parseInt(s.toString())>MAX_TIMES){
+                                if (isTimes){
+                                    record_times = MAX_TIMES;
+                                }else{
+                                    append_terms = MAX_TIMES;
+                                }
+                                editText.setText(String.valueOf(MAX_TIMES));
+                            }else{
+                                if (isTimes){
+                                    record_times = Integer.parseInt(s.toString());
+                                }else{
+                                    append_terms = Integer.parseInt(s.toString());
+                                }
+                            }
+                        }
+                }
+            }
+        });
+        viewEditCount.findViewById(R.id.tv_continu_left).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editCountDialog.dismiss();
+            }
+        });
+
+        viewEditCount.findViewById(R.id.tv_continu_right).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editCountDialog.dismiss();
+                setCartChange(isTimes);
+            }
+        });
+
+        editCountDialog.setCancelable(false);
+        editCountDialog.setCanceledOnTouchOutside(false);
+        editCountDialog.show();
     }
 
 
@@ -260,7 +359,9 @@ public class ConfirmCodesActivity extends BaseActivity {
 
                     @Override
                     public void onError(Response response) {
-                        ToastUtils.showShort(Utils.toastInfo(response));
+                        if (!Utils.toastInfo(response).equals(Constants.ERROR_CODE_AWARD_EXPERID)) {
+                            ToastUtils.showShort(Utils.toastInfo(response));
+                        }
                     }
                 });
     }
@@ -288,7 +389,9 @@ public class ConfirmCodesActivity extends BaseActivity {
                     @Override
                     public void onError(Response response) {
                         dismissLoadingBar();
-                        ToastUtils.showShort(Utils.toastInfo(response));
+                        if (!Utils.toastInfo(response).equals(Constants.ERROR_CODE_AWARD_EXPERID)) {
+                            ToastUtils.showShort(Utils.toastInfo(response));
+                        }
                     }
                 });
     }
@@ -312,14 +415,14 @@ public class ConfirmCodesActivity extends BaseActivity {
         successDialog = new AlertDialog.Builder(mContext)
                 .setView(viewSuccess)
                 .create();
-        if (flag==1) {
+        if (flag == 1) {
 
             ((TextView) viewSuccess.findViewById(R.id.tips)).setText("投注成功");
             viewSuccess.findViewById(R.id.tv_continu_left).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     successDialog.dismiss();
-                    Intent intent = new Intent(mContext,LotteryFunnyActivity.class);
+                    Intent intent = new Intent(mContext, LotteryFunnyActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     finish();
@@ -330,7 +433,7 @@ public class ConfirmCodesActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     successDialog.dismiss();
-                    Intent intent = new Intent(mContext,MainActivity.class);
+                    Intent intent = new Intent(mContext, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
 //                    setResult(Constants.BACK_TO_MAIN);
@@ -341,7 +444,7 @@ public class ConfirmCodesActivity extends BaseActivity {
             successDialog.setCancelable(false);
             successDialog.setCanceledOnTouchOutside(false);
             successDialog.show();
-        } else if (flag==-3) {
+        } else if (flag == -3) {
             ((TextView) viewSuccess.findViewById(R.id.tips)).setText("使用最新期号进行投注");
             ((TextView) viewSuccess.findViewById(R.id.tips)).setText("投注成功");
             ((TextView) viewSuccess.findViewById(R.id.tv_continu_left)).setText("放弃投注");
@@ -373,7 +476,7 @@ public class ConfirmCodesActivity extends BaseActivity {
 
     /**
      * 0——不使用最新期数投注，以前购物车的信息全部清空
-     1——使用最新期数投注，保留以前购物车的信息
+     * 1——使用最新期数投注，保留以前购物车的信息
      */
     private void doUserNewTermCode(final String flag) {
         HashMap<String, String> data = new HashMap<>();
@@ -385,12 +488,12 @@ public class ConfirmCodesActivity extends BaseActivity {
                 .execute(new NewsCallback<LotteryResponse<GetCart>>() {
                     @Override
                     public void onSuccess(Response<LotteryResponse<GetCart>> response) {
-                        ToastUtils.showShort(""+response.body().msg);
+                        ToastUtils.showShort("" + response.body().msg);
 //                        if (flag.equals("1")){
 //                            finish();
 //                        }else{
-                            setResult(Constants.BACK_TO_MAIN);
-                            finish();
+                        setResult(Constants.BACK_TO_MAIN);
+                        finish();
 //                        }
                     }
 
@@ -453,6 +556,9 @@ public class ConfirmCodesActivity extends BaseActivity {
                         ivMinusTerm.setClickable(true);
                         ivAddTimes.setClickable(true);
                         ivMinusTimes.setClickable(true);
+                        if (!Utils.toastInfo(response).equals(Constants.ERROR_CODE_AWARD_EXPERID)) {
+                            ToastUtils.showShort(Utils.toastInfo(response));
+                        }
                     }
                 });
     }

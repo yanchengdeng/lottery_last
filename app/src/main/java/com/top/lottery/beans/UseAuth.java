@@ -9,6 +9,9 @@ import java.io.Serializable;
  withdraw :提现功能
  rollout :积分转出权限
  caiwu_deposit  :财务人员的充值权限，只有财务人员登录才会有此功能
+ open_member  添加会员
+ bonus_rollout  分红积分转出
+
 
  */
 public class UseAuth implements Serializable {
@@ -17,4 +20,6 @@ public class UseAuth implements Serializable {
     public int withdraw;//0,
     public int rollout;//0,
     public int caiwu_deposit;//0
+    public int bonus_rollout;
+    public int open_member;
 }
