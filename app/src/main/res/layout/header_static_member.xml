@@ -9,7 +9,7 @@
 
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="1px"
+        android:layout_height="1dp"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:background="@color/list_divider_color" />
 
@@ -22,7 +22,7 @@
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="1px"
+            android:layout_marginLeft="1dp"
             android:layout_weight="1"
             android:background="@color/white"
             android:gravity="center"
@@ -36,7 +36,7 @@
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="1px"
+            android:layout_marginLeft="1dp"
             android:layout_weight="1"
             android:background="@color/white"
             android:gravity="center"
@@ -50,8 +50,8 @@
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="1px"
-            android:layout_marginRight="1px"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
             android:layout_weight="1"
             android:background="@color/white"
             android:gravity="center"

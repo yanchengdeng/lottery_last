@@ -27,6 +27,7 @@
         android:text="第2018092029期"
         android:layout_alignBaseline="@+id/tv_lottery_tittle"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:textColor="@color/color_date"
         android:textSize="@dimen/text_size_normal_down" />
 
@@ -55,7 +56,6 @@
         android:layout_below="@+id/tv_open_times"
         android:textColor="@color/red"
         android:layout_alignEnd="@+id/tv_open_times"
-        android:layout_marginLeft="@dimen/nav_bar_height"
         android:textSize="@dimen/text_size_normal_down" />
 
 

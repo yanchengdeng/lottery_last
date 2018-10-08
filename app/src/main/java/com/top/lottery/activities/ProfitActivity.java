@@ -203,7 +203,18 @@ public class ProfitActivity extends BaseActivity {
 //                    return;
 //
 //                }
-                getStatic();
+                if (TextUtils.isEmpty(etSearchKey.getEditableText().toString())) {
+                    getStatic();
+                }else{
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Constants.PASS_STRING,"2");
+                    bundle.putString(Constants.PASS_START_TIME,start_date);
+                    bundle.putString(Constants.PASS_END_TIME,end_date);
+                    bundle.putString(Constants.PASS_LOOTERY_TYPE,lid);
+                    bundle.putString(Constants.PASS_WEEK_TYPE,search_date);
+                    bundle.putString(Constants.PASS_CHILD_UID,etSearchKey.getEditableText().toString());
+                    ActivityUtils.startActivity(bundle,ProfitCountActivity.class);
+                }
             }
         });
 
@@ -216,6 +227,10 @@ public class ProfitActivity extends BaseActivity {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString(Constants.PASS_STRING,"2");
+                bundle.putString(Constants.PASS_START_TIME,start_date);
+                bundle.putString(Constants.PASS_END_TIME,end_date);
+                bundle.putString(Constants.PASS_LOOTERY_TYPE,lid);
+                bundle.putString(Constants.PASS_WEEK_TYPE,search_date);
                 ActivityUtils.startActivity(bundle,ProfitCountActivity.class);
 
             }
@@ -226,6 +241,10 @@ public class ProfitActivity extends BaseActivity {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString(Constants.PASS_STRING,"1");
+                bundle.putString(Constants.PASS_START_TIME,start_date);
+                bundle.putString(Constants.PASS_END_TIME,end_date);
+                bundle.putString(Constants.PASS_LOOTERY_TYPE,lid);
+                bundle.putString(Constants.PASS_WEEK_TYPE,search_date);
                 ActivityUtils.startActivity(bundle,ProfitCountActivity.class);
             }
         });

@@ -12,8 +12,8 @@
         android:background="@color/white"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:layout_marginRight="1px"
-        android:layout_marginBottom="1px"
+        android:layout_marginRight="1dp"
+        android:layout_marginBottom="1dp"
         android:padding="@dimen/image_padding_big">
 
 

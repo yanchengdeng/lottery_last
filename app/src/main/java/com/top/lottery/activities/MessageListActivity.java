@@ -62,11 +62,18 @@ public class MessageListActivity extends BaseActivity {
         });
 
 
-        showLoadingBar();
+//        getMessage();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        page=1;
         getMessage();
     }
 
     private void getMessage() {
+        showLoadingBar();
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", getUserInfo().uid);
         data.put("page", String.valueOf(page));

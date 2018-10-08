@@ -11,6 +11,11 @@ public class Constants {
     public static final String PASS_NAME = "pass_name";
     public static final String PASS_OBJECT = "pass_object";
     public static final String PASS_CHILD_UID = "child_uid";
+    public static final String PASS_BOLLEAN = "pass_boolean";
+    public static final String PASS_START_TIME = "start_time";
+    public static final String PASS_END_TIME = "pass_boolean";
+    public static final String PASS_LOOTERY_TYPE="pass_lottery_type";
+    public static final String PASS_WEEK_TYPE = "pass_week_type";
     //编码格式
     public static final String SERVER_ENCODE = "utf-8";
     //服务端秘钥
@@ -197,6 +202,8 @@ public class Constants {
         public static final String STATISTICS_DETAILSCORELOG = BASE_API+"statistics/detailScoreLog";
         //利益汇总
         public static final String STATISTICS_GETLIST = BASE_API+"statistics/getList";
+        //版本更新
+        public static final String CLIENT_CHECKVERSION = BASE_API+"client/checkVersion";
 
 
     }

@@ -69,6 +69,8 @@ public class PercentInfoActivity extends BaseActivity {
     @BindView(R.id.ll_proxy_ui)
     LinearLayout llProxyUi;
     UserInfo userInfo;
+    @BindView(R.id.tv_nickname)
+    TextView tvNickname;
 
 
     private PercentCenterMenuAdapter percentCenterMenuAdapter;
@@ -102,10 +104,10 @@ public class PercentInfoActivity extends BaseActivity {
             }
         });
 
-        grid.setLayoutManager(new GridLayoutManager(mContext,3));
+        grid.setLayoutManager(new GridLayoutManager(mContext, 3));
 //        grid.addItemDecoration(RecycleViewUtils.getItemDecoration(this));
 //        grid.addItemDecoration(RecycleViewUtils.getItemDecorationHorizontal(this));
-        percentCenterMenuAdapter = new PercentCenterMenuAdapter(R.layout.adapter_grid_person_centre_new,new ArrayList<MenuCenterItem>());
+        percentCenterMenuAdapter = new PercentCenterMenuAdapter(R.layout.adapter_grid_person_centre_new, new ArrayList<MenuCenterItem>());
         grid.setAdapter(percentCenterMenuAdapter);
 
 
@@ -113,7 +115,7 @@ public class PercentInfoActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Bundle bundle = new Bundle();
-                switch (percentCenterMenuAdapter.getData().get(position).type){
+                switch (percentCenterMenuAdapter.getData().get(position).type) {
                     case 1:
                         bundle.putString(Constants.PASS_STRING, "1");
                         Utils.openActivity(mContext, BuyLotteryRecordActivity.class, bundle);
@@ -133,7 +135,7 @@ public class PercentInfoActivity extends BaseActivity {
                         ActivityUtils.startActivity(MessageListActivity.class);
                         break;
                     case 6:
-                        ActivityUtils.startActivityForResult(mContext,SettingActivity.class,400);
+                        ActivityUtils.startActivityForResult(mContext, SettingActivity.class, 400);
                         break;
                     case 7:
                         ActivityUtils.startActivity(ManageActivity.class);
@@ -152,14 +154,13 @@ public class PercentInfoActivity extends BaseActivity {
                             } else {
                                 ToastUtils.showShort("权限不足");
                             }
-                        }else{
+                        } else {
                             ToastUtils.showShort("权限不足");
                         }
                         break;
                 }
             }
         });
-
 
 
         getUserDetailInfo();
@@ -169,7 +170,6 @@ public class PercentInfoActivity extends BaseActivity {
         getMenuCenter();
 
     }
-
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -226,7 +226,8 @@ public class PercentInfoActivity extends BaseActivity {
                         userInfo = response.body().body;
                         if (userInfo != null) {
                             if (!TextUtils.isEmpty(userInfo.username)) {
-                                tvAccout.setText(userInfo.nickname+"\n"+userInfo.username);
+                                tvAccout.setText( userInfo.username);
+                                tvNickname.setText(""+userInfo.nickname);
                             }
 
                             if (!TextUtils.isEmpty(userInfo.score)) {
@@ -250,7 +251,7 @@ public class PercentInfoActivity extends BaseActivity {
     }
 
 
-    private void getMenuCenter(){
+    private void getMenuCenter() {
         showLoadingBar();
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", getUserInfo().uid);
@@ -261,7 +262,7 @@ public class PercentInfoActivity extends BaseActivity {
                     @Override
                     public void onSuccess(Response<LotteryResponse<List<MenuCenterItem>>> response) {
                         List<MenuCenterItem> menuCenterItems = response.body().body;
-                        if (menuCenterItems!=null && menuCenterItems.size()>0){
+                        if (menuCenterItems != null && menuCenterItems.size() > 0) {
                             percentCenterMenuAdapter.setNewData(menuCenterItems);
                         }
                         dismissLoadingBar();
@@ -288,7 +289,7 @@ public class PercentInfoActivity extends BaseActivity {
                     @Override
                     public void onSuccess(Response<LotteryResponse<UnreadMsgSum>> response) {
                         UnreadMsgSum unreadMsgSum = response.body().body;
-                        if (percentCenterMenuAdapter!=null) {
+                        if (percentCenterMenuAdapter != null) {
                             if (unreadMsgSum != null && unreadMsgSum.sum > 0) {
                                 for (MenuCenterItem item : percentCenterMenuAdapter.getData()) {
                                     if (item.type == 5) {
@@ -368,7 +369,7 @@ public class PercentInfoActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 200 || requestCode == 300 || requestCode==400) {
+        if (requestCode == 200 || requestCode == 300 || requestCode == 400) {
             if (resultCode == RESULT_OK) {
                 getUserDetailInfo();
             }

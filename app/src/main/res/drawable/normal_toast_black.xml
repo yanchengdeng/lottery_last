@@ -7,8 +7,8 @@
         android:left="@dimen/activity_horizontal_margin"
         android:right="@dimen/activity_horizontal_margin"
         android:top="@dimen/image_padding"/>
-    <solid android:color="@color/color_info_transe" />
+    <solid android:color="@color/color_info_light" />
     <stroke
-        android:width="1px"
-        android:color="@color/color_info_transe" />
+        android:width="1dp"
+        android:color="@color/color_info_light" />
 </shape>

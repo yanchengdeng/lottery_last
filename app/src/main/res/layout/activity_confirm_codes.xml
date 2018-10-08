@@ -57,6 +57,7 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin">
 
@@ -68,7 +69,9 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="0dp"
+                    android:minHeight="100dp"
+                    android:layout_weight="1">
 
 
                 </android.support.v7.widget.RecyclerView>
@@ -157,31 +160,33 @@
                     android:id="@+id/iv_minus_term"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/image_padding_big"
+                    android:paddingTop="@dimen/image_padding"
+                    android:paddingBottom="@dimen/image_padding"
+                    android:paddingRight="@dimen/image_padding_big"
                     android:src="@mipmap/minus" />
 
 
                 <TextView
-                    android:layout_width="1px"
+                    android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:background="@color/color_date" />
 
-                <TextView
+                <EditText
                     android:id="@+id/tv_term_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginTop="2dp"
                     android:background="@color/white"
                     android:gravity="center"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:inputType="number"
+                    android:maxLength="2"
                     android:text="1"
                     android:textColor="@color/color_tittle"
                     android:textSize="@dimen/text_size_normal" />
 
                 <TextView
-                    android:layout_width="1px"
+                    android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:background="@color/color_date" />
 
@@ -189,6 +194,10 @@
                     android:id="@+id/iv_add_term"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/image_padding_big"
+                    android:paddingTop="@dimen/image_padding"
+                    android:paddingBottom="@dimen/image_padding"
+                    android:paddingRight="@dimen/image_padding_big"
                     android:src="@mipmap/add" />
 
 
@@ -223,31 +232,33 @@
                     android:id="@+id/iv_minus_times"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/image_padding_big"
+                    android:paddingTop="@dimen/image_padding"
+                    android:paddingBottom="@dimen/image_padding"
+                    android:paddingRight="@dimen/image_padding_big"
                     android:src="@mipmap/minus" />
 
                 <TextView
-                    android:layout_width="1px"
+                    android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:background="@color/color_date" />
 
 
-                <TextView
+                <EditText
                     android:id="@+id/tv_term_times"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginTop="2dp"
                     android:background="@color/white"
                     android:gravity="center"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:inputType="number"
+                    android:maxLength="4"
                     android:text="1"
                     android:textColor="@color/color_tittle"
                     android:textSize="@dimen/text_size_normal" />
 
                 <TextView
-                    android:layout_width="1px"
+                    android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:background="@color/color_date" />
 
@@ -255,6 +266,10 @@
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/iv_add_times"
                     android:layout_width="wrap_content"
+                    android:paddingLeft="@dimen/image_padding_big"
+                    android:paddingTop="@dimen/image_padding"
+                    android:paddingBottom="@dimen/image_padding"
+                    android:paddingRight="@dimen/image_padding_big"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/add" />
 
@@ -277,6 +292,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/ll_confirm_ui"
         android:orientation="horizontal">
 
 

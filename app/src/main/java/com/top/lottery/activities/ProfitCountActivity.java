@@ -155,11 +155,45 @@ public class ProfitCountActivity extends BaseActivity {
 
         profitType = getIntent().getStringExtra(Constants.PASS_STRING);
         member_uid = getIntent().getStringExtra(Constants.PASS_CHILD_UID);
+
+        if (!TextUtils.isEmpty(getIntent().getStringExtra(Constants.PASS_START_TIME))) {
+            start_date = getIntent().getStringExtra(Constants.PASS_START_TIME);
+            tvStartTime.setText(start_date);
+        }
+
+        if (!TextUtils.isEmpty(getIntent().getStringExtra(Constants.PASS_END_TIME))) {
+            end_date = getIntent().getStringExtra(Constants.PASS_END_TIME);
+            tvEndTime.setText(end_date);
+        }
+
+        if (!TextUtils.isEmpty(getIntent().getStringExtra(Constants.PASS_LOOTERY_TYPE))) {
+            lid = getIntent().getStringExtra(Constants.PASS_LOOTERY_TYPE);
+        }
+
+        if (!TextUtils.isEmpty(getIntent().getStringExtra(Constants.PASS_WEEK_TYPE))){
+            search_date = getIntent().getStringExtra(Constants.PASS_WEEK_TYPE);
+        }
+
+        if (!TextUtils.isEmpty(member_uid)) {
+            etInput.setText(member_uid);
+        }
+
+
+
         peridsData = Utils.gePeriData();
         if (profitType.equals("1")) {
             setTitle("详细贡献");
         } else {
             setTitle("详细业绩");
+        }
+
+        for (LotteryType item:peridsData){
+            if (item.lottery_type.equals(search_date)){
+                item.isSelect = true;
+                tvPeriod.setText(item.title);
+            }else{
+                item.isSelect = false;
+            }
         }
 
         initHeaderView();
@@ -260,6 +294,7 @@ public class ProfitCountActivity extends BaseActivity {
         data.put("list_type", profitType);
 
         data.put("page", String.valueOf(page));
+        data.put("page_size",String.valueOf(Integer.MAX_VALUE));
 
 
         OkGo.<LotteryResponse<StaticsDetailInfo>>post(Constants.Net.STATISTICS_GETLIST)//
@@ -278,7 +313,8 @@ public class ProfitCountActivity extends BaseActivity {
                     @Override
                     public void onError(Response response) {
                         dismissLoadingBar();
-                        showError(Utils.toastInfo(response));
+                        recycle.setVisibility(View.GONE);
+                        ToastUtils.showShort(Utils.toastInfo(response));
                     }
                 });
     }
@@ -463,6 +499,16 @@ public class ProfitCountActivity extends BaseActivity {
                         List<LotteryType> lotteryResponse = response.body().body;
                         if (lotteryResponse != null && lotteryResponse.size() > 0) {
                             lotteryTypes.addAll(lotteryResponse);
+
+                            for (LotteryType item:lotteryTypes){
+                                if (item.lid.equals(lid)){
+                                    item.isSelect = true;
+                                    tvAllLottery.setText(item.title);
+                                }else{
+                                    item.isSelect = false;
+                                }
+                            }
+
                             initPopAllLottery(lotteryTypes);
                         }
 

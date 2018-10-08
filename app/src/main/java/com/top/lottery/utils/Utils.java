@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.EncodeUtils;
 import com.blankj.utilcode.util.LogUtils;
@@ -111,7 +112,7 @@ public class Utils {
 
 
     public static HashMap<String, String> getParams(HashMap<String, String> data) {
-        data.put("version", "V1.0");
+        data.put("version", AppUtils.getAppVersionName());
         data.put("app_imei", getImei());
         data.put("app_id", Constants.APP_ID);
         data.put("app_sign", getAppSign());
@@ -536,7 +537,7 @@ public class Utils {
             LotteryType lotteryType = new LotteryType();
             lotteryType.title = dates_info[i];
             lotteryType.lottery_type = dates[i];
-            if (i == 0) {
+            if (i == 1) {
                 lotteryType.isSelect = true;
             }
             LotteryTypes.add(lotteryType);

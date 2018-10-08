@@ -40,10 +40,14 @@ import com.top.lottery.beans.TrendCodeInfo;
 import com.top.lottery.beans.TrendNormalInfo;
 import com.top.lottery.beans.TrendSettingInfo;
 import com.top.lottery.beans.TrendSettingValues;
+import com.top.lottery.events.NoticeToDoNewTermCodeEvent;
 import com.top.lottery.liseners.PerfectClickListener;
 import com.top.lottery.utils.GridSpacingItemDecoration;
 import com.top.lottery.utils.NewsCallback;
 import com.top.lottery.utils.Utils;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -132,17 +136,8 @@ public class TrendChartActivity extends BaseActivity {
         tvTouzhuAction.setOnClickListener(new PerfectClickListener() {
             @Override
             protected void onNoDoubleClick(View v) {
-                if (lotteryInfo != null) {
-                    if (lotteryInfo.type == 1 || lotteryInfo.type == 3) {
-                        checkSelectOne();
-                    } else if (lotteryInfo.type == 2) {
-                        checkSelectDirect();
-                    } else if (lotteryInfo.type == 4 || lotteryInfo.type == 6) {
-                        checkSelectDanTuo();
-                    }
-                } else {
-                    ToastUtils.showShort("请选择彩种");
-                }
+
+                doTouZhuAction();
             }
         });
 
@@ -240,6 +235,33 @@ public class TrendChartActivity extends BaseActivity {
         showLoadingBar();
         getTrendSetting();
         getAwardKinds();
+    }
+
+    //做投注操作
+    private void doTouZhuAction() {
+        if (lotteryInfo != null) {
+            if (lotteryInfo.type == 1 || lotteryInfo.type == 3) {
+                checkSelectOne();
+            } else if (lotteryInfo.type == 2) {
+                checkSelectDirect();
+            } else if (lotteryInfo.type == 4 || lotteryInfo.type == 6) {
+                checkSelectDanTuo();
+            }
+        } else {
+            ToastUtils.showShort("请选择彩种");
+        }
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(NoticeToDoNewTermCodeEvent event) {
+        if (event!=null){
+            String className = event.className;
+            String methodName = event.methodName;
+            if (className.equals(TrendChartActivity.class.getName())){
+                doTouZhuAction();
+            }
+        }
     }
 
     //检查胆拖
@@ -813,6 +835,7 @@ public class TrendChartActivity extends BaseActivity {
                             item.isSelected = true;
                         }
                     }
+                    llUiTouzhu.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -826,9 +849,9 @@ public class TrendChartActivity extends BaseActivity {
 
             initSettingDialog(trendSettingInfo);
 
-            if (lotteryInfo == null) {
-                llUiTouzhu.setVisibility(View.GONE);
-            }
+//            if (lotteryInfo == null) {
+//                llUiTouzhu.setVisibility(View.GONE);
+//            }
 
         }
 
@@ -1234,6 +1257,7 @@ public class TrendChartActivity extends BaseActivity {
     //校验球号 和期号
     private void checkCodeAndAward() {
         Bundle bundle = new Bundle();
+        bundle.putBoolean(Constants.PASS_BOLLEAN,true);//
         bundle.putSerializable(Constants.PASS_OBJECT, lotteryInfo);
         ActivityUtils.startActivity(bundle, ConfirmCodesActivity.class);
     }

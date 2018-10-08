@@ -7,6 +7,7 @@
 
     <color name="color_date">#ababab</color>
     <color name="color_info">#3A424D</color>
+    <color name="color_info_light">#cf3A424D</color>
     <color name="color_info_transe">#55000000</color>
     <color name="color_tittle">#252525</color>
     <color name="deep_black">#7f000000</color>

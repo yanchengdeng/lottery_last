@@ -39,7 +39,7 @@
             </LinearLayout>
 
             <View
-                android:layout_width="1px"
+                android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="@color/list_divider_color" />
 
@@ -69,39 +69,135 @@
             android:layout_height="1dp"
             layout="@layout/view_line" />
 
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:orientation="horizontal">
+            android:background="@color/white"
+            android:orientation="vertical"
+            tools:context=".activities.BuyLotteryRecordActivity">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/ll_start_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="起始时间"
+                        android:visibility="gone"
+                        android:textColor="@color/color_info"
+                        android:textSize="@dimen/text_size_normal" />
+
+
+                    <TextView
+                        android:id="@+id/tv_start_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/activity_horizontal_margin"
+                        android:background="@drawable/normal_submit_btn_gray_trans"
+                        android:gravity="center"
+                        android:hint="请选择起始时间"
+                        android:paddingBottom="@dimen/image_padding"
+                        android:paddingTop="@dimen/image_padding"
+                        android:textColor="@color/color_info"
+                        android:textSize="@dimen/text_size_normal" />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/ll_end_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="结束时间"
+                        android:visibility="gone"
+                        android:textColor="@color/color_info"
+                        android:textSize="@dimen/text_size_normal" />
+
+                    <TextView
+                        android:id="@+id/tv_end_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/activity_horizontal_margin"
+                        android:background="@drawable/normal_submit_btn_gray_trans"
+                        android:gravity="center"
+                        android:hint="请选择结束时间"
+                        android:paddingBottom="@dimen/image_padding"
+                        android:paddingTop="@dimen/image_padding"
+                        android:textColor="@color/color_info"
+                        android:textSize="@dimen/text_size_normal" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="搜索会员请输入\n用户UID或手机号码:"
+                    android:textColor="@color/color_tittle"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <EditText
+                    android:id="@+id/et_input"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1"
+                    android:background="@drawable/normal_submit_btn_gray_trans"
+                    android:hint="用户uid/手机号码"
+                    android:inputType="phone"
+                    android:maxLength="11"
+                    android:padding="@dimen/image_padding"
+                    android:textColor="@color/color_info"
+                    android:textSize="@dimen/text_size_normal" />
+
+            </LinearLayout>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_search"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="搜索会员请输入\n用户UID或手机号码:"
-                android:textColor="@color/color_tittle"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:background="@drawable/normal_submit_btn_orange"
+                android:gravity="center"
+                android:padding="@dimen/image_padding_big"
+                android:text="搜索"
+                android:textColor="@color/white"
                 android:textSize="@dimen/text_size_normal" />
 
-            <EditText
-                android:id="@+id/et_input"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_weight="1"
-                android:background="@drawable/normal_submit_btn_gray_trans"
-                android:hint="用户uid/手机号码"
-                android:inputType="phone"
-                android:maxLength="11"
-                android:padding="@dimen/image_padding"
-                android:textColor="@color/color_info"
-                android:textSize="@dimen/text_size_normal" />
 
         </LinearLayout>
-
-        <include layout="@layout/header_lottery_record" />
 
         <include layout="@layout/layout_static_info" />
 

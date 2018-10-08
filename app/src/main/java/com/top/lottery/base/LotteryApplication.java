@@ -7,11 +7,13 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.lzy.okgo.OkGo;
@@ -27,9 +29,11 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.top.lottery.R;
+import com.top.lottery.activities.TrendChartActivity;
 import com.top.lottery.beans.GetCart;
 import com.top.lottery.beans.LotteryResponse;
 import com.top.lottery.events.AwardIDExperidEvent;
+import com.top.lottery.events.NoticeToDoNewTermCodeEvent;
 import com.top.lottery.utils.NewsCallback;
 
 import org.greenrobot.eventbus.EventBus;
@@ -48,6 +52,7 @@ public class LotteryApplication extends Application {
     private  Context context;
     private AlertDialog successDialog;
     private View viewSuccess;
+    private String currentClassName,methodName;
 
     static {
         //设置全局的Header构建器
@@ -72,6 +77,7 @@ public class LotteryApplication extends Application {
     public void onMessageEvent(Object event) {
         if (event instanceof AwardIDExperidEvent) {
             if (com.top.lottery.utils.Utils.context!=null && com.top.lottery.utils.Utils.context instanceof Activity) {
+                methodName = ((AwardIDExperidEvent) event).getMethodName();
                 onShowExpire();
             }
         }
@@ -123,6 +129,12 @@ public class LotteryApplication extends Application {
                     @Override
                     public void onSuccess(Response<LotteryResponse<GetCart>> response) {
 //                        ToastUtils.showShort(""+response.body().msg);
+                        if (flag.equals("1") && !TextUtils.isEmpty(currentClassName) && !TextUtils.isEmpty(methodName)) {
+                            NoticeToDoNewTermCodeEvent noticeToDoNewTermCodeEvent = new NoticeToDoNewTermCodeEvent();
+                            noticeToDoNewTermCodeEvent.className = currentClassName;
+                            noticeToDoNewTermCodeEvent.methodName = methodName;
+                            EventBus.getDefault().post(noticeToDoNewTermCodeEvent);
+                        }
                     }
 
 
@@ -155,6 +167,8 @@ public class LotteryApplication extends Application {
         context = application.getApplicationContext();
         application.registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                currentClassName = activity.getClass().getName();
+                LogUtils.w("dyc","---------"+currentClassName+"----"+ TrendChartActivity.class.getName());
                 if (activity.getParent() != null) {
                     com.top.lottery.utils.Utils.context = activity.getParent();
                 } else {

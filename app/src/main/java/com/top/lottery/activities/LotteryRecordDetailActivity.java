@@ -22,9 +22,13 @@ import com.top.lottery.beans.AwardOrderScore;
 import com.top.lottery.beans.AwardRecordItem;
 import com.top.lottery.beans.LotteryResponse;
 import com.top.lottery.beans.TicketOutInfo;
+import com.top.lottery.events.NoticeToDoNewTermCodeEvent;
 import com.top.lottery.utils.NewsCallback;
 import com.top.lottery.utils.RecycleViewUtils;
 import com.top.lottery.utils.Utils;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,10 +94,23 @@ public class LotteryRecordDetailActivity extends BaseActivity {
         lotteryOpenCodeAdapter = new LotteryOpenCodeAdapter(R.layout.adapter_award_open_item,new ArrayList<AwardOrderScore>());
         recycleRecords.setLayoutManager(new LinearLayoutManager(this));
         recycleRecords.setNestedScrollingEnabled(false);
-        recycleRecords.addItemDecoration(RecycleViewUtils.getItemDecoration(this));
+        recycleRecords.addItemDecoration(RecycleViewUtils.getNoBottomLineDecoration(this));
         recycleRecords.setAdapter(lotteryOpenCodeAdapter);
 
         getOrderDetail();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(NoticeToDoNewTermCodeEvent event) {
+        if (event!=null){
+            String className = event.className;
+            String methodName = event.methodName;
+            if (className.equals(LotteryRecordDetailActivity.class.getName())){
+                if (methodName.equals(Constants.Net.CART_ADDBYORDERID)) {
+                    doGoOnTouzhu();
+                }
+            }
+        }
     }
 
     //获取订单详情
@@ -222,7 +239,6 @@ public class LotteryRecordDetailActivity extends BaseActivity {
                 .execute(new NewsCallback<LotteryResponse<String>>() {
                     @Override
                     public void onSuccess(Response<LotteryResponse<String>> response) {
-                        ToastUtils.showShort(""+response.body().msg);
                         if (response.body().code==1){
                             ActivityUtils.startActivity(mContext, ConfirmCodesActivity.class);
                         }

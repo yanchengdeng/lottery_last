@@ -84,7 +84,7 @@
             </LinearLayout>
 
             <View
-                android:layout_width="1px"
+                android:layout_width="1dp"
                 android:layout_height="@dimen/nav_bar_height"
                 android:layout_gravity="center_vertical"
                 android:background="@color/list_divider_color" />
@@ -117,7 +117,7 @@
             </LinearLayout>
 
             <View
-                android:layout_width="1px"
+                android:layout_width="1dp"
                 android:layout_height="@dimen/nav_bar_height"
                 android:layout_gravity="center_vertical"
                 android:background="@color/list_divider_color" />
@@ -157,7 +157,7 @@
         <include
             layout="@layout/view_line"
             android:layout_width="match_parent"
-            android:layout_height="1px"
+            android:layout_height="1dp"
             android:layout_marginTop="@dimen/activity_horizontal_margin" />
 
         <TextView
@@ -183,6 +183,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
+                android:paddingBottom="@dimen/image_padding"
                 android:background="@drawable/normal_submit_btn_gray_trans" />
 
             <TextView
@@ -198,7 +199,7 @@
         <include
             layout="@layout/view_line"
             android:layout_width="match_parent"
-            android:layout_height="1px"
+            android:layout_height="1dp"
             android:layout_marginTop="@dimen/image_padding_big" />
 
         <RelativeLayout

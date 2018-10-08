@@ -31,9 +31,14 @@ import com.top.lottery.beans.LotteryInfo;
 import com.top.lottery.beans.LotteryResponse;
 import com.top.lottery.beans.MechineChoosInfo;
 import com.top.lottery.beans.MissLotteryCode;
+import com.top.lottery.events.NoticeToDoNewTermCodeEvent;
 import com.top.lottery.liseners.PerfectClickListener;
 import com.top.lottery.utils.NewsCallback;
 import com.top.lottery.utils.Utils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -84,6 +89,7 @@ public class LotteryFunnyPreGroupSelectFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
 
 
+        EventBus.getDefault().register(this);
         lotteryInfo = (LotteryInfo) getArguments().getSerializable(Constants.PASS_OBJECT);
         isMechineChoose = lotteryInfo.mechine == 1 ? true : false;
         initChangeButton();
@@ -114,6 +120,18 @@ public class LotteryFunnyPreGroupSelectFragment extends Fragment {
 
         return view;
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(NoticeToDoNewTermCodeEvent event) {
+        if (event!=null && isVisible()){
+            String className = event.className;
+            String methodName = event.methodName;
+            if (className.equals(LotteryFunnyActivity.class.getName())){
+                checkSelect();
+            }
+        }
+    }
+
 
     //随机按钮显示
     private void initChangeButton() {
@@ -349,6 +367,8 @@ public class LotteryFunnyPreGroupSelectFragment extends Fragment {
                     @Override
                     public void onSuccess(Response<LotteryResponse<CheckSelectCodeInfo>> response) {
                         clearSelectBalls();
+                        isMechineChoose = lotteryInfo.mechine == 1 ? true : false;
+                        initChangeButton();
                         checkCodeAndAward();
                         if (getActivity() != null) {
                             ((BaseActivity) getActivity()).dismissLoadingBar();

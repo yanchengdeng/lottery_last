@@ -70,9 +70,13 @@ public abstract class NewsCallback<T> extends AbsDYCCallback<T> {
                     EventBus.getDefault().post(new TokenTimeOut());
                     throw new IllegalStateException("登陆超时");
                 } else if (collegeResponseSimple.code == -99) {
-                    EventBus.getDefault().post(new AwardIDExperidEvent());
+                    String methodName = response.request().url().url().toString();
+                    LogUtils.w("dyc------",methodName);
+                    EventBus.getDefault().post(new AwardIDExperidEvent(methodName));
                     throw new IllegalStateException(new Gson().toJson(collegeResponseSimple));
                 } else {
+                    String methodName = response.request().url().url().toString();
+                    LogUtils.w("dyc------",methodName);
                     throw new IllegalStateException(new Gson().toJson(collegeResponseSimple));
                 }
             }

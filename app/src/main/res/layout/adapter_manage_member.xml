@@ -27,7 +27,7 @@
         android:background="@color/white"
         android:layout_gravity="center_vertical"
         android:text="3000000"
-        android:layout_marginLeft="1px"
+        android:layout_marginLeft="1dp"
         android:textColor="@color/color_tittle"
         android:textSize="@dimen/text_size_normal_down" />
 
@@ -39,7 +39,7 @@
         android:layout_weight="3"
         android:background="@color/white"
         android:gravity="center"
-        android:layout_marginLeft="1px"
+        android:layout_marginLeft="1dp"
         android:padding="@dimen/image_padding"/>
 
 
