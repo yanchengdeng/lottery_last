@@ -70,8 +70,8 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.ConfirmCodesActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.OpenWebViewActivity"
             android:theme="@style/AppTheme" />
@@ -171,7 +171,9 @@
         <activity
             android:name=".activities.StaticScoreLogActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".activities.ProfitCountActivity"></activity>
+        <activity android:name=".activities.ProfitCountActivity" />
+        <activity android:name=".activities.ForgetPasswordStepTwoActivity" />
+        <activity android:name=".activities.ForgetPasswordStepThreeActivity"></activity>
     </application>
 
 </manifest>

@@ -66,6 +66,10 @@ public class Constants {
 
         //登陆
         public static final String LOGIN_IN = BASE_API + "public/login";
+        //获取密保问题列表
+        public static final String PUBLIC_GETQUESTIONS = BASE_API+"public/getQuestions";
+        //校验密保
+        public static final String PUBLIC_CHECKANSWER = BASE_API+"public/checkAnswer";
         //忘记密码
         public static final String FORGET_PASSWORD = BASE_API+"public/forgetpassword";
         //退出登录
