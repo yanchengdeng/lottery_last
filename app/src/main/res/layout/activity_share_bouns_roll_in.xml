@@ -35,7 +35,7 @@
 
 
     <TextView
-        android:text="分红积分转出至积分账户："
+        android:text="分红积分  转入至  积分账户："
         android:textColor="@color/color_info"
         android:textSize="@dimen/text_size_normal"
         android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
         android:text="0.0"
         android:layout_margin="@dimen/image_padding"
         android:textSize="@dimen/text_size_normal_up"
-        android:textColor="@color/green"
+        android:textColor="@color/red"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

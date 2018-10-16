@@ -233,10 +233,10 @@ public class ConfirmCodesActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(NoticeToDoNewTermCodeEvent event) {
-        if (event!=null){
+        if (event != null) {
             String className = event.className;
             String methodName = event.methodName;
-            if (className.equals(ConfirmCodesActivity.class.getName())){
+            if (className.equals(ConfirmCodesActivity.class.getName())) {
                 if (methodName.equals(Constants.Net.CART_PAY)) {
                     doCardPay();
                 }
@@ -354,37 +354,72 @@ public class ConfirmCodesActivity extends BaseActivity {
                 break;
             case R.id.iv_add_term:
                 //增加期数
-                append_terms++;
-                setCartChange(false);
+                if (append_terms<Max_TERMS) {
+                    append_terms++;
+                    countNativeTouzhu();
+                }else{
+                    ToastUtils.showShort("最多"+MAX_TIMES+"期");
+                }
+//                setCartChange(false);
 
                 break;
             case R.id.iv_minus_times:
                 //减少倍数
                 if (record_times > 1) {
                     record_times--;
-                    setCartChange(true);
+                    countNativeTouzhu();
+//                    setCartChange(true);
                 }
                 break;
             case R.id.iv_add_times:
                 //增加倍数
-                record_times++;
-                setCartChange(true);
+                if (record_times<MAX_TIMES) {
+                    record_times++;
+                    countNativeTouzhu();
+                }else{
+                    ToastUtils.showShort("最多"+MAX_TIMES+"倍");
+                }
+//                setCartChange(true);
                 break;
             case R.id.iv_minus_term:
                 //减少期数
                 if (append_terms > 1) {
                     append_terms--;
-                    setCartChange(false);
+//                    setCartChange(false);
+                    countNativeTouzhu();
                 }
                 break;
             case R.id.tv_confirm:
                 if (ckAgreeDeal.isChecked()) {
-                    doCardPay();
+                    showLoadingBar();
+                    setCarChangeSetting();
+
                 } else {
                     ToastUtils.showShort("请确认阅读与同意");
                 }
                 break;
         }
+    }
+
+    //本地结算投注数据结果
+    private void countNativeTouzhu() {
+
+        if (getCart==null){
+            ToastUtils.showShort("暂无注数");
+        }
+
+        if (getCart!=null) {
+            int touzhuCount = getCart.pre_number * record_times * append_terms;
+            tvIntergry.setText("积分：" + touzhuCount * 2);
+            tvNoteNumbers.setText("注数：" + touzhuCount);
+        } else {
+            tvIntergry.setText("积分：" + 0);
+            tvNoteNumbers.setText("注数：" + 0);
+        }
+
+        tvTermCount.setText(""+append_terms);
+        tvTermTimes.setText(""+record_times);
+
     }
 
     private void showEditNumDialog(final boolean isTimes) {
@@ -482,7 +517,8 @@ public class ConfirmCodesActivity extends BaseActivity {
                 .execute(new NewsCallback<LotteryResponse<MechineChoosInfo>>() {
                     @Override
                     public void onSuccess(Response<LotteryResponse<MechineChoosInfo>> response) {
-                        getCart();
+//                        getCart();
+                        setCartChange(true);
                     }
 
 
@@ -497,7 +533,7 @@ public class ConfirmCodesActivity extends BaseActivity {
 
     //下单结算
     private void doCardPay() {
-        showLoadingBar();
+
 
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
@@ -692,11 +728,46 @@ public class ConfirmCodesActivity extends BaseActivity {
                 });
     }
 
+
+
+    /**
+     下单时候  记录设置倍数
+     */
+    private void setCarChangeSetting() {
+
+        HashMap<String, String> data = new HashMap<>();
+        data.put("uid", Utils.getUserInfo().uid);
+        data.put("lid", "1");// 最新彩种期数id
+        data.put("is_win_stop_chase", ckStopTouzhu.isChecked() ? "1" : "0");
+        data.put("record_times", String.valueOf(record_times));//倍数，默认为1倍
+        data.put("chase_awards", String.valueOf(append_terms));//追加期数，默认为1期，就是不追加
+        OkGo.<LotteryResponse<GetCart>>post(Constants.Net.CART_CHANGE)//
+                .cacheMode(CacheMode.NO_CACHE)
+                .params(Utils.getParams(data))
+                .execute(new NewsCallback<LotteryResponse<GetCart>>() {
+                    @Override
+                    public void onSuccess(Response<LotteryResponse<GetCart>> response) {
+                        doCardPay();
+                    }
+
+
+                    @Override
+                    public void onError(Response response) {
+                        dismissLoadingBar();
+                        if (!Utils.toastInfo(response).equals(Constants.ERROR_CODE_AWARD_EXPERID)) {
+                            ToastUtils.showShort(Utils.toastInfo(response));
+                        }
+                    }
+                });
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if (softKeyboardStateWatcher != null) {
 //            softKeyboardStateWatcher.removeSoftKeyboardStateListener(this);
         }
+        setCartChange(true);
+
     }
 }

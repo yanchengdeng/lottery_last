@@ -2,6 +2,7 @@ package com.top.lottery.activities;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -157,11 +158,23 @@ public class BuyLotteryRecordActivity extends BaseActivity {
                 getAwardRecord();
             }
         }, recycle);
-        getAwardRecord();
         getAllLottery();
 
 
         initLisener();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                page = 1;
+                getAwardRecord();
+            }
+        });
+
     }
 
     private void initLisener() {
@@ -198,8 +211,7 @@ public class BuyLotteryRecordActivity extends BaseActivity {
                     return;
 
                 }
-                page = 1;
-                getAwardRecord();
+
             }
         });
     }
@@ -209,7 +221,7 @@ public class BuyLotteryRecordActivity extends BaseActivity {
     private void getAllLottery() {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", getUserInfo().uid);
-        OkGo.<LotteryResponse<List<LotteryType>>>post(Constants.Net.LOTTERY_GETLIDS)//
+        OkGo.<LotteryResponse<List<LotteryType>>>post(Constants.Net.RECORD_GETLIDS)//
                 .cacheMode(CacheMode.NO_CACHE)
                 .params(Utils.getParams(data))
                 .execute(new NewsCallback<LotteryResponse<List<LotteryType>>>() {

@@ -213,8 +213,13 @@ public class MemberStaticListActivity extends BaseActivity {
                     @Override
                     public void onError(Response response) {
                         dismissLoadingBar();
-                        memberStaticListAdapter.setNewData(null);
-                        memberStaticListAdapter.setEmptyView(RecycleViewUtils.getEmptyView(mContext,recycle));
+                        ToastUtils.showShort(Utils.toastInfo(response));
+                        memberStaticListAdapter.loadMoreComplete();
+                        memberStaticListAdapter.loadMoreEnd();
+                        if (memberStaticListAdapter.getData().size()==0) {
+                            memberStaticListAdapter.setNewData(null);
+                            memberStaticListAdapter.setEmptyView(RecycleViewUtils.getEmptyView(mContext, recycle));
+                        }
                     }
                 });
 

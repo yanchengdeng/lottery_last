@@ -28,6 +28,7 @@ import com.top.lottery.R;
 import com.top.lottery.base.Constants;
 import com.top.lottery.beans.LotteryResponse;
 import com.top.lottery.beans.UserInfo;
+import com.top.lottery.utils.AppManager;
 import com.top.lottery.utils.NewsCallback;
 import com.top.lottery.utils.Utils;
 
@@ -140,17 +141,14 @@ public class LoginActivity extends BaseActivity {
         tvLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (TextUtils.isEmpty(etUserName.getEditableText().toString())) {
-                    ToastUtils.showShort(getString(R.string.input_user_name));
-                    return;
-                }
 
-                if (TextUtils.isEmpty(etPassword.getEditableText().toString())) {
-                    ToastUtils.showShort(getString(R.string.input_user_pwd));
-                    return;
+                if (Utils.checkUseID(etUserName,mContext)) {
+                    if (TextUtils.isEmpty(etPassword.getEditableText().toString())) {
+                        ToastUtils.showShort(getString(R.string.input_user_pwd));
+                        return;
+                    }
+                    doLoginAction();
                 }
-
-                doLoginAction();
             }
         });
 
@@ -214,5 +212,28 @@ public class LoginActivity extends BaseActivity {
             Utils.setImei(imei);
 
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        doubleClickExist();
+    }
+
+    private long mExitTime;
+
+    /****
+     * 连续两次点击退出
+     */
+    private boolean doubleClickExist() {
+        if ((System.currentTimeMillis() - mExitTime) > 2000) {
+            ToastUtils.showShort(R.string.double_click_exit);
+            mExitTime = System.currentTimeMillis();
+            return true;
+        } else {
+            Constants.HAS_VESRSION_TIPS = false;
+            AppManager.getAppManager().AppExit(this);
+            finish();
+        }
+        return false;
     }
 }

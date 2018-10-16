@@ -255,7 +255,7 @@ public class ProfitActivity extends BaseActivity {
     private void getAllLottery() {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", getUserInfo().uid);
-        OkGo.<LotteryResponse<List<LotteryType>>>post(Constants.Net.LOTTERY_GETLIDS)//
+        OkGo.<LotteryResponse<List<LotteryType>>>post(Constants.Net.RECORD_GETLIDS)//
                 .cacheMode(CacheMode.NO_CACHE)
                 .params(Utils.getParams(data))
                 .execute(new NewsCallback<LotteryResponse<List<LotteryType>>>() {
@@ -414,11 +414,12 @@ public class ProfitActivity extends BaseActivity {
         }
 
         if (!TextUtils.isEmpty(profitStatices.credit_balance_score)) {
-            tvCreditBalanceScore.setText(profitStatices.credit_balance_score);
+            tvCreditLineScore.setText(profitStatices.credit_balance_score);
         }
 
         if (!TextUtils.isEmpty(profitStatices.credit_line_score)) {
-            tvCreditLineScore.setText(profitStatices.credit_line_score);
+            tvCreditBalanceScore.setText(profitStatices.credit_line_score);
+
         }
 
         if (!TextUtils.isEmpty(profitStatices.profit_and_loss)) {

@@ -75,8 +75,8 @@ public class IntergrateHandleActivity extends BaseActivity {
                         if (userInfo != null) {
 
                             tvFanlijifen.setText(String.valueOf(userInfo.daili_score));
-                            tvFenhong.setText("-"+String.valueOf(userInfo.bonus_score));
-                            tvCredit.setText(userInfo.credit_line_score);
+                            tvFenhong.setText(String.valueOf(userInfo.bonus_score));
+                            tvCredit.setText(userInfo.credit_balance_score);
                             Utils.saveUserInfo(userInfo);
                         }
                     }

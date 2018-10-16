@@ -157,9 +157,13 @@ public class MemberStaticActivity extends BaseActivity {
                     @Override
                     public void onError(Response response) {
                         dismissLoadingBar();
+                        memberStaticAdapter.loadMoreComplete();
+                        memberStaticAdapter.loadMoreEnd();
                         ToastUtils.showShort(Utils.toastInfo(response));
-                        memberStaticAdapter.setNewData(new ArrayList<MemberStaticItem>());
-                        tvErrorTipsNew.setVisibility(View.VISIBLE);
+                        if (memberStaticAdapter.getData().size()==0) {
+                            memberStaticAdapter.setNewData(new ArrayList<MemberStaticItem>());
+                            tvErrorTipsNew.setVisibility(View.VISIBLE);
+                        }
                     }
                 });
 

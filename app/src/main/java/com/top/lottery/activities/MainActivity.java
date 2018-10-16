@@ -1,21 +1,16 @@
 package com.top.lottery.activities;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -29,17 +24,15 @@ import com.top.lottery.R;
 import com.top.lottery.adapters.AwardCodeWinAdapter;
 import com.top.lottery.base.Constants;
 import com.top.lottery.beans.LasterLotteryAwardInfo;
+import com.top.lottery.beans.LotteryPlayWay;
 import com.top.lottery.beans.LotteryResponse;
 import com.top.lottery.beans.MainPrizeCodeInfo;
 import com.top.lottery.beans.MainWinCode;
-import com.top.lottery.beans.VerisonInfo;
-import com.top.lottery.services.UpdateService;
 import com.top.lottery.utils.AppManager;
 import com.top.lottery.utils.NewsCallback;
 import com.top.lottery.utils.ScrollLinearLayoutManager;
 import com.top.lottery.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -102,8 +95,7 @@ public class MainActivity extends BaseActivity {
     private CountDownTimer countDownTimer;
     private MainPrizeCodeInfo mainPrizeCodeInfo;
 
-    private static final int REQUEST_CODE_ASK_PERMISSIONS = 100;
-    private boolean mPermission = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,132 +132,13 @@ public class MainActivity extends BaseActivity {
 
         refresh.autoRefresh();
         initRecycleViewData();
-        mPermission = checkUpdatePermission();
-        if (mPermission) {
-            checkVersion();
-        }
+
 //        doMainRequest();
 
     }
 
-    //检查版本更新
-    private void checkVersion() {
 
 
-        HashMap<String, String> data = new HashMap<>();
-        data.put("device_type", "android");
-        OkGo.<LotteryResponse<VerisonInfo>>post(Constants.Net.CLIENT_CHECKVERSION)//
-                .cacheMode(CacheMode.NO_CACHE)
-                .params(Utils.getParams(data))
-                .execute(new NewsCallback<LotteryResponse<VerisonInfo>>() {
-                    @Override
-                    public void onSuccess(Response<LotteryResponse<VerisonInfo>> response) {
-                        LogUtils.w("dyc", response + "-----");
-                        VerisonInfo verisonInfo = response.body().body;
-                        if (verisonInfo!=null){
-                            showUploadDialog(verisonInfo);
-                        }
-                    }
-
-                    @Override
-                    public void onError(Response response) {
-                    }
-                });
-    }
-
-    //版本升级对话框
-    private void showUploadDialog(final VerisonInfo verisonInfo) {
-        if (verisonInfo.update_level.equals("0")){
-            return;
-        }
-
-        MaterialDialog.Builder builder = new MaterialDialog.Builder(this);
-        View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_verison_view,null,false);
-
-        TextView tvContent = view.findViewById(R.id.tv_content);
-        tvContent.setText(""+verisonInfo.update_content);
-
-        builder.customView(view,false);
-        final MaterialDialog dialog = builder.build();
-        view.findViewById(R.id.tv_continu_left).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        view.findViewById(R.id.tv_continu_right).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goUpdateVersion(verisonInfo);
-                dialog.dismiss();
-            }
-        });
-
-        if (verisonInfo.update_level.equals("2")){
-            view.findViewById(R.id.tv_continu_left).setVisibility(View.GONE);
-            dialog.setCanceledOnTouchOutside(false);
-        }
-        dialog.show();
-
-    }
-
-    private void goUpdateVersion(VerisonInfo verisonInfo) {
-        Intent intent = new Intent(mContext, UpdateService.class);
-        intent.putExtra("apkUrl", verisonInfo.app_url);
-        startService(intent);
-
-
-    }
-
-    private boolean checkUpdatePermission() {
-        if (afterM()) {
-            final List<String> permissionsList = new ArrayList<>();
-            if ((checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED))
-                permissionsList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            if ((checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED))
-                permissionsList.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-            if (permissionsList.size() != 0) {
-                requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
-                        REQUEST_CODE_ASK_PERMISSIONS);
-                return false;
-            }
-//            int hasPermission = checkSelfPermission(Manifest.permission.CAMERA);
-//            if (hasPermission != PackageManager.PERMISSION_GRANTED) {
-//                requestPermissions(new String[]{Manifest.permission.CAMERA},
-//                        REQUEST_CODE_ASK_PERMISSIONS);
-//                return false;
-//            }
-        }
-        return true;
-    }
-
-    private boolean afterM() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case REQUEST_CODE_ASK_PERMISSIONS:
-                for (int ret : grantResults) {
-                    if (ret != PackageManager.PERMISSION_GRANTED) {
-                        return;
-                    }
-                }
-                mPermission = true;
-                if (mPermission) {
-                    checkVersion();
-                }
-                break;
-
-
-            default:
-                break;
-        }
-    }
 
     private void initRecycleViewData() {
         recycleOne.setAdapter(new AwardCodeWinAdapter(R.layout.adapter_award_win_item, Utils.get12Code(R.mipmap.ball_01)));
@@ -305,7 +178,11 @@ public class MainActivity extends BaseActivity {
                 ActivityUtils.startActivityForResult(this, PercentInfoActivity.class, 200);
                 break;
             case R.id.iv_lottery_funny:
-                ActivityUtils.startActivity(LotteryFunnyActivity.class);
+                if (Utils.getUserInfo().user_type==1) {
+                   getLotteryList();
+                }else{
+                    ToastUtils.showShort("管理人员不能参与投注");
+                }
                 break;
             case R.id.iv_trend:
                 ActivityUtils.startActivity(TrendChartActivity.class);
@@ -318,6 +195,28 @@ public class MainActivity extends BaseActivity {
             case R.id.iv_bottom:
                 break;
         }
+    }
+
+
+    private void getLotteryList() {
+        HashMap<String, String> data = new HashMap<>();
+        data.put("uid", Utils.getUserInfo().uid);
+        data.put("lid", "1");
+        OkGo.<LotteryResponse<List<LotteryPlayWay>>>post(Constants.Net.LOTTERY_GETLOTTERYS)//
+                .cacheMode(CacheMode.NO_CACHE)
+                .params(Utils.getParams(data))
+                .execute(new NewsCallback<LotteryResponse<List<LotteryPlayWay>>>() {
+                    @Override
+                    public void onSuccess(Response<LotteryResponse<List<LotteryPlayWay>>> response) {
+                        ActivityUtils.startActivity(LotteryFunnyActivity.class);
+                    }
+
+
+                    @Override
+                    public void onError(Response response) {
+                        ToastUtils.showShort(Utils.toastInfo(response));
+                    }
+                });
     }
 
 
@@ -385,7 +284,9 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                doMainRequest();
+//                doMainRequest();
+                refresh.autoRefresh();
+                initRecycleViewData();
             }
         };
 
@@ -621,6 +522,7 @@ public class MainActivity extends BaseActivity {
             mExitTime = System.currentTimeMillis();
             return true;
         } else {
+             Constants.HAS_VESRSION_TIPS = false;
             AppManager.getAppManager().AppExit(this);
             finish();
         }

@@ -18,8 +18,11 @@ import com.top.lottery.beans.LotteryResponse;
 import com.top.lottery.beans.ManageMemberItem;
 import com.top.lottery.beans.MemberDetail;
 import com.top.lottery.beans.UserInfo;
+import com.top.lottery.events.MemberSuccess;
 import com.top.lottery.utils.NewsCallback;
 import com.top.lottery.utils.Utils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 
@@ -79,17 +82,23 @@ public class MemberCreditSettingActivity extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 chAnthor.setChecked(!isChecked);
                 chRecycleBack.setChecked(isChecked);
-                operateType = "20";
+                operateType = "21";
             }
         });
+
+        if (!TextUtils.isEmpty(manageMemberItem.uid)){
+            etAutorId.setText(manageMemberItem.uid);
+            findUserInfo();
+        }
+
 
         etAutorId.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!TextUtils.isEmpty(etAutorId.getEditableText().toString())) {
                     if (!hasFocus) {
-                        if (etAutorId.getEditableText().toString().length() > 7 && etAutorId.getEditableText().toString().length() < 12) {
-                            findUserInfo(etAutorId.getEditableText().toString());
+                        if (etAutorId.getEditableText().toString().trim().length() ==8) {
+                            findUserInfo();
                         } else {
                             tvIdCredit.setText("该ID目前信用分额度：暂无");
                             tvIdCreditLeft.setText("该ID目前信用分余额：暂无");
@@ -109,8 +118,8 @@ public class MemberCreditSettingActivity extends BaseActivity {
                     ToastUtils.showShort("请输入ID");
                     return;
                 }
-                if (etAutorId.getEditableText().toString().length() < 8 || etAutorId.getEditableText().toString().length() > 11) {
-                    ToastUtils.showShort("ID是8~11位");
+                if (etAutorId.getEditableText().toString().trim().length() != 8 ) {
+                    ToastUtils.showShort("ID是8位");
                     return;
                 }
 
@@ -132,10 +141,10 @@ public class MemberCreditSettingActivity extends BaseActivity {
     MemberDetail memberDetail;
 
     //查找用户信息
-    private void findUserInfo(String uid) {
+    private void findUserInfo() {
         HashMap<String, String> data = new HashMap<>();
-        data.put("uid", manageMemberItem.uid);
-        data.put("member_uid", uid);
+        data.put("uid", Utils.getUserInfo().uid);
+        data.put("member_uid", etAutorId.getEditableText().toString());
         OkGo.<LotteryResponse<MemberDetail>>post(Constants.Net.LEADER_GETUSERINFO)//
                 .cacheMode(CacheMode.NO_CACHE)
                 .params(Utils.getParams(data))
@@ -185,11 +194,13 @@ public class MemberCreditSettingActivity extends BaseActivity {
                               userInfo.credit_balance_score =String.valueOf( myBalance-num);
                             }
 
-                            if (operateType.equals("20")){
+                            if (operateType.equals("21")){
                                 userInfo.credit_balance_score =String.valueOf( myBalance+num);
                             }
 
                             Utils.saveUserInfo(userInfo);
+                            findUserInfo();
+                            EventBus.getDefault().post(new MemberSuccess());
 
                             tvCurrentCreditTotal.setText("您当前的信用分额度：" + Utils.getUserInfo().credit_line_score);
                             tvGiveTotal.setText("可授权额度：" + Utils.getUserInfo().credit_balance_score);

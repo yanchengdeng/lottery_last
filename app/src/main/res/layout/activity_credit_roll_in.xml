@@ -45,7 +45,7 @@
             android:background="@color/white"
             android:drawablePadding="@dimen/image_padding_big"
             android:padding="@dimen/activity_horizontal_margin"
-            android:text="可用积分转入至信用积分账户："
+            android:text="可用积分  转入至  信用积分账户："
             android:textColor="@color/color_info"
             android:textSize="@dimen/text_size_normal" />
 
@@ -95,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/image_padding"
             android:text="0.0"
-            android:textColor="@color/green"
+            android:textColor="@color/red"
             android:textSize="@dimen/text_size_normal_up" />
 
 

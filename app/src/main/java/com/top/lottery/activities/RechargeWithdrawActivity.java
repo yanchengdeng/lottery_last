@@ -247,7 +247,7 @@ public class RechargeWithdrawActivity extends BaseActivity {
                     public void onSuccess(Response<LotteryResponse<UserInfo>> response) {
                         UserInfo    userInfo = response.body().body;
                         if (userInfo != null) {
-                            tvUserIntergray.setText("" + manageMemberItem.score);
+//                            tvUserIntergray.setText("" + manageMemberItem.score);
                             tvManageInterger.setText("" + userInfo.score);
                             rbIntergaryAccount.setText("可用积分账户余额："+ userInfo.score);
                             rbCreidtAccount.setText("信用积分账户余额："+userInfo.credit_balance_score);

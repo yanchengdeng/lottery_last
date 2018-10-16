@@ -33,7 +33,7 @@
             android:background="@drawable/normal_submit_btn_gray_trans"
             android:hint="用户uid"
             android:inputType="phone"
-            android:maxLength="11"
+            android:maxLength="8"
             android:padding="@dimen/image_padding"
             android:textColor="@color/color_info"
             android:textSize="@dimen/text_size_normal" />

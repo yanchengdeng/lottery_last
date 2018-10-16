@@ -41,15 +41,18 @@ public class Constants {
     public static String LASTER_AWARD_END_TIME = "2018-08-26 17:00:00";
 
 
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
+    public static boolean LOG_DEBUG = true;
     public static int PAGE_SIZE = 15;
+
+    public static boolean HAS_VESRSION_TIPS ;//是否提示过版本更新
 
     public static class Net {
 
         /**
          * 测试环境   发布环境
          **/
-        public static final String BASE_URL = DEBUG ? "://88.mayimayi.cn:8888/" : "://88.mayimayi.cn:8888/";
+        public static final String BASE_URL = DEBUG ? "://88.mayimayi.cn:8888/" : "://88.lzsscp.com/";
         public static final String BASE_NAME = BASE_URL + "api.php/V1/";
         public static final String HTTP_CERTIFY = "http";//: "https";
 
@@ -208,6 +211,8 @@ public class Constants {
         public static final String STATISTICS_GETLIST = BASE_API+"statistics/getList";
         //版本更新
         public static final String CLIENT_CHECKVERSION = BASE_API+"client/checkVersion";
+        //获取积分中有玩过的彩种
+        public static final String RECORD_GETLIDS = BASE_API+"record/getLids";
 
 
     }

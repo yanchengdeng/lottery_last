@@ -240,7 +240,10 @@ public class LotteryRecordDetailActivity extends BaseActivity {
                     @Override
                     public void onSuccess(Response<LotteryResponse<String>> response) {
                         if (response.body().code==1){
-                            ActivityUtils.startActivity(mContext, ConfirmCodesActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putBoolean(Constants.PASS_BOLLEAN,true);
+                            ActivityUtils.startActivity(bundle, ConfirmCodesActivity.class);
+                            finish();
                         }
 
                     }

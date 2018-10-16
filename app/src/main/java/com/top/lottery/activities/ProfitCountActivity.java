@@ -452,6 +452,7 @@ public class ProfitCountActivity extends BaseActivity {
                             manageMemberItem.type = actionType;
                             manageMemberItem.title = tittle;
                             manageMemberItem.score = memberDetail.score;
+                            manageMemberItem.user_type = Integer.parseInt(memberDetail.user_type);
 
                             Bundle bundle = new Bundle();
                             bundle.putSerializable(Constants.PASS_OBJECT, manageMemberItem);
@@ -484,7 +485,7 @@ public class ProfitCountActivity extends BaseActivity {
     private void getAllLottery() {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", getUserInfo().uid);
-        OkGo.<LotteryResponse<List<LotteryType>>>post(Constants.Net.LOTTERY_GETLIDS)//
+        OkGo.<LotteryResponse<List<LotteryType>>>post(Constants.Net.RECORD_GETLIDS)//
                 .cacheMode(CacheMode.NO_CACHE)
                 .params(Utils.getParams(data))
                 .execute(new NewsCallback<LotteryResponse<List<LotteryType>>>() {

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -558,10 +559,10 @@ public class TrendChartActivity extends BaseActivity {
                         String toast = response.getException().getMessage();
                         LotteryResponse info = new Gson().fromJson(toast, LotteryResponse.class);
                         if (info != null) {
-                            if (info.code == -3) {
+                            if (info.code == -3 || info.code==-2) {
                                 llUiTouzhu.setVisibility(View.GONE);
                             } else {
-                                ToastUtils.showShort(Utils.toastInfo(response));
+//                                ToastUtils.showShort(Utils.toastInfo(response));
                             }
                         }
                     }
@@ -1066,6 +1067,12 @@ public class TrendChartActivity extends BaseActivity {
 
 
         trendListAdapter.setNewData(terdNormalBalls);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+             recycle.scrollToPosition(trendListAdapter.getData().size()-1);
+            }
+        },500);
     }
 
 

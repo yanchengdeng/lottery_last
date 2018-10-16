@@ -48,7 +48,7 @@ public class SharebounsRollOutActivity extends BaseActivity {
         setTitle("分红积分转出");
 
         tvUseableTotal.setText(String.valueOf(Utils.getUserInfo().score));
-        tvFanlijifen.setText("-"+String.valueOf(Utils.getUserInfo().bonus_score));
+        tvFanlijifen.setText(String.valueOf(Utils.getUserInfo().bonus_score));
 
         tvConfirm.setOnClickListener(new View.OnClickListener() {
             @Override

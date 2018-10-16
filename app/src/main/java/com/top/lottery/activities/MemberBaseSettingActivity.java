@@ -98,14 +98,16 @@ public class MemberBaseSettingActivity extends BaseActivity {
 
     private void doModifyActions() {
 
-        if (TextUtils.isEmpty(etMemberPhone.getEditableText().toString().trim())) {
-            ToastUtils.showShort("请输入手机号");
-            return;
-        }
+//        if (TextUtils.isEmpty(etMemberPhone.getEditableText().toString().trim())) {
+//            ToastUtils.showShort("请输入手机号");
+//            return;
+//        }
 
-        if (!RegexUtils.isMobileSimple(etMemberPhone.getEditableText().toString().trim())) {
-            ToastUtils.showShort("请输入正确手机号");
-            return;
+        if (!TextUtils.isEmpty(etMemberPhone.getEditableText().toString())) {
+            if (!RegexUtils.isMobileSimple(etMemberPhone.getEditableText().toString().trim())) {
+                ToastUtils.showShort("请输入正确手机号");
+                return;
+            }
         }
 
 

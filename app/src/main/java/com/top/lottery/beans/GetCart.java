@@ -17,6 +17,7 @@ public class GetCart implements Serializable {
     public String record_times;//1,倍数，默认为1倍
     public String total_cost_score;//4,
     public String total_number;//2
+    public int pre_number;//购物车里的注数
 
 
     public class CartItem implements Serializable {

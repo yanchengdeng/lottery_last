@@ -33,7 +33,7 @@
 
 
     <TextView
-        android:text="返利积分转出至积分账户："
+        android:text="返利积分  转出至   积分账户："
         android:textColor="@color/color_info"
         android:textSize="@dimen/text_size_normal"
         android:layout_width="wrap_content"

@@ -353,11 +353,13 @@ public class SetMemberPermissionActivity extends BaseActivity {
             if (!TextUtils.isEmpty(memberPermission.bonus_ratio.tips)) {
                 tvBonusScaleMaxTips.setText(memberPermission.bonus_ratio.tips);
             }
+            etBonusScale.setText(""+memberPermission.bonus_ratio.value);
         }
 
 
         if (memberPermission.reward_ratio != null) {
             tvRewardScaleMax.setText("" + memberPermission.reward_ratio.tips);
+            etRewardScale.setText(""+memberPermission.reward_ratio.value);
         }
 
 
@@ -397,6 +399,7 @@ public class SetMemberPermissionActivity extends BaseActivity {
 
         if (memberPermission.rebate_ratio != null) {
             tvRebateScaleMax.setText("" + memberPermission.rebate_ratio.tips);
+            etRebateScale.setText(""+memberPermission.rebate_ratio.value);
         }
 
 
@@ -469,7 +472,7 @@ public class SetMemberPermissionActivity extends BaseActivity {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     rbPurchase.setChecked(isChecked);
-                    rbNotDeposit.setChecked(!isChecked);
+                    rbNotPurchase.setChecked(!isChecked);
                 }
             });
 
@@ -541,7 +544,7 @@ public class SetMemberPermissionActivity extends BaseActivity {
                 }
             });
         }else{
-            llShowFanli.setVisibility(View.GONE);
+            llShowGoucaifanli.setVisibility(View.GONE);
         }
 
         if (memberPermission.bonus_rollout != null) {

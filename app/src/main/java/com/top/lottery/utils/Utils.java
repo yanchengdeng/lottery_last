@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.widget.EditText;
 
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ConvertUtils;
@@ -12,9 +13,11 @@ import com.blankj.utilcode.util.EncodeUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 import com.lzy.okgo.model.Response;
+import com.top.lottery.R;
 import com.top.lottery.base.Constants;
 import com.top.lottery.beans.AwardBallInfo;
 import com.top.lottery.beans.LotteryResponse;
@@ -119,7 +122,7 @@ public class Utils {
         if (!TextUtils.isEmpty(getToken())) {
             data.put("app_token", getToken());
         }
-        if (Constants.DEBUG) {
+        if (Constants.LOG_DEBUG) {
             StringBuffer stringBuffer = new StringBuffer();
             stringBuffer.append("?");
             for (String key : data.keySet()) {
@@ -583,5 +586,25 @@ public class Utils {
             e.printStackTrace();
         }
         return ConvertUtils.dp2px(20);
+    }
+
+    public static boolean checkUseID(EditText etUserName,Context mContext) {
+        if (TextUtils.isEmpty(etUserName.getEditableText().toString())) {
+            ToastUtils.showShort(mContext.getString(R.string.input_user_name));
+            return false;
+        }
+
+        if (etUserName.getEditableText().toString().trim().length()!=8) {
+            ToastUtils.showShort(mContext.getString(R.string.input_user_name_right));
+            return false;
+        }
+
+        return true;
+    }
+
+
+    public static void showToast(Response response) {
+
+        ToastUtils.showShort(Utils.toastInfo(response));
     }
 }

@@ -110,7 +110,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:background="@mipmap/end_time_bg"
+                    android:background="@drawable/end_time_bg"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <TextView
@@ -118,21 +119,26 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
                         android:shadowColor="@color/color_date"
                         android:shadowDx="2"
                         android:shadowDy="2"
                         android:shadowRadius="5"
-                        android:text="距离投注"
-                        android:textColor="@color/color_tittle"
-                        android:textSize="@dimen/text_size_normal_up"
-                        android:visibility="invisible" />
+                        android:text="@string/can_do_until_stop_for_main"
+                        android:textColor="@color/gold"
+                        android:textSize="@dimen/text_size_normal"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:layout_width="1dp"
+                        android:layout_margin="@dimen/image_padding_big"
+                        android:background="@color/orange"
+                        android:layout_gravity="center_vertical"
+                        android:layout_height="30dp" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:padding="2dp">

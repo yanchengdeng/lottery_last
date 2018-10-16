@@ -3,16 +3,15 @@ package com.top.lottery.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.top.lottery.R;
 import com.top.lottery.base.Constants;
 import com.top.lottery.beans.ForgetPasswordParams;
+import com.top.lottery.utils.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,14 +39,12 @@ public class ForgetPasswordActivity extends BaseActivity {
         tvConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TextUtils.isEmpty(etUserName.getEditableText().toString())) {
-                    ToastUtils.showShort("请输入用户ID");
-                }else{
+                if (Utils.checkUseID(etUserName, mContext)) {
                     Bundle bundle = new Bundle();
                     ForgetPasswordParams passwordParams = new ForgetPasswordParams();
                     passwordParams.uid = etUserName.getEditableText().toString();
-                    bundle.putSerializable(Constants.PASS_OBJECT,passwordParams);
-                    ActivityUtils.startActivityForResult(bundle,mContext,ForgetPasswordStepTwoActivity.class,100);
+                    bundle.putSerializable(Constants.PASS_OBJECT, passwordParams);
+                    ActivityUtils.startActivityForResult(bundle, mContext, ForgetPasswordStepTwoActivity.class, 100);
                 }
             }
         });
@@ -56,8 +53,8 @@ public class ForgetPasswordActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==100){
-            if (resultCode==RESULT_OK){
+        if (requestCode == 100) {
+            if (resultCode == RESULT_OK) {
                 finish();
             }
         }

@@ -8,7 +8,7 @@ public class MemberDetail implements Serializable {
     public String id;//80101001,
     public String uid;//80101001,
     public String p_uid;//80101000,
-    public String user_type;//1,
+    public String user_type = "1";//1,
     public String nickname;//,
     public String mobile;//,
     public String remark;//,

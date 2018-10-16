@@ -417,6 +417,7 @@
                 android:layout_marginLeft="@dimen/image_padding_big"
                 android:layout_marginRight="@dimen/image_padding_big"
                 android:layout_weight="1"
+                android:visibility="gone"
                 android:background="@drawable/normal_submit_btn_green"
                 android:gravity="center"
                 android:padding="@dimen/image_padding_big"

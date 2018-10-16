@@ -214,14 +214,14 @@ public class AddNewMemberActivity extends BaseActivity {
         }
 
 
-        if (TextUtils.isEmpty(etMemberPhone.getEditableText().toString())) {
-            ToastUtils.showShort("请输入手机号");
-            return;
-        }
+//        if (TextUtils.isEmpty(etMemberPhone.getEditableText().toString())) {
+//            ToastUtils.showShort("请输入手机号");
+//            return;
+//        }
 
-        if (!RegexUtils.isMobileSimple(etMemberPhone.getEditableText().toString().trim())) {
-            ToastUtils.showShort("请输入正确手机号");
-        }
+//        if (!RegexUtils.isMobileSimple(etMemberPhone.getEditableText().toString().trim())) {
+//            ToastUtils.showShort("请输入正确手机号");
+//        }
 
         if (TextUtils.isEmpty(etMemberPassword.getEditableText().toString())) {
             ToastUtils.showShort("请输入登录密码");
@@ -244,7 +244,9 @@ public class AddNewMemberActivity extends BaseActivity {
         data.put("uid", getUserInfo().uid);
         data.put("id", etMemberId.getEditableText().toString().trim());
         data.put("password", etMemberPassword.getEditableText().toString().trim());
-        data.put("mobile", etMemberPhone.getEditableText().toString().trim());
+        if (RegexUtils.isMobileSimple(etMemberPhone.getEditableText().toString().trim())) {
+            data.put("mobile", etMemberPhone.getEditableText().toString().trim());
+        }
         data.put("user_type", user_type);
         data.put("p_uid", p_uid);
         if (!TextUtils.isEmpty(etMemberNickname.getEditableText().toString().trim())) {

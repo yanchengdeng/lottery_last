@@ -1,7 +1,10 @@
 package com.top.lottery.activities;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.ColorInt;
@@ -23,10 +26,16 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.cache.CacheMode;
+import com.lzy.okgo.model.Response;
 import com.top.lottery.R;
 import com.top.lottery.base.Constants;
+import com.top.lottery.beans.LotteryResponse;
 import com.top.lottery.beans.TokenTimeOut;
+import com.top.lottery.beans.VerisonInfo;
+import com.top.lottery.services.UpdateService;
 import com.top.lottery.utils.AppManager;
+import com.top.lottery.utils.NewsCallback;
 import com.top.lottery.utils.StatusBarUtil;
 import com.top.lottery.utils.Utils;
 import com.top.lottery.views.LoadDialog;
@@ -36,6 +45,9 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
@@ -45,7 +57,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
     public View viewRoot, contentView;
     private View tittleUi, tvTtittleLine;
     private View refresh;
-//    private MaterialDialog loadDialog;
+    //    private MaterialDialog loadDialog;
     public ImageView ivBack, ivRightFunction;
     public TextView tvTittle, tvRightFunction;
     public TextView tvErrorTips;
@@ -58,6 +70,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
     public boolean isInDeepNight;//是否处于凌晨时刻   22：59：59 ~07：59：59 不允许投注
     public long curretDifServer;// 本次开奖时间和当前系统时间差
     public int awardId;//本期开奖期号
+
+    private static final int REQUEST_CODE_ASK_PERMISSIONS = 100;
+    private boolean mPermission = false;
 
 
     @Override
@@ -107,8 +122,134 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
 //                onRefresh();
 //            }
 //        });
+
+        mPermission = checkUpdatePermission();
+        if (mPermission) {
+            checkVersion();
+        }
     }
 
+    //检查版本更新
+    private void checkVersion() {
+        if ((mContext instanceof LoginActivity || mContext instanceof MainActivity) && !Constants.HAS_VESRSION_TIPS) {
+
+            HashMap<String, String> data = new HashMap<>();
+            data.put("device_type", "android");
+            OkGo.<LotteryResponse<VerisonInfo>>post(Constants.Net.CLIENT_CHECKVERSION)//
+                    .cacheMode(CacheMode.NO_CACHE)
+                    .params(Utils.getParams(data))
+                    .execute(new NewsCallback<LotteryResponse<VerisonInfo>>() {
+                        @Override
+                        public void onSuccess(Response<LotteryResponse<VerisonInfo>> response) {
+                            LogUtils.w("dyc", response + "-----");
+
+                            VerisonInfo verisonInfo = response.body().body;
+                            if (verisonInfo != null) {
+                                showUploadDialog(verisonInfo);
+                            }
+                        }
+
+                        @Override
+                        public void onError(Response response) {
+                        }
+                    });
+        }
+    }
+
+
+    //版本升级对话框
+    private void showUploadDialog(final VerisonInfo verisonInfo) {
+        if (verisonInfo.update_level.equals("0")) {
+            return;
+        }
+
+
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(mContext);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_verison_view, null, false);
+
+        TextView tvContent = view.findViewById(R.id.tv_content);
+        tvContent.setText("" + verisonInfo.update_content);
+
+        builder.customView(view, false);
+        final MaterialDialog dialog = builder.build();
+        view.findViewById(R.id.tv_continu_left).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        view.findViewById(R.id.tv_continu_right).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goUpdateVersion(verisonInfo);
+                dialog.dismiss();
+            }
+        });
+
+        if (verisonInfo.update_level.equals("2")) {
+            view.findViewById(R.id.tv_continu_left).setVisibility(View.GONE);
+            dialog.setCanceledOnTouchOutside(false);
+        }
+        dialog.show();
+        Constants.HAS_VESRSION_TIPS = true;
+
+    }
+
+    private void goUpdateVersion(VerisonInfo verisonInfo) {
+        Intent intent = new Intent(mContext, UpdateService.class);
+        intent.putExtra("apkUrl", verisonInfo.app_url);
+        startService(intent);
+    }
+
+    private boolean checkUpdatePermission() {
+        if (afterM()) {
+            final List<String> permissionsList = new ArrayList<>();
+            if ((checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED))
+                permissionsList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if ((checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED))
+                permissionsList.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+            if (permissionsList.size() != 0) {
+                requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
+                        REQUEST_CODE_ASK_PERMISSIONS);
+                return false;
+            }
+//            int hasPermission = checkSelfPermission(Manifest.permission.CAMERA);
+//            if (hasPermission != PackageManager.PERMISSION_GRANTED) {
+//                requestPermissions(new String[]{Manifest.permission.CAMERA},
+//                        REQUEST_CODE_ASK_PERMISSIONS);
+//                return false;
+//            }
+        }
+        return true;
+    }
+
+    private boolean afterM() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+                for (int ret : grantResults) {
+                    if (ret != PackageManager.PERMISSION_GRANTED) {
+                        return;
+                    }
+                }
+                mPermission = true;
+                if (mPermission) {
+//                    checkVersion();
+                }
+                break;
+
+
+            default:
+                break;
+        }
+    }
 
     /**
      * 获取下次开奖时间 与当前系统时间差
@@ -129,7 +270,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
                 currntHourse.equals("02") || currntHourse.equals("03") || currntHourse.equals("04")
                 || currntHourse.equals("05") || currntHourse.equals("06") || currntHourse.equals("07"))) {
             isInDeepNight = true;
-            isCanTouzhu =false;
+            isCanTouzhu = false;
         } else {
             isInDeepNight = false;
         }
@@ -142,8 +283,8 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
         if (isInDeepNight) {
             return curretDifServer;
         } else {
-            LogUtils.w("dyc---接口返回时间差"+isCanTouzhu+"========"+ Utils.millis2FitTimeSpan(curretDifServer-Constants.TIME_CAN_NOT_TOUZHU,4));
-            return isCanTouzhu?curretDifServer - Constants.TIME_CAN_NOT_TOUZHU:curretDifServer;//isCanTouzhu ? curretDifServer  : Constants.TIME_CAN_NOT_TOUZHU ;
+            LogUtils.w("dyc---接口返回时间差" + isCanTouzhu + "========" + Utils.millis2FitTimeSpan(curretDifServer - Constants.TIME_CAN_NOT_TOUZHU, 4));
+            return isCanTouzhu ? curretDifServer - Constants.TIME_CAN_NOT_TOUZHU : curretDifServer;//isCanTouzhu ? curretDifServer  : Constants.TIME_CAN_NOT_TOUZHU ;
         }
     }
 
@@ -412,7 +553,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
     protected void onStop() {
         super.onStop();
     }
-
 
 
     public void showLoadingBar() {

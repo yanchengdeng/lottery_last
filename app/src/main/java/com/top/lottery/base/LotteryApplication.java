@@ -3,6 +3,7 @@ package com.top.lottery.base;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
@@ -32,8 +34,11 @@ import com.top.lottery.R;
 import com.top.lottery.activities.TrendChartActivity;
 import com.top.lottery.beans.GetCart;
 import com.top.lottery.beans.LotteryResponse;
+import com.top.lottery.beans.VerisonInfo;
 import com.top.lottery.events.AwardIDExperidEvent;
+import com.top.lottery.events.NeedUploadVersionEvent;
 import com.top.lottery.events.NoticeToDoNewTermCodeEvent;
+import com.top.lottery.services.UpdateService;
 import com.top.lottery.utils.NewsCallback;
 
 import org.greenrobot.eventbus.EventBus;
@@ -53,6 +58,8 @@ public class LotteryApplication extends Application {
     private AlertDialog successDialog;
     private View viewSuccess;
     private String currentClassName,methodName;
+
+    private  MaterialDialog dialog;
 
     static {
         //设置全局的Header构建器
@@ -80,8 +87,91 @@ public class LotteryApplication extends Application {
                 methodName = ((AwardIDExperidEvent) event).getMethodName();
                 onShowExpire();
             }
+        }else if (event instanceof NeedUploadVersionEvent){
+            if (com.top.lottery.utils.Utils.context!=null && com.top.lottery.utils.Utils.context instanceof Activity && !com.top.lottery.utils.Utils.context.isDestroyed()) {
+                checkVersion();
+            }
         }
     }
+
+    //检查版本更新
+    private void checkVersion() {
+
+
+        HashMap<String, String> data = new HashMap<>();
+        data.put("device_type", "android");
+        OkGo.<LotteryResponse<VerisonInfo>>post(Constants.Net.CLIENT_CHECKVERSION)//
+                .cacheMode(CacheMode.NO_CACHE)
+                .params(com.top.lottery.utils.Utils.getParams(data))
+                .execute(new NewsCallback<LotteryResponse<VerisonInfo>>() {
+                    @Override
+                    public void onSuccess(Response<LotteryResponse<VerisonInfo>> response) {
+                        LogUtils.w("dyc", response + "-----");
+
+                        VerisonInfo verisonInfo = response.body().body;
+                        if (verisonInfo!=null){
+                            showUploadDialog(verisonInfo);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response response) {
+
+                    }
+                });
+    }
+
+
+    //版本升级对话框
+    private void showUploadDialog(final VerisonInfo verisonInfo) {
+        if (verisonInfo.update_level.equals("0")){
+            return;
+        }
+
+        if (dialog!=null && dialog.isShowing()){
+            return;
+        }
+
+
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(com.top.lottery.utils.Utils.context);
+        View view = LayoutInflater.from(com.top.lottery.utils.Utils.context).inflate(R.layout.dialog_verison_view,null,false);
+
+        TextView tvContent = view.findViewById(R.id.tv_content);
+        tvContent.setText(""+verisonInfo.update_content);
+
+        builder.customView(view,false);
+         dialog = builder.build();
+
+        view.findViewById(R.id.tv_continu_left).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        view.findViewById(R.id.tv_continu_right).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goUpdateVersion(verisonInfo);
+                dialog.dismiss();
+            }
+        });
+
+        if (verisonInfo.update_level.equals("2")){
+            view.findViewById(R.id.tv_continu_left).setVisibility(View.GONE);
+            dialog.setCanceledOnTouchOutside(false);
+        }
+        dialog.show();
+
+    }
+
+
+    private void goUpdateVersion(VerisonInfo verisonInfo) {
+        Intent intent = new Intent(com.top.lottery.utils.Utils.context, UpdateService.class);
+        intent.putExtra("apkUrl", verisonInfo.app_url);
+        startService(intent);
+    }
+
 
     private void onShowExpire() {
         viewSuccess = LayoutInflater.from(com.top.lottery.utils.Utils.context).inflate(R.layout.dialog_pay_success_view, null);
@@ -161,6 +251,8 @@ public class LotteryApplication extends Application {
         initOkGo(this);
         initContext(this);
     }
+
+
 
 
     private  void initContext(Application application) {
@@ -253,4 +345,20 @@ public class LotteryApplication extends Application {
         config.setToDefaults();
         res.updateConfiguration(config, res.getDisplayMetrics());
     }
+
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        Constants.HAS_VESRSION_TIPS = false;
+    }
+
+
+    @Override
+    public void onTrimMemory(int level) {
+        // 程序在内存清理的时候执行
+        Constants.HAS_VESRSION_TIPS = false;
+        super.onTrimMemory(level);
+    }
+
 }

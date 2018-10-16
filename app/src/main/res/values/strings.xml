@@ -2,7 +2,8 @@
     <string name="app_name">蓝钻大数据</string>
     <string name="no_data">暂无数据</string>
     <string name="user_name">用户名</string>
-    <string name="input_user_name">请输入用户名</string>
+    <string name="input_user_name">请输入用户ID</string>
+    <string name="input_user_name_right">请输入8位用户ID</string>
     <string name="pwd">密码</string>
     <string name="input_user_pwd">请输入密码</string>
     <string name="confirm">确认</string>

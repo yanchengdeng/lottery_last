@@ -122,6 +122,42 @@ public class ManageFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+            getUerAuthor();
+        }
+    }
+
+    //后去用户权限
+    private void getUerAuthor() {
+        HashMap<String, String> data = new HashMap<>();
+        data.put("uid", getUserInfo().uid);
+        OkGo.<LotteryResponse<UseAuth>>post(Constants.Net.USER_GETAUTH)//
+                .cacheMode(CacheMode.NO_CACHE)
+                .params(Utils.getParams(data))
+                .execute(new NewsCallback<LotteryResponse<UseAuth>>() {
+                    @Override
+                    public void onSuccess(Response<LotteryResponse<UseAuth>> response) {
+                        UseAuth useAuth = response.body().body;
+//
+                        if (useAuth.open_member==1){
+                            tvAddNewMember.setVisibility(View.VISIBLE);
+                        }else{
+                            tvAddNewMember.setVisibility(View.GONE);
+                        }
+                        Utils.saveUserAuth(useAuth);
+
+                    }
+
+                    @Override
+                    public void onError(Response response) {
+                        ToastUtils.showShort(Utils.toastInfo(response));
+                    }
+                });
+
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(MemberSuccess event) {

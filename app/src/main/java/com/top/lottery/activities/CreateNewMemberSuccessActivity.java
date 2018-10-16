@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.ActivityUtils;
 import com.top.lottery.R;
 import com.top.lottery.base.Constants;
 import com.top.lottery.beans.ManageMemberItem;
@@ -41,7 +40,7 @@ public class CreateNewMemberSuccessActivity extends BaseActivity {
         tvDoSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityUtils.startActivity(getIntent().getExtras(),SetMemberPermissionActivity.class);
+//                ActivityUtils.startActivity(getIntent().getExtras(),SetMemberPermissionActivity.class);
                 finish();
             }
         });

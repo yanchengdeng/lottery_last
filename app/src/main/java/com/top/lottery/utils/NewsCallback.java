@@ -6,6 +6,7 @@ import com.top.lottery.base.Constants;
 import com.top.lottery.beans.LotteryResponse;
 import com.top.lottery.beans.TokenTimeOut;
 import com.top.lottery.events.AwardIDExperidEvent;
+import com.top.lottery.events.NeedUploadVersionEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -30,7 +31,7 @@ public abstract class NewsCallback<T> extends AbsDYCCallback<T> {
         Type rawType = ((ParameterizedType) type).getRawType();
         if (rawType == LotteryResponse.class) {
             String decy = new String(response.body().bytes());
-            if (Constants.DEBUG) {
+            if (Constants.LOG_DEBUG) {
                 LogUtils.d("dyc", response.networkResponse().request().url().toString());
                 LogUtils.d("dyc", decy);
             }
@@ -74,7 +75,10 @@ public abstract class NewsCallback<T> extends AbsDYCCallback<T> {
                     LogUtils.w("dyc------",methodName);
                     EventBus.getDefault().post(new AwardIDExperidEvent(methodName));
                     throw new IllegalStateException(new Gson().toJson(collegeResponseSimple));
-                } else {
+                }else if (collegeResponseSimple.code == -123){
+                    EventBus.getDefault().post(new NeedUploadVersionEvent());
+                    throw new IllegalStateException(new Gson().toJson(collegeResponseSimple));
+                }else {
                     String methodName = response.request().url().url().toString();
                     LogUtils.w("dyc------",methodName);
                     throw new IllegalStateException(new Gson().toJson(collegeResponseSimple));
