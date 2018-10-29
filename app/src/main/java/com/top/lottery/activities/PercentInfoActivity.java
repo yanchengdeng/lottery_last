@@ -163,7 +163,7 @@ public class PercentInfoActivity extends BaseActivity {
         });
 
 
-        getUserDetailInfo();
+
 
         getUerAuthor();
 
@@ -374,5 +374,11 @@ public class PercentInfoActivity extends BaseActivity {
                 getUserDetailInfo();
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUserDetailInfo();
     }
 }

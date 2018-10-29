@@ -154,8 +154,8 @@ public class LotteryRecordDetailActivity extends BaseActivity {
         tvOrderTitle.setText(awardOrderDetail.order_title+"");
         tvOrderId.setText(""+awardOrderDetail.order_id);
         tvCreateTime.setText(""+awardOrderDetail.create_time);
-        tvIsChase.setText(awardOrderDetail.show_cancel_chase_button.equals("hide")?"否":"是");
-        tvIsWinChase.setText(awardOrderDetail.show_cancel_order_button.equals("hide")?"否":"是");
+        tvIsChase.setText(awardOrderDetail.is_chase==0?"否":"是");
+        tvIsWinChase.setText(awardOrderDetail.is_win_stop_chase== 0 ?"否":"是");
         tvCancleChase.setVisibility(awardOrderDetail.show_cancel_chase_button.equals("hide")?View.GONE:View.VISIBLE);
         tvCancleOrder.setVisibility(awardOrderDetail.show_cancel_order_button.equals("hide")?View.GONE:View.VISIBLE);
         lotteryOpenCodeAdapter.setNewData(awardOrderDetail.records);

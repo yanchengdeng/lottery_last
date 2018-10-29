@@ -2,6 +2,7 @@ package com.top.lottery.activities;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
@@ -12,6 +13,7 @@ import com.lzy.okgo.model.Response;
 import com.top.lottery.R;
 import com.top.lottery.base.Constants;
 import com.top.lottery.beans.LotteryResponse;
+import com.top.lottery.beans.UseAuth;
 import com.top.lottery.beans.UserInfo;
 import com.top.lottery.utils.NewsCallback;
 import com.top.lottery.utils.Utils;
@@ -45,6 +47,8 @@ public class IntergrateHandleActivity extends BaseActivity {
     TextView tvCredit;
     @BindView(R.id.tv_credit_rollin)
     TextView tvCreditRollin;
+    @BindView(R.id.llintergry_handle)
+    LinearLayout llintergryHandle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,14 +57,45 @@ public class IntergrateHandleActivity extends BaseActivity {
         ButterKnife.bind(this);
         setTitle("积分操作");
 
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         getUserDetailInfo();
+        getUerAuthor();
     }
+
+
+    //后去用户权限
+    private void getUerAuthor() {
+        HashMap<String, String> data = new HashMap<>();
+        data.put("uid", getUserInfo().uid);
+        OkGo.<LotteryResponse<UseAuth>>post(Constants.Net.USER_GETAUTH)//
+                .cacheMode(CacheMode.NO_CACHE)
+                .params(Utils.getParams(data))
+                .execute(new NewsCallback<LotteryResponse<UseAuth>>() {
+                    @Override
+                    public void onSuccess(Response<LotteryResponse<UseAuth>> response) {
+                        UseAuth useAuth = response.body().body;
+                        if (useAuth != null) {
+                            if (useAuth.show_bonus_score == 1) {
+                                llintergryHandle.setVisibility(View.VISIBLE);
+                            } else {
+                                llintergryHandle.setVisibility(View.GONE);
+                            }
+                            Utils.saveUserAuth(useAuth);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response response) {
+                        ToastUtils.showShort(Utils.toastInfo(response));
+                    }
+                });
+
+    }
+
 
     private void getUserDetailInfo() {
         HashMap<String, String> data = new HashMap<>();

@@ -34,6 +34,7 @@ import com.top.lottery.beans.LotteryResponse;
 import com.top.lottery.beans.TokenTimeOut;
 import com.top.lottery.beans.VerisonInfo;
 import com.top.lottery.services.UpdateService;
+import com.top.lottery.utils.AndroidBug54971Workaround;
 import com.top.lottery.utils.AppManager;
 import com.top.lottery.utils.NewsCallback;
 import com.top.lottery.utils.StatusBarUtil;
@@ -79,6 +80,8 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         // 「必须在 Application 的 onCreate 方法中执行 BGASwipeBackHelper.init 来初始化滑动返回」
         // 在 super.onCreate(savedInstanceState) 之前调用该方法
+//        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+
         super.onCreate(savedInstanceState);
     }
 
@@ -88,6 +91,8 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
         initSwipeBackFinish();
         this.mContext = this;
 //        StatusBarUtil.setLightMode(this);
+//        StatusBarUtil.hideFakeStatusBarView(this);
+
         AppManager.getAppManager().addActivity(this);
         EventBus.getDefault().register(this);
         viewRoot = getLayoutInflater().inflate(R.layout.activity_base, null);
@@ -122,6 +127,11 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
 //                onRefresh();
 //            }
 //        });
+
+        AndroidBug54971Workaround.assistActivity(viewRoot);
+
+//
+
 
         mPermission = checkUpdatePermission();
         if (mPermission) {

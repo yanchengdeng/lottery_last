@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.OkGo;
@@ -135,6 +136,15 @@ public class ConfirmCodesActivity extends BaseActivity {
         });
 
         //期数
+        tvTermCount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    tvTermCount.setText("");
+                }
+            }
+        });
+
         tvTermCount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -143,14 +153,16 @@ public class ConfirmCodesActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                LogUtils.w("dyc","onTextChanged:"+s.toString()+"---start:"+start+"---befor:");
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 if (TextUtils.isEmpty(s.toString())) {
-                    append_terms = 1;
-                    tvTermCount.setHint("1");
+//                    append_terms = 1;
+//                    tvTermCount.setHint("1");
+                    countNativeTouzhuJushIntergray();
                 } else {
                     if (s.toString().startsWith("0")) {
                         tvTermCount.setHint("1");
@@ -163,15 +175,25 @@ public class ConfirmCodesActivity extends BaseActivity {
                             append_terms = Integer.parseInt(s.toString());
                         }
                     }
+                    countNativeTouzhuJushIntergray();
                 }
                 if (s.toString().length() == tvTermCount.getEditableText().toString().length()) {
                     tvTermCount.setSelection(s.toString().length());
+                    countNativeTouzhuJushIntergray();
                 }
             }
         });
 
 
         //倍数
+        tvTermTimes.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    tvTermTimes.setText("");
+                }
+            }
+        });
         tvTermTimes.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -186,8 +208,9 @@ public class ConfirmCodesActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 if (TextUtils.isEmpty(s.toString())) {
-                    record_times = 1;
-                    tvTermTimes.setHint("1");
+//                    record_times = 1;
+//                    tvTermTimes.setHint("1");
+                    countNativeTouzhuJushIntergray();
                 } else {
                     if (s.toString().startsWith("0")) {
                         tvTermTimes.setHint("1");
@@ -198,23 +221,26 @@ public class ConfirmCodesActivity extends BaseActivity {
                             tvTermTimes.setText(String.valueOf(MAX_TIMES));
                         } else {
                             record_times = Integer.parseInt(s.toString());
+
                         }
                     }
+                    countNativeTouzhuJushIntergray();
                 }
                 if (s.toString().length() == tvTermTimes.getEditableText().toString().length()) {
                     tvTermTimes.setSelection(s.toString().length());
+                    countNativeTouzhuJushIntergray();
                 }
             }
         });
 
 
-        softKeyboardStateWatcher
+      /*  softKeyboardStateWatcher
                 = new SoftKeyboardStateWatcher(findViewById(R.id.ll_root));
 
         softKeyboardStateWatcher.addSoftKeyboardStateListener(new SoftKeyboardStateWatcher.SoftKeyboardStateListener() {
             @Override
             public void onSoftKeyboardOpened(int height) {
-                if (height > 100) {
+                if (height > 250) {
                     //键盘弹出
                     llConfirmUi.setVisibility(View.GONE);
                     softKeyboardStateWatcher.setIsSoftKeyboardOpened(true);
@@ -226,7 +252,7 @@ public class ConfirmCodesActivity extends BaseActivity {
                 llConfirmUi.setVisibility(View.VISIBLE);
                 setCartChange(false);
             }
-        });
+        });*/
 
 
     }
@@ -417,10 +443,37 @@ public class ConfirmCodesActivity extends BaseActivity {
             tvNoteNumbers.setText("注数：" + 0);
         }
 
+        LogUtils.w("dyc",append_terms+"-------"+record_times);
         tvTermCount.setText(""+append_terms);
         tvTermTimes.setText(""+record_times);
 
     }
+
+    //仅仅计算积分
+    private void countNativeTouzhuJushIntergray() {
+
+        if (getCart==null){
+            ToastUtils.showShort("暂无注数");
+        }
+
+        if (getCart!=null) {
+            int touzhuCount = getCart.pre_number * record_times * append_terms;
+            tvIntergry.setText("积分：" + touzhuCount * 2);
+            tvNoteNumbers.setText("注数：" + touzhuCount);
+        } else {
+            tvIntergry.setText("积分：" + 0);
+            tvNoteNumbers.setText("注数：" + 0);
+        }
+
+        LogUtils.w("dyc",append_terms+"-------"+record_times);
+//        tvTermCount.setText(""+append_terms);
+//        tvTermTimes.setText(""+record_times);
+    }
+
+
+
+
+
 
     private void showEditNumDialog(final boolean isTimes) {
 

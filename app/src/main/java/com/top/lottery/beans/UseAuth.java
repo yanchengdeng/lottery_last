@@ -22,4 +22,5 @@ public class UseAuth implements Serializable {
     public int caiwu_deposit;//0
     public int bonus_rollout;
     public int open_member;
+    public int show_bonus_score;//是否显示分红积分 0 不显示  1 显示
 }
