@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -19,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -90,6 +92,8 @@ public class ConfirmCodesActivity extends BaseActivity {
     TextView tvDeal;
     @BindView(R.id.ll_confirm_ui)
     LinearLayout llConfirmUi;
+    @BindView(R.id.ll_time_record_ui)
+    LinearLayout llTimeRecordUi;
     private LotteryInfo lotteryInfo;
     private GetCart getCart;
     private int record_times = 1;//倍数
@@ -108,6 +112,7 @@ public class ConfirmCodesActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_codes);
         ButterKnife.bind(this);
+//        AndroidAdjustResizeBugFix.assistActivity(this);
         setTitle("选号确认");
         lotteryInfo = (LotteryInfo) getIntent().getSerializableExtra(Constants.PASS_OBJECT);
         isFromTrentChart = getIntent().getBooleanExtra(Constants.PASS_BOLLEAN, false);
@@ -139,9 +144,20 @@ public class ConfirmCodesActivity extends BaseActivity {
         tvTermCount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
+                if (hasFocus) {
                     tvTermCount.setText("");
+                }else{
+                    tvTermCount.setFocusable(true);
                 }
+            }
+        });
+
+        tvTermCount.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                tvTermCount.setFocusable(true);
+                KeyboardUtils.showSoftInput(tvTermCount);
+                return false;
             }
         });
 
@@ -153,7 +169,7 @@ public class ConfirmCodesActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                LogUtils.w("dyc","onTextChanged:"+s.toString()+"---start:"+start+"---befor:");
+                LogUtils.w("dyc", "onTextChanged:" + s.toString() + "---start:" + start + "---befor:");
 
             }
 
@@ -165,7 +181,7 @@ public class ConfirmCodesActivity extends BaseActivity {
                     countNativeTouzhuJushIntergray();
                 } else {
                     if (s.toString().startsWith("0")) {
-                        tvTermCount.setHint("1");
+                        tvTermCount.setText("1");
                         append_terms = 1;
                     } else {
                         if (Integer.parseInt(s.toString()) > Max_TERMS) {
@@ -189,11 +205,24 @@ public class ConfirmCodesActivity extends BaseActivity {
         tvTermTimes.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
+                if (hasFocus) {
                     tvTermTimes.setText("");
+                }else{
+                    tvTermTimes.setFocusable(true);
                 }
             }
         });
+
+        tvTermTimes.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                tvTermTimes.setFocusable(true);
+                KeyboardUtils.showSoftInput(tvTermTimes);
+                return false;
+            }
+        });
+
+
         tvTermTimes.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -213,7 +242,7 @@ public class ConfirmCodesActivity extends BaseActivity {
                     countNativeTouzhuJushIntergray();
                 } else {
                     if (s.toString().startsWith("0")) {
-                        tvTermTimes.setHint("1");
+                        tvTermTimes.setText("1");
                         record_times = 1;
                     } else {
                         if (Integer.parseInt(s.toString()) > MAX_TIMES) {
@@ -234,25 +263,37 @@ public class ConfirmCodesActivity extends BaseActivity {
         });
 
 
-      /*  softKeyboardStateWatcher
+        softKeyboardStateWatcher
                 = new SoftKeyboardStateWatcher(findViewById(R.id.ll_root));
 
         softKeyboardStateWatcher.addSoftKeyboardStateListener(new SoftKeyboardStateWatcher.SoftKeyboardStateListener() {
             @Override
             public void onSoftKeyboardOpened(int height) {
-                if (height > 250) {
+                if (height > Constants.KEY_BORAD_HIEGHT) {
                     //键盘弹出
-                    llConfirmUi.setVisibility(View.GONE);
+//                    llConfirmUi.setVisibility(View.GONE);
                     softKeyboardStateWatcher.setIsSoftKeyboardOpened(true);
                 }
             }
 
             @Override
             public void onSoftKeyboardClosed() {
-                llConfirmUi.setVisibility(View.VISIBLE);
-                setCartChange(false);
+//                llConfirmUi.setVisibility(View.VISIBLE);
+//                setCartChange(false);
+
+
+                tvTermTimes.setFocusable(false);
+                tvTermCount.setFocusable(false);
+                if (TextUtils.isEmpty(tvTermTimes.getEditableText().toString())) {
+                    tvTermTimes.setText("" + record_times);
+                }
+
+                if (TextUtils.isEmpty(tvTermCount.getEditableText().toString())) {
+                    tvTermCount.setText("" + append_terms);
+                }
+
             }
-        });*/
+        });
 
 
     }
@@ -380,11 +421,11 @@ public class ConfirmCodesActivity extends BaseActivity {
                 break;
             case R.id.iv_add_term:
                 //增加期数
-                if (append_terms<Max_TERMS) {
+                if (append_terms < Max_TERMS) {
                     append_terms++;
                     countNativeTouzhu();
-                }else{
-                    ToastUtils.showShort("最多"+MAX_TIMES+"期");
+                } else {
+                    ToastUtils.showShort("最多" + MAX_TIMES + "期");
                 }
 //                setCartChange(false);
 
@@ -399,11 +440,11 @@ public class ConfirmCodesActivity extends BaseActivity {
                 break;
             case R.id.iv_add_times:
                 //增加倍数
-                if (record_times<MAX_TIMES) {
+                if (record_times < MAX_TIMES) {
                     record_times++;
                     countNativeTouzhu();
-                }else{
-                    ToastUtils.showShort("最多"+MAX_TIMES+"倍");
+                } else {
+                    ToastUtils.showShort("最多" + MAX_TIMES + "倍");
                 }
 //                setCartChange(true);
                 break;
@@ -430,11 +471,11 @@ public class ConfirmCodesActivity extends BaseActivity {
     //本地结算投注数据结果
     private void countNativeTouzhu() {
 
-        if (getCart==null){
+        if (getCart == null) {
             ToastUtils.showShort("暂无注数");
         }
 
-        if (getCart!=null) {
+        if (getCart != null) {
             int touzhuCount = getCart.pre_number * record_times * append_terms;
             tvIntergry.setText("积分：" + touzhuCount * 2);
             tvNoteNumbers.setText("注数：" + touzhuCount);
@@ -443,20 +484,20 @@ public class ConfirmCodesActivity extends BaseActivity {
             tvNoteNumbers.setText("注数：" + 0);
         }
 
-        LogUtils.w("dyc",append_terms+"-------"+record_times);
-        tvTermCount.setText(""+append_terms);
-        tvTermTimes.setText(""+record_times);
+        LogUtils.w("dyc", append_terms + "-------" + record_times);
+        tvTermCount.setText("" + append_terms);
+        tvTermTimes.setText("" + record_times);
 
     }
 
     //仅仅计算积分
     private void countNativeTouzhuJushIntergray() {
 
-        if (getCart==null){
+        if (getCart == null) {
             ToastUtils.showShort("暂无注数");
         }
 
-        if (getCart!=null) {
+        if (getCart != null) {
             int touzhuCount = getCart.pre_number * record_times * append_terms;
             tvIntergry.setText("积分：" + touzhuCount * 2);
             tvNoteNumbers.setText("注数：" + touzhuCount);
@@ -465,14 +506,10 @@ public class ConfirmCodesActivity extends BaseActivity {
             tvNoteNumbers.setText("注数：" + 0);
         }
 
-        LogUtils.w("dyc",append_terms+"-------"+record_times);
+        LogUtils.w("dyc", append_terms + "-------" + record_times);
 //        tvTermCount.setText(""+append_terms);
 //        tvTermTimes.setText(""+record_times);
     }
-
-
-
-
 
 
     private void showEditNumDialog(final boolean isTimes) {
@@ -782,9 +819,8 @@ public class ConfirmCodesActivity extends BaseActivity {
     }
 
 
-
     /**
-     下单时候  记录设置倍数
+     * 下单时候  记录设置倍数
      */
     private void setCarChangeSetting() {
 

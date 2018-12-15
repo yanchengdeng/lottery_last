@@ -46,6 +46,7 @@ public class Constants {
     public static int PAGE_SIZE = 15;
 
     public static boolean HAS_VESRSION_TIPS ;//是否提示过版本更新
+    public static int KEY_BORAD_HIEGHT = 250;
 
     public static class Net {
 
