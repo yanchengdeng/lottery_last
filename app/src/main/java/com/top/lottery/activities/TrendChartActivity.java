@@ -106,6 +106,7 @@ public class TrendChartActivity extends BaseActivity {
     private LotteryPlayWay lotteryPlayWaySelect;//当前选择的彩种
     private AcountChartAwardBallsAdapter acountChartAwardBallsAdapterOne, acountChartAwardBallsAdapterTwo, acountChartAwardBallsAdapterThree;
     private AwardDialogKindsAdapter awardDialogKindsAdapter;//弹出彩种对话框
+    private LotteryInfo lotteryInfoPass;
 
 
     @Override
@@ -116,6 +117,7 @@ public class TrendChartActivity extends BaseActivity {
         setTitle("走势图");
         ivRightFunction.setVisibility(View.VISIBLE);
         ivRightFunction.setImageResource(R.mipmap.trend_setting);
+        lotteryInfoPass = (LotteryInfo) getIntent().getSerializableExtra(Constants.PASS_OBJECT);
         trendListAdapter = new TrendListItemAdapter(R.layout.adapter_trends_item_num, new ArrayList<TerdNormalBall>());
         recycle.setLayoutManager(new GridLayoutManager(this, 12));
         recycle.addItemDecoration(new GridSpacingItemDecoration(12, 1, false));
@@ -538,7 +540,7 @@ public class TrendChartActivity extends BaseActivity {
     private void getAwardKinds() {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
-        data.put("lid", "1");
+        data.put("lid", lotteryInfoPass.lid);
         OkGo.<LotteryResponse<List<LotteryPlayWay>>>post(Constants.Net.LOTTERY_GETLOTTERYS)//
                 .cacheMode(CacheMode.NO_CACHE)
                 .params(Utils.getParams(data))
@@ -1136,6 +1138,7 @@ public class TrendChartActivity extends BaseActivity {
     private void checkAwardId() {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
+        data.put("lottery_type", "1");// 彩种
         data.put("award_id", Constants.LASTEST_AWARD_ID);// 最新彩种期数id
         OkGo.<LotteryResponse<CheckSelectCodeInfo>>post(Constants.Net.CART_CHECKAWARD)//
                 .cacheMode(CacheMode.NO_CACHE)

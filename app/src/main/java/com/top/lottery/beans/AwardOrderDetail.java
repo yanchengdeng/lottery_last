@@ -18,6 +18,8 @@ public class AwardOrderDetail implements Serializable {
     public int is_chase;//0,//是否是追号订单，1：是追号订单，0-普通订单
     public String show_cancel_chase_button;//hide,是否显示停止追号按钮  show：显示停止追号的按钮  hide：不要显示停止追号的按钮
 
+    public String lottery_type;
+    public String lid;
     public String show_cancel_order_button;//hide,是否显示撤单按钮show：显示撤单按钮hide：不显示撤单按钮
     public String order_title;//普通订单,
     public String create_time;//2018-09-02 16;//40;//20,

@@ -24,6 +24,7 @@ import com.top.lottery.activities.BaseActivity;
 import com.top.lottery.activities.ConfirmCodesActivity;
 import com.top.lottery.activities.LotteryFunnyActivity;
 import com.top.lottery.activities.TrendChartActivity;
+import com.top.lottery.activities.TrendChartThreeActivity;
 import com.top.lottery.adapters.AwardBallAdapter;
 import com.top.lottery.base.Constants;
 import com.top.lottery.beans.AwardBallInfo;
@@ -147,7 +148,9 @@ public class LotteryFunnyPreDirectSelectFragment extends Fragment {
         tvTrendChart.setOnClickListener(new PerfectClickListener() {
             @Override
             protected void onNoDoubleClick(View v) {
-                ActivityUtils.startActivity(TrendChartActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constants.PASS_OBJECT,lotteryInfo);
+                ActivityUtils.startActivity( bundle,TrendChartActivity.class);
             }
         });
 
@@ -472,6 +475,7 @@ public class LotteryFunnyPreDirectSelectFragment extends Fragment {
     //校验期号
     private void checkAwardId() {
         HashMap<String, String> data = new HashMap<>();
+        data.put("lottery_type", lotteryInfo.lottery_type);// 彩种
         data.put("uid", Utils.getUserInfo().uid);
         data.put("award_id", Constants.LASTEST_AWARD_ID);// 最新彩种期数id
         OkGo.<LotteryResponse<CheckSelectCodeInfo>>post(Constants.Net.CART_CHECKAWARD)//
@@ -605,7 +609,7 @@ public class LotteryFunnyPreDirectSelectFragment extends Fragment {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
         data.put("add", "0");
-        data.put("lid", "1");
+        data.put("lid", lotteryInfo.lid);
         data.put("lottery_id", lotteryInfo.lottery_id);// 最新彩种期数id
         OkGo.<LotteryResponse<MechineChoosInfo>>post(Constants.Net.CART_MECHINE)//
                 .cacheMode(CacheMode.NO_CACHE)
@@ -614,9 +618,9 @@ public class LotteryFunnyPreDirectSelectFragment extends Fragment {
                     @Override
                     public void onSuccess(Response<LotteryResponse<MechineChoosInfo>> response) {
                         MechineChoosInfo mechineChoosInfo = response.body().body;
-                        if (mechineChoosInfo != null && mechineChoosInfo.code != null && mechineChoosInfo.code.length > 0) {
+//                        if (mechineChoosInfo != null && mechineChoosInfo.code != null && mechineChoosInfo.code.length > 0) {
 //                            showMechineChoose(mechineChoosInfo.code);
-                        }
+//                        }
                     }
 
 
@@ -667,6 +671,8 @@ public class LotteryFunnyPreDirectSelectFragment extends Fragment {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
         data.put("award_id", Constants.LASTEST_AWARD_ID);// 最新彩种期数id
+        data.put("lottery_type",lotteryInfo.lottery_type);
+        data.put("lottery_id",lotteryInfo.lottery_id);
         OkGo.<LotteryResponse<MissLotteryCode>>post(Constants.Net.AWARD_MISSINGVALUE)//
                 .cacheMode(CacheMode.NO_CACHE)
                 .params(Utils.getParams(data))

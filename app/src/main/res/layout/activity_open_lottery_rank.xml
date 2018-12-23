@@ -8,6 +8,7 @@
     tools:context=".activities.OpenLotteryRankActivity">
 
     <TextView
+        android:id="@+id/tv_open_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/activity_horizontal_margin"
@@ -30,7 +31,19 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+
+
+    <Button
+        android:id="@+id/bnt_do_lottery"
+        android:textSize="@dimen/text_size_normal"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:background="@color/red"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>

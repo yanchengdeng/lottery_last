@@ -20,6 +20,7 @@ import com.top.lottery.base.Constants;
 import com.top.lottery.beans.AwardOrderDetail;
 import com.top.lottery.beans.AwardOrderScore;
 import com.top.lottery.beans.AwardRecordItem;
+import com.top.lottery.beans.LotteryInfo;
 import com.top.lottery.beans.LotteryResponse;
 import com.top.lottery.beans.TicketOutInfo;
 import com.top.lottery.events.NoticeToDoNewTermCodeEvent;
@@ -83,6 +84,7 @@ public class LotteryRecordDetailActivity extends BaseActivity {
     private AwardRecordItem awardRecordItem;
     private  AwardOrderDetail awardOrderDetail;
     private LotteryOpenCodeAdapter lotteryOpenCodeAdapter;
+    private  LotteryInfo lotteryInfo = new LotteryInfo();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,6 +161,11 @@ public class LotteryRecordDetailActivity extends BaseActivity {
         tvCancleChase.setVisibility(awardOrderDetail.show_cancel_chase_button.equals("hide")?View.GONE:View.VISIBLE);
         tvCancleOrder.setVisibility(awardOrderDetail.show_cancel_order_button.equals("hide")?View.GONE:View.VISIBLE);
         lotteryOpenCodeAdapter.setNewData(awardOrderDetail.records);
+
+
+        lotteryInfo = new LotteryInfo();
+        lotteryInfo.lottery_type = awardOrderDetail.lottery_type;
+        lotteryInfo.lid = awardOrderDetail.lid;
 
 
 
@@ -241,6 +248,11 @@ public class LotteryRecordDetailActivity extends BaseActivity {
                     public void onSuccess(Response<LotteryResponse<String>> response) {
                         if (response.body().code==1){
                             Bundle bundle = new Bundle();
+                            if (lotteryInfo==null){
+                                return;
+                            }
+
+                            bundle.putSerializable(Constants.PASS_OBJECT,lotteryInfo);
                             bundle.putBoolean(Constants.PASS_BOLLEAN,true);
                             ActivityUtils.startActivity(bundle, ConfirmCodesActivity.class);
                             finish();

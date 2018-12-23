@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.TrendChartActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/list_divider_color"
+            android:gravity="center"
+            android:paddingBottom="@dimen/image_padding"
+            android:paddingTop="@dimen/image_padding"
+            android:text="期号"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_down" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="3"
+            android:background="@color/list_divider_color"
+            android:gravity="center"
+            android:text="开奖号"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_down" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="1"
+            android:background="@color/list_divider_color"
+            android:gravity="center"
+            android:text="和值"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_down" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="1"
+            android:background="@color/list_divider_color"
+            android:gravity="center"
+            android:text="跨度"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_down" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="1"
+            android:background="@color/list_divider_color"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_down" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="1"
+            android:background="@color/list_divider_color"
+            android:gravity="center"
+            android:text="2"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_down" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="1"
+            android:background="@color/list_divider_color"
+            android:gravity="center"
+            android:text="3"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_down" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="1"
+            android:background="@color/list_divider_color"
+            android:gravity="center"
+            android:text="4"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_down" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="1"
+            android:background="@color/list_divider_color"
+            android:gravity="center"
+            android:text="5"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_down" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="1"
+            android:background="@color/list_divider_color"
+            android:gravity="center"
+            android:text="6"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_down" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/list_divider_color" />
+
+        <include layout="@layout/view_line" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_count_down_tips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/list_divider_color"
+            android:lineSpacingMultiplier="1.2"
+            android:padding="@dimen/image_padding_big"
+            android:text="暂无可销售的期号，距离下次"
+            android:textColor="@color/color_info"
+            android:textSize="@dimen/text_size_normal" />
+
+
+        <LinearLayout
+            android:id="@+id/ll_ui_touzhu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_info"
+                android:orientation="horizontal"
+                android:padding="@dimen/image_padding_big">
+
+                <TextView
+                    android:id="@+id/tv_lottery_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/normal_submit_btn_white"
+                    android:drawableRight="@mipmap/arrow_up_black"
+                    android:padding="@dimen/image_padding_big"
+                    android:text="任选五"
+                    android:textColor="@color/color_tittle"
+                    android:textSize="@dimen/text_size_normal" />
+
+
+                <TextView
+                    android:id="@+id/tv_award_vluese"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|left"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1"
+                    android:text="积分0  共0注"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_normal_up"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/tv_touzhu_action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/normal_submit_btn_orange"
+                    android:paddingBottom="@dimen/image_padding_big"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:paddingTop="@dimen/image_padding_big"
+                    android:text="投注"
+                    android:textColor="@color/white" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

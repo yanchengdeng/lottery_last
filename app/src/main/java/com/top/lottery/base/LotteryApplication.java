@@ -19,11 +19,7 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.lzy.okgo.OkGo;
-import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
-import com.lzy.okgo.cookie.CookieJarImpl;
-import com.lzy.okgo.cookie.store.DBCookieStore;
-import com.lzy.okgo.https.HttpsUtils;
 import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
@@ -45,12 +41,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
-import okhttp3.OkHttpClient;
 
 public class LotteryApplication extends Application {
 
@@ -211,7 +204,7 @@ public class LotteryApplication extends Application {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", com.top.lottery.utils.Utils.getUserInfo().uid);
         data.put("use_new_award_id", flag);
-        data.put("lid","1");
+        data.put("lid",Constants.CURRENT_LID);
         OkGo.<LotteryResponse<GetCart>>post(Constants.Net.CART_SAVECART)//
                 .cacheMode(CacheMode.NO_CACHE)
                 .params(com.top.lottery.utils.Utils.getParams(data))
@@ -306,33 +299,10 @@ public class LotteryApplication extends Application {
      * 网络请求初始化
      */
     private static void initOkGo(Application context) {
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
-        //超时时间设置，默认60秒
-        builder.readTimeout(10 * 1000, TimeUnit.MILLISECONDS);      //全局的读取超时时间
-        builder.writeTimeout(10 * 1000, TimeUnit.MILLISECONDS);     //全局的写入超时时间
-        builder.connectTimeout(10 * 1000, TimeUnit.MILLISECONDS);   //全局的连接超时时间
-        //自动管理cookie（或者叫session的保持），以下几种任选其一就行
-        //builder.cookieJar(new CookieJarImpl(new SPCookieStore(this)));            //使用sp保持cookie，如果cookie不过期，则一直有效
-        builder.cookieJar(new CookieJarImpl(new DBCookieStore(context)));              //使用数据库保持cookie，如果cookie不过期，则一直有效
-        //builder.cookieJar(new CookieJarImpl(new MemoryCookieStore()));            //使用内存保持cookie，app退出后，cookie消失
-
-        try {
-            HttpsUtils.SSLParams sslParams3 = HttpsUtils.getSslSocketFactory(context.getAssets().open("ddzx.key"));
-//            builder.certificatePinner(sslParams3);
-            builder.sslSocketFactory(sslParams3.sSLSocketFactory, sslParams3.trustManager);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         // 其他统一的配置
         // 详细说明看GitHub文档：https://github.com/jeasonlzy/
-        OkGo.getInstance().init(context)                           //必须调用初始化
-                .setOkHttpClient(builder.build())               //建议设置OkHttpClient，不设置会使用默认的
-                .setCacheMode(CacheMode.NO_CACHE)               //全局统一缓存模式，默认不使用缓存，可以不传
-                .setCacheTime(CacheEntity.CACHE_NEVER_EXPIRE)   //全局统一缓存时间，默认永不过期，可以不传
-                .setRetryCount(0);                          //全局统一超时重连次数，默认为三次，那么最差的情况会请求4次(一次原始请求，三次重连请求)，不需要可以设置为0
-//                .addCommonHeaders(headers)                      //全局公共头
-//                .addCommonParams(params);                       //全局公共参数
+        OkGo.getInstance().init(context)   ;                        //必须调用初始化
     }
 
 

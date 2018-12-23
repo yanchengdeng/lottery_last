@@ -6,41 +6,59 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/activity_horizontal_margin">
 
+    <TextView
+        android:id="@+id/tv_lottery_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="快三"
+        android:textColor="@color/color_tittle"
+        android:textSize="@dimen/text_size_normal_up"
+        android:textStyle="bold" />
+
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/tv_open_times"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/image_padding"
+        android:layout_toRightOf="@+id/tv_lottery_name"
         android:text="第2018092029期"
         android:textColor="@color/color_tittle"
-        android:textSize="@dimen/text_size_normal_up" />
+        android:textSize="@dimen/text_size_normal" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_below="@+id/tv_open_times"
-        android:layout_height="wrap_content">
-
-    <me.gujun.android.taggroup.TagGroup
-        android:id="@+id/tag_code"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/image_padding_big"
-        app:atg_backgroundColor="@color/blue_ball"
-        app:atg_borderColor="@color/blue_ball"
-        app:atg_textColor="@color/white"
-        app:atg_horizontalPadding="5dp"
-        app:atg_textSize="@dimen/text_size_normal_up" />
+        android:layout_below="@+id/tv_open_times"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:orientation="horizontal">
+
+        <me.gujun.android.taggroup.TagGroup
+            android:id="@+id/tag_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:atg_backgroundColor="@color/blue_ball"
+            app:atg_borderColor="@color/blue_ball"
+            app:atg_horizontalPadding="5dp"
+            app:atg_textColor="@color/white"
+            app:atg_textSize="@dimen/text_size_normal_up" />
 
         <me.gujun.android.taggroup.TagGroup
             android:id="@+id/tag_code_red"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/image_padding_big"
             app:atg_backgroundColor="@color/ball_red"
             app:atg_borderColor="@color/ball_red"
-            app:atg_textColor="@color/white"
             app:atg_horizontalPadding="5dp"
+            app:atg_textColor="@color/white"
             app:atg_textSize="@dimen/text_size_normal_up" />
+
+        <TextView
+            android:id="@+id/tv_lottery_sum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_tittle"
+            android:textSize="@dimen/text_size_normal_up"
+            android:textStyle="bold" />
 
 
     </LinearLayout>
@@ -49,11 +67,21 @@
         android:id="@+id/tv_open_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:layout_alignParentRight="true"
-        android:layout_alignBaseline="@+id/tag_code"
+        android:layout_below="@+id/tv_open_times"
         android:text="2018-09-08 13:23"
         android:textColor="@color/color_date"
-        android:textSize="@dimen/text_size_normal" />
+        android:textSize="@dimen/text_size_normal_down" />
+
+
+    <ImageView
+        android:id="@+id/iv_arrow"
+        android:src="@mipmap/icon_arrow_right"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>
 

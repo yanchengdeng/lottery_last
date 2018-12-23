@@ -34,7 +34,7 @@ import com.top.lottery.beans.GetCart;
 import com.top.lottery.beans.GetCartSimple;
 import com.top.lottery.beans.LotteryInfo;
 import com.top.lottery.beans.LotteryResponse;
-import com.top.lottery.beans.MechineChoosInfo;
+import com.top.lottery.beans.MechineChoosInfoSimple;
 import com.top.lottery.beans.UserInfo;
 import com.top.lottery.events.NoticeToDoNewTermCodeEvent;
 import com.top.lottery.utils.NewsCallback;
@@ -121,7 +121,7 @@ public class ConfirmCodesActivity extends BaseActivity {
         recycle.setLayoutManager(new LinearLayoutManager(mContext));
         recycle.setAdapter(getCartAdapter);
         viewSuccess = LayoutInflater.from(mContext).inflate(R.layout.dialog_pay_success_view, null);
-        tvEndTime.setText("截止投注时间：" + Constants.LASTER_AWARD_END_TIME);
+        tvEndTime.setText("截止投注时间：" + (lotteryInfo.lottery_type.equals("1")?Constants.LASTER_AWARD_END_TIME:Constants.LASTER_AWARD_END_TIME_THREE));
 
         getCartAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
@@ -322,7 +322,7 @@ public class ConfirmCodesActivity extends BaseActivity {
     private void doDeletItem(String record_key) {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
-        data.put("lid", "1");// 最新彩种期数id
+        data.put("lid", lotteryInfo.lid);// 最新彩种期数id
         data.put("record_key", record_key);
         OkGo.<LotteryResponse<GetCartSimple>>post(Constants.Net.CART_DELETE)//
                 .cacheMode(CacheMode.NO_CACHE)
@@ -348,7 +348,7 @@ public class ConfirmCodesActivity extends BaseActivity {
     private void getCart() {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
-        data.put("lid", "1");// 最新彩种期数id
+        data.put("lid", lotteryInfo.lid);// 最新彩种期数id
         OkGo.<LotteryResponse<GetCart>>post(Constants.Net.CART_GETCART)//
                 .cacheMode(CacheMode.NO_CACHE)
                 .params(Utils.getParams(data))
@@ -599,14 +599,14 @@ public class ConfirmCodesActivity extends BaseActivity {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
         data.put("add", "1");//1-随机投注
-        data.put("lid", "1");
+        data.put("lid", lotteryInfo.lid);
 //        data.put("lottery_id", lotteryInfo.lottery_id);// 最新彩种期数id//玩法id,为机选的时候需要这个参数，如果是随机投注则不需要该参数
-        OkGo.<LotteryResponse<MechineChoosInfo>>post(Constants.Net.CART_MECHINE)//
+        OkGo.<LotteryResponse<MechineChoosInfoSimple>>post(Constants.Net.CART_MECHINE)//
                 .cacheMode(CacheMode.NO_CACHE)
                 .params(Utils.getParams(data))
-                .execute(new NewsCallback<LotteryResponse<MechineChoosInfo>>() {
+                .execute(new NewsCallback<LotteryResponse<MechineChoosInfoSimple>>() {
                     @Override
-                    public void onSuccess(Response<LotteryResponse<MechineChoosInfo>> response) {
+                    public void onSuccess(Response<LotteryResponse<MechineChoosInfoSimple>> response) {
 //                        getCart();
                         setCartChange(true);
                     }
@@ -627,7 +627,7 @@ public class ConfirmCodesActivity extends BaseActivity {
 
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
-        data.put("lid", "1");// 最新彩种期数id
+        data.put("lid", lotteryInfo.lid);// 最新彩种期数id
         OkGo.<LotteryResponse<UserInfo>>post(Constants.Net.CART_PAY)//
                 .cacheMode(CacheMode.NO_CACHE)
                 .params(Utils.getParams(data))
@@ -678,7 +678,11 @@ public class ConfirmCodesActivity extends BaseActivity {
                 public void onClick(View v) {
                     successDialog.dismiss();
                     Intent intent = new Intent(mContext, LotteryFunnyActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    //TODO  返回失败
+                    /**
+                     * @data 12-17-00:10
+                     */
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     finish();
                 }
@@ -688,7 +692,7 @@ public class ConfirmCodesActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     successDialog.dismiss();
-                    Intent intent = new Intent(mContext, MainActivity.class);
+                    Intent intent = new Intent(mContext, MainNewActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
 //                    setResult(Constants.BACK_TO_MAIN);
@@ -778,7 +782,7 @@ public class ConfirmCodesActivity extends BaseActivity {
         ivMinusTerm.setClickable(false);
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
-        data.put("lid", "1");// 最新彩种期数id
+        data.put("lid", lotteryInfo.lid);// 最新彩种期数id
         data.put("is_win_stop_chase", ckStopTouzhu.isChecked() ? "1" : "0");
         data.put("record_times", String.valueOf(record_times));//倍数，默认为1倍
         data.put("chase_awards", String.valueOf(append_terms));//追加期数，默认为1期，就是不追加
@@ -826,7 +830,7 @@ public class ConfirmCodesActivity extends BaseActivity {
 
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
-        data.put("lid", "1");// 最新彩种期数id
+        data.put("lid", lotteryInfo.lid);// 最新彩种期数id
         data.put("is_win_stop_chase", ckStopTouzhu.isChecked() ? "1" : "0");
         data.put("record_times", String.valueOf(record_times));//倍数，默认为1倍
         data.put("chase_awards", String.valueOf(append_terms));//追加期数，默认为1期，就是不追加

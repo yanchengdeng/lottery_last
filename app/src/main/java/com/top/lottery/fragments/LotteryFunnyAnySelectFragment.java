@@ -110,7 +110,9 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
         tvTrendChart.setOnClickListener(new PerfectClickListener() {
             @Override
             protected void onNoDoubleClick(View v) {
-                ActivityUtils.startActivity(TrendChartActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constants.PASS_OBJECT,lotteryInfo);
+                ActivityUtils.startActivity( bundle,TrendChartActivity.class);
             }
         });
 
@@ -167,6 +169,8 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
         data.put("award_id", Constants.LASTEST_AWARD_ID);// 最新彩种期数id
+        data.put("lottery_type",lotteryInfo.lottery_type);
+        data.put("lottery_id",lotteryInfo.lottery_id);
         OkGo.<LotteryResponse<MissLotteryCode>>post(Constants.Net.AWARD_MISSINGVALUE)//
                 .cacheMode(CacheMode.NO_CACHE)
                 .params(Utils.getParams(data))
@@ -239,7 +243,7 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
         data.put("add", "0");
-        data.put("lid", "1");
+        data.put("lid", lotteryInfo.lid);
         data.put("lottery_id", lotteryInfo.lottery_id);// 最新彩种期数id
         OkGo.<LotteryResponse<MechineChoosInfo>>post(Constants.Net.CART_MECHINE)//
                 .cacheMode(CacheMode.NO_CACHE)
@@ -248,8 +252,8 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
                     @Override
                     public void onSuccess(Response<LotteryResponse<MechineChoosInfo>> response) {
                         MechineChoosInfo mechineChoosInfo = response.body().body;
-                        if (mechineChoosInfo != null && mechineChoosInfo.code != null && mechineChoosInfo.code.length > 0) {
-                            showMechineChoose(mechineChoosInfo.code);
+                        if (mechineChoosInfo != null && mechineChoosInfo.records != null&& mechineChoosInfo.records.code!=null && mechineChoosInfo.records.code.length > 0) {
+                            showMechineChoose(mechineChoosInfo.records.code);
                         }
                     }
 
@@ -297,6 +301,7 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
     private void checkAwardId() {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
+        data.put("lottery_type", lotteryInfo.lottery_type);// 彩种
         data.put("award_id", Constants.LASTEST_AWARD_ID);// 最新彩种期数id
         OkGo.<LotteryResponse<CheckSelectCodeInfo>>post(Constants.Net.CART_CHECKAWARD)//
                 .cacheMode(CacheMode.NO_CACHE)

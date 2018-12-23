@@ -64,7 +64,7 @@ public class LoginActivity extends BaseActivity {
         hideTittle();
 
         if (Utils.isLogin()) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            startActivity(new Intent(LoginActivity.this, MainNewActivity.class));
             finish();
         } else {
             getImei();
@@ -188,7 +188,7 @@ public class LoginActivity extends BaseActivity {
                             SPUtils.getInstance().put(Constants.TOKEN,new Gson().toJson(userInfo.tokens));
                             SPUtils.getInstance().put(Constants.USER_NAME, etUserName.getEditableText().toString());
                             SPUtils.getInstance().put(Constants.PASSWORD, etPassword.getEditableText().toString());
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            startActivity(new Intent(LoginActivity.this, MainNewActivity.class));
                             finish();
                         }
                     }

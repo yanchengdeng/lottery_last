@@ -167,13 +167,13 @@ public class BuyLotteryRecordActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        new Handler().post(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 page = 1;
                 getAwardRecord();
             }
-        });
+        },300);
 
     }
 

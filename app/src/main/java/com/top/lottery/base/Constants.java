@@ -41,19 +41,36 @@ public class Constants {
     public static String LASTER_AWARD_END_TIME = "2018-08-26 17:00:00";
 
 
-    public static boolean DEBUG = false;
+
+
+    //快三
+    public static String LASTEST_AWARD_ID_THREE = "2018082601";
+    public static String LASTER_AWARD_END_TIME_THREE = "2018-08-26 17:00:00";
+
+
+
+
+
+
+    public static boolean DEBUG = true;
     public static boolean LOG_DEBUG = true;
     public static int PAGE_SIZE = 15;
 
     public static boolean HAS_VESRSION_TIPS ;//是否提示过版本更新
     public static int KEY_BORAD_HIEGHT = 250;
+    public static String CURRENT_LID = "1";//当前彩种id
 
     public static class Net {
 
         /**
          * 测试环境   发布环境
+         *
+         *         ://88.mayimayi.cn:8888/
+         *
+         *         ://lz.mayimayi.cn/
          **/
-        public static final String BASE_URL = DEBUG ? "://88.mayimayi.cn:8888/" : "://88.lzsscp.com/";
+
+        public static final String BASE_URL = DEBUG ? "://lz.mayimayi.cn/" : "://88.lzsscp.com/";
         public static final String BASE_NAME = BASE_URL + "api.php/V1/";
         public static final String HTTP_CERTIFY = "http";//: "https";
 
@@ -214,6 +231,8 @@ public class Constants {
         public static final String CLIENT_CHECKVERSION = BASE_API+"client/checkVersion";
         //获取积分中有玩过的彩种
         public static final String RECORD_GETLIDS = BASE_API+"record/getLids";
+        //获取喜报
+        public static final String RECORD_GETREWARDLIST = BASE_API+"record/getRewardList";
 
 
     }

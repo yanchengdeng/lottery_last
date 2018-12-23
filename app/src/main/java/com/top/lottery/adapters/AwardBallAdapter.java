@@ -39,8 +39,12 @@ public class AwardBallAdapter extends BaseQuickAdapter<AwardBallInfo, BaseViewHo
             helper.getView(R.id.tv_values_miss).setVisibility(View.GONE);
         } else {
             helper.getView(R.id.tv_values_miss).setVisibility(View.VISIBLE);
-            if (!TextUtils.isEmpty( Utils.getMissValues().get(item.value))){
-                ((TextView)helper.getView(R.id.tv_values_miss)).setText(Utils.getMissValues().get(item.value));
+            try {
+                if (!TextUtils.isEmpty( Utils.getMissValues().get(helper.getAdapterPosition()).value)){
+                    ((TextView)helper.getView(R.id.tv_values_miss)).setText(Utils.getMissValues().get(helper.getAdapterPosition()).value);
+                }
+            }catch (Exception e){
+
             }
         }
     }

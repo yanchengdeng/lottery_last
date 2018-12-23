@@ -30,10 +30,12 @@ import com.top.lottery.beans.LasterLotteryAwardInfo;
 import com.top.lottery.beans.LotteryInfo;
 import com.top.lottery.beans.LotteryPlayWay;
 import com.top.lottery.beans.LotteryResponse;
+import com.top.lottery.beans.LotteryType;
 import com.top.lottery.fragments.LotteryFunnyAnySelectFragment;
 import com.top.lottery.fragments.LotteryFunnyDanTuoSelectFragment;
 import com.top.lottery.fragments.LotteryFunnyPreDirectSelectFragment;
 import com.top.lottery.fragments.LotteryFunnyPreGroupSelectFragment;
+import com.top.lottery.fragments.LotteryFunnyThreeSelectFragment;
 import com.top.lottery.liseners.PerfectClickListener;
 import com.top.lottery.utils.NewsCallback;
 import com.top.lottery.utils.RecycleViewUtils;
@@ -70,6 +72,7 @@ public class LotteryFunnyActivity extends BaseActivity {
     private LotteryInfo lotteryInfo;
     public boolean isShowMissValue = false;
     private PlayWayAdapter playWayAdapter;
+    private LotteryType lotteryType ;
 
 
     @Override
@@ -78,6 +81,10 @@ public class LotteryFunnyActivity extends BaseActivity {
         setContentView(R.layout.activity_lottery_funny);
         ButterKnife.bind(this);
         setTitle("投注-");
+        lotteryType = (LotteryType) getIntent().getSerializableExtra(Constants.PASS_LOOTERY_TYPE);
+        if (lotteryType==null){
+            return;
+        }
         ivRightFunction.setVisibility(View.VISIBLE);
         ivRightFunction.setImageResource(R.mipmap.more_menu);
         playWayAdapter = new PlayWayAdapter(R.layout.adapter_play_way_centre,new ArrayList<LotteryPlayWay>());
@@ -138,7 +145,7 @@ public class LotteryFunnyActivity extends BaseActivity {
 
     }
 
-    private void getLotteryById(String lottery_id) {
+    private void getLotteryById(final String lottery_id) {
 
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
@@ -154,6 +161,9 @@ public class LotteryFunnyActivity extends BaseActivity {
                         String[] options = lotteryInfo.options.split("[,:\\r\\n]");
                         lotteryInfo.type = Integer.parseInt(options[1]);
                         lotteryInfo.num = Integer.parseInt(options[4]);
+                        lotteryInfo.lid = lotteryType.lid;
+                        Constants.CURRENT_LID = lotteryType.lid;
+                        lotteryInfo.lottery_type = lotteryType.lottery_type;
                         changeContent();
                     }
 
@@ -172,26 +182,28 @@ public class LotteryFunnyActivity extends BaseActivity {
      */
     private void changeContent() {
         Bundle bundle = new Bundle();
-        if (lotteryInfo.type == 1) {
-            bundle.putSerializable(Constants.PASS_OBJECT, lotteryInfo);
-            LotteryFunnyAnySelectFragment lotteryFunnyAnySelectFragment = new LotteryFunnyAnySelectFragment();
-            lotteryFunnyAnySelectFragment.setArguments(bundle);
-            FragmentUtils.replace(getSupportFragmentManager(), lotteryFunnyAnySelectFragment, R.id.fl_content);
-        } else if (lotteryInfo.type == 2) {
-            bundle.putSerializable(Constants.PASS_OBJECT, lotteryInfo);
-            LotteryFunnyPreDirectSelectFragment lotteryFunnyPreDirectSelectFragment = new LotteryFunnyPreDirectSelectFragment();
-            lotteryFunnyPreDirectSelectFragment.setArguments(bundle);
-            FragmentUtils.replace(getSupportFragmentManager(), lotteryFunnyPreDirectSelectFragment, R.id.fl_content);
-        } else if (lotteryInfo.type == 3) {
-            bundle.putSerializable(Constants.PASS_OBJECT, lotteryInfo);
-            LotteryFunnyPreGroupSelectFragment lotteryFunnyPreGroupSelectFragment = new LotteryFunnyPreGroupSelectFragment();
-            lotteryFunnyPreGroupSelectFragment.setArguments(bundle);
-            FragmentUtils.replace(getSupportFragmentManager(), lotteryFunnyPreGroupSelectFragment, R.id.fl_content);
-        } else if (lotteryInfo.type == 4 || lotteryInfo.type == 6) {
-            bundle.putSerializable(Constants.PASS_OBJECT, lotteryInfo);
-            LotteryFunnyDanTuoSelectFragment lotteryFunnyDanTuoSelectFragment = new LotteryFunnyDanTuoSelectFragment();
-            lotteryFunnyDanTuoSelectFragment.setArguments(bundle);
-            FragmentUtils.replace(getSupportFragmentManager(), lotteryFunnyDanTuoSelectFragment, R.id.fl_content);
+        if (lotteryType.lottery_type.equals("1")) {
+            if (lotteryInfo.type == 1) {
+                bundle.putSerializable(Constants.PASS_OBJECT, lotteryInfo);
+                LotteryFunnyAnySelectFragment lotteryFunnyAnySelectFragment = new LotteryFunnyAnySelectFragment();
+                lotteryFunnyAnySelectFragment.setArguments(bundle);
+                FragmentUtils.replace(getSupportFragmentManager(), lotteryFunnyAnySelectFragment, R.id.fl_content);
+            } else if (lotteryInfo.type == 2) {
+                bundle.putSerializable(Constants.PASS_OBJECT, lotteryInfo);
+                LotteryFunnyPreDirectSelectFragment lotteryFunnyPreDirectSelectFragment = new LotteryFunnyPreDirectSelectFragment();
+                lotteryFunnyPreDirectSelectFragment.setArguments(bundle);
+                FragmentUtils.replace(getSupportFragmentManager(), lotteryFunnyPreDirectSelectFragment, R.id.fl_content);
+            } else if (lotteryInfo.type == 3) {
+                bundle.putSerializable(Constants.PASS_OBJECT, lotteryInfo);
+                LotteryFunnyPreGroupSelectFragment lotteryFunnyPreGroupSelectFragment = new LotteryFunnyPreGroupSelectFragment();
+                lotteryFunnyPreGroupSelectFragment.setArguments(bundle);
+                FragmentUtils.replace(getSupportFragmentManager(), lotteryFunnyPreGroupSelectFragment, R.id.fl_content);
+            } else if (lotteryInfo.type == 4 || lotteryInfo.type == 6) {
+                bundle.putSerializable(Constants.PASS_OBJECT, lotteryInfo);
+                LotteryFunnyDanTuoSelectFragment lotteryFunnyDanTuoSelectFragment = new LotteryFunnyDanTuoSelectFragment();
+                lotteryFunnyDanTuoSelectFragment.setArguments(bundle);
+                FragmentUtils.replace(getSupportFragmentManager(), lotteryFunnyDanTuoSelectFragment, R.id.fl_content);
+            }
         }
     }
 
@@ -246,6 +258,8 @@ public class LotteryFunnyActivity extends BaseActivity {
             ((LotteryFunnyPreGroupSelectFragment) fragment).setShowLotteryMiss();
         } else if (fragment instanceof LotteryFunnyDanTuoSelectFragment) {
             ((LotteryFunnyDanTuoSelectFragment) fragment).setShowLotteryMiss();
+        }else if (fragment instanceof LotteryFunnyThreeSelectFragment){
+            ((LotteryFunnyThreeSelectFragment) fragment).setShowLotteryMiss();
         }
     }
 
@@ -261,7 +275,7 @@ public class LotteryFunnyActivity extends BaseActivity {
 
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
-        data.put("lottery_type", "1");// 彩种
+        data.put("lottery_type", lotteryType.lottery_type);// 彩种
         data.put("lottery_page", "1");//类型，1- 投注页面 ；2-走势图页面；3-首页;4-购物车页面
         OkGo.<LotteryResponse<LasterLotteryAwardInfo>>post(Constants.Net.LOTTERY_GETNEWESTAWARDINFO)//
                 .cacheMode(CacheMode.NO_CACHE)
@@ -327,7 +341,7 @@ public class LotteryFunnyActivity extends BaseActivity {
         showLoadingBar();
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
-        data.put("lid", "1");
+        data.put("lid", lotteryType.lid);
         OkGo.<LotteryResponse<List<LotteryPlayWay>>>post(Constants.Net.LOTTERY_GETLOTTERYS)//
                 .cacheMode(CacheMode.NO_CACHE)
                 .params(Utils.getParams(data))

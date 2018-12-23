@@ -17,6 +17,7 @@ public class LotteryInfo implements Serializable {
     public String lottery_id;//3,
     public String title;//任选三,
     public String options;//type;//1
+    public String lid ="1";
     //num://3,
     public int mechine;//1
     public int type;
@@ -29,4 +30,6 @@ public class LotteryInfo implements Serializable {
     public int TOUZHU_COUNT ;//投注数
     public int TOUZHU_INTEGRY ;//投注积分
     public boolean isAppend;//是否是追加的    默认否  直接在选号确认界面填写以上数据  如果是true 则是新增的选号  需要追加在选号确认上
+    public String score;
+    public String lottery_type;
 }

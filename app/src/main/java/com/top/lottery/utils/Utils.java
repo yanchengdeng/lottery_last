@@ -20,9 +20,11 @@ import com.lzy.okgo.model.Response;
 import com.top.lottery.R;
 import com.top.lottery.base.Constants;
 import com.top.lottery.beans.AwardBallInfo;
+import com.top.lottery.beans.LotteryInfo;
 import com.top.lottery.beans.LotteryResponse;
 import com.top.lottery.beans.LotteryType;
 import com.top.lottery.beans.MainWinCode;
+import com.top.lottery.beans.MissValueInfo;
 import com.top.lottery.beans.TerdNormalBall;
 import com.top.lottery.beans.TrendCodeInfo;
 import com.top.lottery.beans.UseAuth;
@@ -37,7 +39,7 @@ public class Utils {
 
 
     ///遗漏值
-    static LinkedTreeMap<String, String> missValus = new LinkedTreeMap<String, String>();
+    static List<MissValueInfo> missValus = new ArrayList<>();
     public static Activity context;
 
     public static String getImei() {
@@ -413,12 +415,12 @@ public class Utils {
 
 
     //遗漏值 转化为 键值对形式
-    public static LinkedTreeMap<String, String> parseMissValue(LinkedTreeMap<String, String> missValues) {
+    public static List<MissValueInfo> parseMissValue(List<MissValueInfo> missValues) {
         missValus = missValues;
         return missValus;
     }
 
-    public static LinkedTreeMap<String, String> getMissValues() {
+    public static List<MissValueInfo> getMissValues() {
         return missValus;
     }
 
@@ -456,6 +458,91 @@ public class Utils {
     }
 
 
+    /**
+     * @param trendCodeInfo
+     * @param hideShow      :hide   show
+     * @return
+     */
+    public static List<TerdNormalBall> get3CodeForTrend(TrendCodeInfo trendCodeInfo, String hideShow) {
+        List<TerdNormalBall> terdNormalBalls = new ArrayList<>();
+
+        TerdNormalBall awardBallInfoFist = new TerdNormalBall();
+        awardBallInfoFist.awardId = trendCodeInfo.award_id.substring(trendCodeInfo.award_id.length() - 2, trendCodeInfo.award_id.length());
+        terdNormalBalls.add(awardBallInfoFist);
+
+        //中奖
+
+        for (String codes : trendCodeInfo.prize_code) {
+            TerdNormalBall awardBallInfo = new TerdNormalBall();
+            awardBallInfo.value = codes;
+            awardBallInfo.isAwardCode = true;
+            terdNormalBalls.add(awardBallInfo);
+        }
+
+        //和值
+        TerdNormalBall awardBallInfoADD = new TerdNormalBall();
+        awardBallInfoADD.value = Utils.getSum(trendCodeInfo.prize_code);
+        awardBallInfoADD.isExtraValue = true;
+        terdNormalBalls.add(awardBallInfoADD);
+        //跨度
+        TerdNormalBall awardBallInfoDiff = new TerdNormalBall();
+        awardBallInfoDiff.value = Utils.getDiff(trendCodeInfo.prize_code);
+        awardBallInfoDiff.isExtraValue = true;
+        terdNormalBalls.add(awardBallInfoDiff);
+
+        //需要红圈红圈
+        for (int i = 1; i < 7; i++) {
+            TerdNormalBall awardBallInfo = new TerdNormalBall();
+            awardBallInfo.value = String.valueOf(i);
+            if (trendCodeInfo.missing_value != null && trendCodeInfo.missing_value.size() > 0) {
+                awardBallInfo.missVlaue = trendCodeInfo.missing_value.get(awardBallInfo.value);
+            } else {
+                awardBallInfo.missVlaue = "0";
+            }
+            awardBallInfo.isShowMiss = hideShow.equals("show") ? true : false;
+            awardBallInfo.isAwardCode = getIsAwardValue(awardBallInfo.value, trendCodeInfo.prize_code);
+            awardBallInfo.isNeedRedCircle = getIsAwardValue(awardBallInfo.value, trendCodeInfo.prize_code);
+//            awardBallInfo.isTopThree = getisTopThree(awardBallInfo.value, trendCodeInfo.prize_code);
+
+            terdNormalBalls.add(awardBallInfo);
+        }
+
+
+        return terdNormalBalls;
+    }
+
+    //获取最大值 -最小值
+    private static String getDiff(String[] prize_code) {
+        int max, min;
+        max = Integer.parseInt(prize_code[0]);
+        min = Integer.parseInt(prize_code[0]);
+        for (int i = 0; i < prize_code.length; i++) {
+
+            if (max < Integer.parseInt(prize_code[i])) {
+                max = Integer.parseInt(prize_code[i]);
+            }
+
+            if (min > Integer.parseInt(prize_code[i])) {
+                min = Integer.parseInt(prize_code[i]);
+            }
+        }
+        return String.valueOf(max - min);
+    }
+
+    private static String getSum(String[] prize_code) {
+        int sum = 0;
+        try {
+            for (int i = 0; i < prize_code.length; i++) {
+                sum += Integer.parseInt(prize_code[i]);
+            }
+        } catch (Exception E) {
+
+        } finally {
+
+        }
+        return String.valueOf(sum);
+    }
+
     //获取统计球的信息
     public static List<TerdNormalBall> get11CodeForTrendCount(String name, LinkedTreeMap<String, String> number) {
         List<TerdNormalBall> terdNormalBalls = new ArrayList<>();
@@ -472,6 +559,37 @@ public class Utils {
             } else {
                 awardBallInfo.value = String.valueOf(i);
             }
+            awardBallInfo.missVlaue = number.get(awardBallInfo.value);
+            awardBallInfo.isAwardCode = false;
+            awardBallInfo.isCount = true;
+
+            terdNormalBalls.add(awardBallInfo);
+        }
+
+        return terdNormalBalls;
+
+
+    }
+
+
+    //获取统计球的信息
+    public static List<TerdNormalBall> get3CodeForTrendCount(String name, LinkedTreeMap<String, String> number) {
+        List<TerdNormalBall> terdNormalBalls = new ArrayList<>();
+
+        TerdNormalBall awardBallInfoFist = new TerdNormalBall();
+        awardBallInfoFist.awardId = name;
+        terdNormalBalls.add(awardBallInfoFist);
+
+        for (int i = 0; i < 5; i++) {
+            TerdNormalBall empty = new TerdNormalBall();
+            empty.isCountDismiss = true;
+            terdNormalBalls.add(empty);
+        }
+
+
+        for (int i = 1; i < 7; i++) {
+            TerdNormalBall awardBallInfo = new TerdNormalBall();
+            awardBallInfo.value = String.valueOf(i);
             awardBallInfo.missVlaue = number.get(awardBallInfo.value);
             awardBallInfo.isAwardCode = false;
             awardBallInfo.isCount = true;
@@ -569,7 +687,7 @@ public class Utils {
     }
 
     public static int getPeriodPopHeight(Context context) {
-        return ScreenUtils.getScreenHeight() - ConvertUtils.dp2px(56)-ConvertUtils.dp2px(48)-getStateBar2(context);
+        return ScreenUtils.getScreenHeight() - ConvertUtils.dp2px(56) - ConvertUtils.dp2px(48) - getStateBar2(context);
     }
 
 
@@ -588,13 +706,13 @@ public class Utils {
         return ConvertUtils.dp2px(20);
     }
 
-    public static boolean checkUseID(EditText etUserName,Context mContext) {
+    public static boolean checkUseID(EditText etUserName, Context mContext) {
         if (TextUtils.isEmpty(etUserName.getEditableText().toString())) {
             ToastUtils.showShort(mContext.getString(R.string.input_user_name));
             return false;
         }
 
-        if (etUserName.getEditableText().toString().trim().length()!=8) {
+        if (etUserName.getEditableText().toString().trim().length() != 8) {
             ToastUtils.showShort(mContext.getString(R.string.input_user_name_right));
             return false;
         }
@@ -606,5 +724,108 @@ public class Utils {
     public static void showToast(Response response) {
 
         ToastUtils.showShort(Utils.toastInfo(response));
+    }
+
+    public static List<AwardBallInfo> parseThreeCodes(String score) {
+        List<AwardBallInfo> awardBallInfos = new ArrayList<>();
+        if (!TextUtils.isEmpty(score)) {
+            if (score.contains(":") && score.contains("\n")) {
+                String codes[] = score.split("\n");
+                for (String code : codes) {
+                    AwardBallInfo awardBallInfo = new AwardBallInfo();
+                    String[] codeValue = code.split(":");
+                    awardBallInfo.value = codeValue[0];
+                    awardBallInfo.price = codeValue[1];
+                    awardBallInfos.add(awardBallInfo);
+                }
+            } else {
+                AwardBallInfo awardBallInfo = new AwardBallInfo();
+                awardBallInfo.value = score;
+                awardBallInfos.add(awardBallInfo);
+            }
+        }
+        return awardBallInfos;
+    }
+
+
+    /**
+     * "title":"和值", "":"type:1
+     * "title":"三同号通选", "":"type:2
+     * "title":"三同号单选","":"type:3
+     * "title":"二同号复选","":"type:4
+     * "title":"二同号单选","":"type:5
+     * "title":"三不同号","":"type:6
+     * "title":"二不同号","":"type:7
+     * "title":"三连号通选","":"type:8
+     * "title":"三不同号胆拖","":"type:9
+     * "title":"二不同号胆拖","":"type:10
+     */
+    public static List<AwardBallInfo> parseThreeCodes(LotteryInfo lotteryInfo, String score) {
+        int type = lotteryInfo.type;
+        if (type == 1) {
+            return parseThreeCodes(score);
+        } else {
+            List<AwardBallInfo> awardBallInfos = new ArrayList<>();
+
+            if (type == 3) {
+                for (int i = 1; i < 7; i++) {
+                    AwardBallInfo awardBallInfo = new AwardBallInfo();
+                    awardBallInfo.value = i + "" + i + "" + i;
+                    awardBallInfo.price = score;
+                    awardBallInfos.add(awardBallInfo);
+                }
+            } else if (type == 2 || type == 8) {
+                AwardBallInfo awardBallInfo = new AwardBallInfo();
+                awardBallInfo.value = lotteryInfo.title;
+                awardBallInfo.price = score;
+                awardBallInfos.add(awardBallInfo);
+            } else if (type == 4) {
+                for (int i = 1; i < 7; i++) {
+                    AwardBallInfo awardBallInfo = new AwardBallInfo();
+                    awardBallInfo.value = i + "" + i + "*";
+                    awardBallInfo.price = score;
+                    awardBallInfos.add(awardBallInfo);
+                }
+            } else if (type == 6 || type == 7) {
+                for (int i = 1; i < 7; i++) {
+                    AwardBallInfo awardBallInfo = new AwardBallInfo();
+                    awardBallInfo.value = String.valueOf(i);
+                    awardBallInfo.price = score;
+                    awardBallInfos.add(awardBallInfo);
+                }
+            } else if (type==5 ||type == 9 || type == 10) {
+                for (int i = 1; i < 7; i++) {
+                    AwardBallInfo awardBallInfo = new AwardBallInfo();
+                    awardBallInfo.value = String.valueOf(i);
+                    awardBallInfo.price = score;
+                    awardBallInfos.add(awardBallInfo);
+                }
+            }
+
+            return awardBallInfos;
+        }
+    }
+
+    public static List<AwardBallInfo> parseThreeCodesDoule(String score) {
+        List<AwardBallInfo> awardBallInfos = new ArrayList<>();
+                for (int i = 1; i < 7; i++) {
+                    AwardBallInfo awardBallInfo = new AwardBallInfo();
+                    awardBallInfo.value = i + "" + i;
+                    awardBallInfo.price = score;
+                    awardBallInfos.add(awardBallInfo);
+                }
+
+            return awardBallInfos;
+    }
+
+    public static int getSpanCount(int type) {
+        if (type == 1) {
+            return 4;
+        } else if (type == 3 || type == 4 || type == 6 || type == 7) {
+            return 4;
+        } else if (type == 2 || type == 8) {
+            return 1;
+        }
+        return 4;
     }
 }
