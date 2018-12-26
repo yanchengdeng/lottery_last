@@ -5,10 +5,12 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.top.lottery.R;
 import com.top.lottery.beans.AwardBallInfo;
+import com.top.lottery.beans.MissValueInfo;
 import com.top.lottery.utils.Utils;
 
 import java.util.List;
@@ -43,7 +45,7 @@ public class AwardThreeBallAdapter extends BaseQuickAdapter<AwardBallInfo, BaseV
             ((TextView) helper.getView(R.id.tv_money)).setTextColor(mContext.getResources().getColor(R.color.red));
 
         }
-        ((TextView) helper.getView(R.id.tv_values_miss)).setText(item.missValue);
+//        ((TextView) helper.getView(R.id.tv_values_miss)).setText(item.missValue);
 
         if (!item.isShowMissValue) {
             helper.getView(R.id.tv_values_miss).setVisibility(View.GONE);
@@ -51,7 +53,14 @@ public class AwardThreeBallAdapter extends BaseQuickAdapter<AwardBallInfo, BaseV
             helper.getView(R.id.tv_values_miss).setVisibility(View.VISIBLE);
             try {
                 if (!TextUtils.isEmpty( Utils.getMissValues().get(helper.getAdapterPosition()).value)){
-                    ((TextView)helper.getView(R.id.tv_values_miss)).setText(Utils.getMissValues().get(helper.getAdapterPosition()).value);
+                    List<MissValueInfo>  XXX = Utils.getMissValues();
+                    String ss = item.value;
+
+                    String values = XXX.get(helper.getAdapterPosition()).value;
+
+                    LogUtils.w("dyc",XXX+ss+values);
+
+                    ((TextView)helper.getView(R.id.tv_values_miss)).setText(Utils.getMissValuesByKey(item.value));
                 }
             }catch (Exception e){
 

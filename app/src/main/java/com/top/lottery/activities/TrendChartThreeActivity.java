@@ -24,9 +24,11 @@ import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
 import com.top.lottery.R;
 import com.top.lottery.adapters.AwardDialogKindsAdapter;
+import com.top.lottery.adapters.AwardThreeBallChartAdapter;
 import com.top.lottery.adapters.TrendListItem3Adapter;
 import com.top.lottery.adapters.TrendSettingAdapter;
 import com.top.lottery.base.Constants;
+import com.top.lottery.beans.AwardBallInfo;
 import com.top.lottery.beans.CheckSelectCodeInfo;
 import com.top.lottery.beans.LasterLotteryAwardInfo;
 import com.top.lottery.beans.LotteryInfo;
@@ -74,6 +76,18 @@ public class TrendChartThreeActivity extends BaseActivity {
     TextView tvTouzhuAction;
     @BindView(R.id.ll_ui_touzhu)
     LinearLayout llUiTouzhu;
+    @BindView(R.id.tv_fisrt_ball_name)
+    TextView tvFisrtBallName;
+    @BindView(R.id.recycle_one_ball)
+    RecyclerView recycleOneBall;
+    @BindView(R.id.ll_first_balls)
+    LinearLayout llFirstBalls;
+    @BindView(R.id.tv_sencond_ball_name)
+    TextView tvSencondBallName;
+    @BindView(R.id.recycle_two_ball)
+    RecyclerView recycleTwoBall;
+    @BindView(R.id.ll_second_balls)
+    LinearLayout llSecondBalls;
     //走势图配置信息
     private TrendSettingInfo trendSettingInfo;
     private Dialog dialogSetting, dialogAward;
@@ -86,6 +100,7 @@ public class TrendChartThreeActivity extends BaseActivity {
     private LotteryPlayWay lotteryPlayWaySelect;//当前选择的彩种
     private AwardDialogKindsAdapter awardDialogKindsAdapter;//弹出彩种对话框
     private LotteryInfo lotteryInfopASS;
+    private AwardThreeBallChartAdapter awardThreeBallOneAdapter, awardThreeBallTwoAdapter;
 
 
     @Override
@@ -98,9 +113,16 @@ public class TrendChartThreeActivity extends BaseActivity {
         ivRightFunction.setImageResource(R.mipmap.trend_setting);
         trendListAdapter = new TrendListItem3Adapter(R.layout.adapter_trends_3_item_num, new ArrayList<TerdNormalBall>());
         recycle.setLayoutManager(new GridLayoutManager(this, 12));
+        tvLotteryName.setText("和值");
         recycle.addItemDecoration(new GridSpacingItemDecoration(12, 1, false));
         recycle.setAdapter(trendListAdapter);
         lotteryInfopASS = (LotteryInfo) getIntent().getSerializableExtra(Constants.PASS_OBJECT);
+        awardThreeBallOneAdapter = new AwardThreeBallChartAdapter(R.layout.adapter_lottery_three_chart_select_num, new ArrayList<AwardBallInfo>());
+        recycleOneBall.setAdapter(awardThreeBallOneAdapter);
+
+        awardThreeBallTwoAdapter = new AwardThreeBallChartAdapter(R.layout.adapter_lottery_three_chart_select_num, new ArrayList<AwardBallInfo>());
+        recycleTwoBall.setAdapter(awardThreeBallTwoAdapter);
+
         ivRightFunction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +145,69 @@ public class TrendChartThreeActivity extends BaseActivity {
             }
         });
 
+        awardThreeBallOneAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if (lotteryInfo != null) {
+                    if (lotteryInfo.type == 5 || lotteryInfo.type == 9 || lotteryInfo.type == 10) {
+                        if (lotteryInfo.type == 5) {
 
+                            boolean isSelected = awardThreeBallOneAdapter.getData().get(position).isSelected;
+                            awardThreeBallOneAdapter.getData().get(position).isSelected = !isSelected;
+                            awardThreeBallTwoAdapter.getData().get(position).isSelected = isSelected;
+                            awardThreeBallOneAdapter.notifyDataSetChanged();
+                            awardThreeBallTwoAdapter.notifyDataSetChanged();
+                        } else {
+                            if (getSelectBallsDan().size() > lotteryInfo.num - 1) {
+                                ToastUtils.showShort("最多只能选择" + getSelectBallsDan().size() + "个胆码");
+                                return;
+                            }
+                            awardThreeBallOneAdapter.getData().get(position).isSelected = !awardThreeBallOneAdapter.getData().get(position).isSelected;
+                            if (awardThreeBallOneAdapter.getData().get(position).isSelected) {
+                                awardThreeBallTwoAdapter.getData().get(position).isSelected = false;
+                                awardThreeBallTwoAdapter.notifyItemChanged(position);
+                            }
+                            awardThreeBallOneAdapter.notifyItemChanged(position);
+                        }
+                        countIntergaryDanTuo();
+
+                    } else {
+                        awardThreeBallOneAdapter.getData().get(position).isSelected = !awardThreeBallOneAdapter.getData().get(position).isSelected;
+                        awardThreeBallOneAdapter.notifyItemChanged(position);
+                        countIntergary();
+                    }
+
+                }
+            }
+        });
+
+
+        //胆拖   不同号
+        awardThreeBallTwoAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+                if (lotteryInfo != null) {
+                    if (lotteryInfo.type == 5 || lotteryInfo.type == 9 || lotteryInfo.type == 10) {
+                        if (lotteryInfo.type == 5) {
+                            boolean isSelected = awardThreeBallTwoAdapter.getData().get(position).isSelected;
+                            awardThreeBallTwoAdapter.getData().get(position).isSelected = !isSelected;
+                            awardThreeBallOneAdapter.getData().get(position).isSelected = isSelected;
+                            awardThreeBallOneAdapter.notifyDataSetChanged();
+                            awardThreeBallTwoAdapter.notifyDataSetChanged();
+                        } else {
+                            awardThreeBallTwoAdapter.getData().get(position).isSelected = !awardThreeBallTwoAdapter.getData().get(position).isSelected;
+                            if (awardThreeBallTwoAdapter.getData().get(position).isSelected) {
+                                awardThreeBallOneAdapter.getData().get(position).isSelected = false;
+                                awardThreeBallOneAdapter.notifyItemChanged(position);
+                            }
+                            awardThreeBallTwoAdapter.notifyItemChanged(position);
+                        }
+                    }
+                }
+                countIntergaryDanTuo();
+            }
+        });
 
 
         //弹出彩种
@@ -142,18 +226,165 @@ public class TrendChartThreeActivity extends BaseActivity {
         getAwardKinds();
     }
 
+
+    //已选择胆的球数
+    private List<AwardBallInfo> getSelectBallsDan() {
+        List<AwardBallInfo> awardBallInfos = new ArrayList<>();
+        if (awardThreeBallOneAdapter != null && awardThreeBallOneAdapter.getData().size() > 0) {
+            for (AwardBallInfo item : awardThreeBallOneAdapter.getData()) {
+                if (item.isSelected) {
+                    awardBallInfos.add(item);
+                }
+            }
+        }
+
+
+        return awardBallInfos;
+    }
+
+    //已选择拖的球数
+    private List<AwardBallInfo> getSelectBallsTuo() {
+        List<AwardBallInfo> awardBallInfos = new ArrayList<>();
+        if (awardThreeBallTwoAdapter != null && awardThreeBallTwoAdapter.getData().size() > 0) {
+            for (AwardBallInfo item : awardThreeBallTwoAdapter.getData()) {
+                if (item.isSelected) {
+                    awardBallInfos.add(item);
+                }
+            }
+        }
+        return awardBallInfos;
+    }
+
+
+    //计算积分 一注  等于 2个积分
+    private void countIntergary() {
+        if (lotteryInfo == null) {
+            return;
+        }
+        lotteryInfo.codes = getSelectBallsCode();
+        lotteryInfo.TOUZHU_COUNT = Utils.combination(getSelectBallsSingle().size(), lotteryInfo.num);
+        lotteryInfo.TOUZHU_INTEGRY = 2 * Utils.combination(getSelectBallsSingle().size(), lotteryInfo.num);
+        tvAwardVluese.setText("积分" + lotteryInfo.TOUZHU_COUNT + "  共" + lotteryInfo.TOUZHU_INTEGRY + "注");
+    }
+
+
+    //计算胆拖
+    private void countIntergaryDanTuo() {
+        if (lotteryInfo == null) {
+            return;
+        }
+        lotteryInfo.codes = getSelectBallsCode();
+        lotteryInfo.TOUZHU_COUNT = getSelectBallsTuo().size() * getSelectBallsDan().size();
+        lotteryInfo.TOUZHU_INTEGRY = 2 * lotteryInfo.TOUZHU_COUNT;
+
+        tvAwardVluese.setText("积分" + lotteryInfo.TOUZHU_COUNT + "  共" + lotteryInfo.TOUZHU_INTEGRY + "注");
+
+    }
+
+
+    //获取所选球号
+    private String[][] getSelectBallsCode() {
+        List<AwardBallInfo> awardBallInfos = getSelectBallsSingle();
+        String[] codes = new String[awardBallInfos.size()];
+        for (int i = 0; i < awardBallInfos.size(); i++) {
+            codes[i] = awardBallInfos.get(i).value;
+        }
+
+        String[][] arrays = new String[1][1];
+        arrays[0] = codes;
+        return arrays;
+    }
+
+
+
+    //已选择的球数
+    private List<AwardBallInfo> getSelectBallsSingle() {
+        List<AwardBallInfo> awardBallInfos = new ArrayList<>();
+        if (awardThreeBallOneAdapter != null && awardThreeBallOneAdapter.getData().size() > 0) {
+            for (AwardBallInfo item : awardThreeBallOneAdapter.getData()) {
+                if (item.isSelected) {
+                    awardBallInfos.add(item);
+                }
+            }
+        }
+        return awardBallInfos;
+    }
+
+
+    public  boolean   isSingleCode(){
+        if (lotteryInfo.type==5 ||lotteryInfo.type==9 || lotteryInfo.type==10){
+            return  false;
+        }else{
+            return  true;
+        }
+
+    }
+
+
+
+    //获取所选球号
+    private String[][] getSelectBallsCodeDanTuo() {
+        List<AwardBallInfo> awardBallDans = getSelectBallsDan();
+        String[] codesDan = new String[awardBallDans.size()];
+        for (int i = 0; i < awardBallDans.size(); i++) {
+            codesDan[i] = awardBallDans.get(i).value;
+        }
+
+
+        List<AwardBallInfo> awardBallTuos = getSelectBallsTuo();
+        String[] codesTuo = new String[awardBallTuos.size()];
+        for (int i = 0; i < awardBallTuos.size(); i++) {
+            codesTuo[i] = awardBallTuos.get(i).value;
+        }
+
+        String[][] arrays = new String[2][1];
+        arrays[0] = codesDan;
+        arrays[1] = codesTuo;
+
+        return arrays;
+    }
+
     //做投注操作
     private void doTouZhuAction() {
         if (lotteryInfo != null) {
-            if (lotteryInfo.type == 1 || lotteryInfo.type == 3) {
-//                checkSelectOne();
-            } else if (lotteryInfo.type == 2) {
-//                checkSelectDirect();
-            } else if (lotteryInfo.type == 4 || lotteryInfo.type == 6) {
-//                checkSelectDanTuo();
+            if (lotteryInfo.type == 5 || lotteryInfo.type == 9 || lotteryInfo.type == 10) {
+                checkSelectDanTuo();
+            } else {
+                checkSelectOne();
             }
         } else {
             ToastUtils.showShort("请选择彩种");
+        }
+    }
+
+    private void checkSelectDanTuo() {
+        if (getSelectBallsDan().size() == 0) {
+            if (lotteryInfo.type == 5) {
+                ToastUtils.showShort("至少选择一个同号数值");
+            } else {
+                ToastUtils.showShort("至少选择一个胆码");
+            }
+
+        } else if (getSelectBallsTuo().size() == 0) {
+            if (lotteryInfo.type == 5) {
+                ToastUtils.showShort("至少选择一个不同号数值");
+            } else {
+                ToastUtils.showShort("至少选择一个拖码");
+            }
+        } else {
+            showLoadingBar();
+            checkAwardId();
+        }
+    }
+
+
+    //检查选择一个球的流程
+    private void checkSelectOne() {
+        if (getSelectBallsDan().size() >= lotteryInfo.num) {
+            showLoadingBar();
+            checkAwardId();
+        } else {
+            ToastUtils.showShort("至少选择" + lotteryInfo.num + "球");
         }
     }
 
@@ -244,18 +475,18 @@ public class TrendChartThreeActivity extends BaseActivity {
 
     //初始化所有已选ball
     private void initAllAwardsBall() {
-//        for (AwardBallInfo item : acountChartAwardBallsAdapterOne.getData()) {
-//            item.isSelected = false;
-//        }
-//        for (AwardBallInfo item : acountChartAwardBallsAdapterTwo.getData()) {
-//            item.isSelected = false;
-//        }
-//        for (AwardBallInfo item : acountChartAwardBallsAdapterThree.getData()) {
-//            item.isSelected = false;
-//        }
-//        acountChartAwardBallsAdapterOne.notifyDataSetChanged();
-//        acountChartAwardBallsAdapterTwo.notifyDataSetChanged();
-//        acountChartAwardBallsAdapterThree.notifyDataSetChanged();
+        if (awardThreeBallOneAdapter.getData() != null) {
+            for (AwardBallInfo item : awardThreeBallOneAdapter.getData()) {
+                item.isSelected = false;
+            }
+            awardThreeBallOneAdapter.notifyDataSetChanged();
+        }
+        if (awardThreeBallTwoAdapter.getData() != null) {
+            for (AwardBallInfo item : awardThreeBallTwoAdapter.getData()) {
+                item.isSelected = false;
+            }
+            awardThreeBallTwoAdapter.notifyDataSetChanged();
+        }
     }
 
     /**
@@ -267,7 +498,7 @@ public class TrendChartThreeActivity extends BaseActivity {
 
     private LotteryInfo lotteryInfo;
 
-    private void getLotteryById(String lottery_id) {
+    private void getLotteryById(final String lottery_id) {
 
         showLoadingBar();
         HashMap<String, String> data = new HashMap<>();
@@ -285,9 +516,32 @@ public class TrendChartThreeActivity extends BaseActivity {
                         lotteryInfo.type = Integer.parseInt(options[1]);
                         lotteryInfo.num = Integer.parseInt(options[4]);
                         lotteryInfo.lid = lotteryInfopASS.lid;
-//                        changeContent();
-                    }
 
+
+                        int spancout = Utils.getSpanCountForChart(lotteryInfo.type);
+                        recycleOneBall.setLayoutManager(new GridLayoutManager(mContext, spancout));
+                        recycleTwoBall.setLayoutManager(new GridLayoutManager(mContext, spancout));
+//                        recycleOneBall.addItemDecoration(new GridSpacingItemDecoration(spancout,16,true));
+
+
+                        if (lotteryInfo.type == 5 || lotteryInfo.type == 9 || lotteryInfo.type == 10) {
+                            if (lotteryInfo.type == 5) {
+                                awardThreeBallOneAdapter.setNewData(Utils.parseThreeCodesDoule(lotteryInfo.score));
+                                tvFisrtBallName.setText("同号");
+                                tvSencondBallName.setText("不同");
+                            } else {
+                                awardThreeBallOneAdapter.setNewData(Utils.parseThreeCodes(lotteryInfo, lotteryInfo.score));
+                                tvFisrtBallName.setText("胆码");
+                                tvSencondBallName.setText("拖码");
+                            }
+                            awardThreeBallTwoAdapter.setNewData(Utils.parseThreeCodes(lotteryInfo, lotteryInfo.score));
+                            llSecondBalls.setVisibility(View.VISIBLE);
+                        } else {
+                            awardThreeBallOneAdapter.setNewData(Utils.parseThreeCodes(lotteryInfo, lotteryInfo.score));
+                            llSecondBalls.setVisibility(View.GONE);
+                            tvFisrtBallName.setText("选号");
+                        }
+                    }
 
                     @Override
                     public void onError(Response response) {
@@ -296,8 +550,6 @@ public class TrendChartThreeActivity extends BaseActivity {
                     }
                 });
     }
-
-
 
 
     @Override
@@ -311,7 +563,7 @@ public class TrendChartThreeActivity extends BaseActivity {
 
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
-        data.put("lottery_type", "2");// 彩种
+        data.put("lottery_type", lotteryInfopASS.lottery_type);// 彩种
         data.put("lottery_page", "1");//类型，1- 投注页面 ；2-走势图页面；3-首页;4-购物车页面
         OkGo.<LotteryResponse<LasterLotteryAwardInfo>>post(Constants.Net.LOTTERY_GETNEWESTAWARDINFO)//
                 .cacheMode(CacheMode.NO_CACHE)
@@ -323,8 +575,8 @@ public class TrendChartThreeActivity extends BaseActivity {
                         if (lasterLotteryAwardInfo != null) {
                             if (!TextUtils.isEmpty(lasterLotteryAwardInfo.award_id)) {
                                 currentLotterTerm = lasterLotteryAwardInfo.award_id;
-                                Constants.LASTEST_AWARD_ID = lasterLotteryAwardInfo.award_id;
-                                Constants.LASTER_AWARD_END_TIME = lasterLotteryAwardInfo.current_time;
+                                Constants.LASTEST_AWARD_ID_THREE = lasterLotteryAwardInfo.award_id;
+                                Constants.LASTER_AWARD_END_TIME_THREE = lasterLotteryAwardInfo.current_time;
                             }
                             if (lasterLotteryAwardInfo.status == 1) {
                                 isCanTouzhu = true;
@@ -560,7 +812,7 @@ public class TrendChartThreeActivity extends BaseActivity {
     private void setSetting() {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
-        data.put("lottery_type", "2");// 彩种
+        data.put("lottery_type", lotteryInfopASS.lottery_type);// 彩种
         data.put("day", day);
         data.put("sort", sort);
         data.put("show_column", showHide);
@@ -599,7 +851,7 @@ public class TrendChartThreeActivity extends BaseActivity {
     private void getTrendData() {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
-        data.put("lottery_type", "2");// 彩种
+        data.put("lottery_type", lotteryInfopASS.lottery_type);// 彩种
         OkGo.<LotteryResponse<TrendChartInfo>>post(Constants.Net.AWARD_TRENDCHART)//
                 .cacheMode(CacheMode.NO_CACHE)
                 .params(Utils.getParams(data))
@@ -671,15 +923,12 @@ public class TrendChartThreeActivity extends BaseActivity {
     }
 
 
-
-
-
     //校验期号
     private void checkAwardId() {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
-        data.put("lottery_type", lotteryInfo.lottery_type);// 彩种
-        data.put("award_id", Constants.LASTEST_AWARD_ID);// 最新彩种期数id
+        data.put("lottery_type", lotteryInfopASS.lottery_type);// 彩种
+        data.put("award_id", Constants.LASTEST_AWARD_ID_THREE);// 最新彩种期数id
         OkGo.<LotteryResponse<CheckSelectCodeInfo>>post(Constants.Net.CART_CHECKAWARD)//
                 .cacheMode(CacheMode.NO_CACHE)
                 .params(Utils.getParams(data))
@@ -706,7 +955,7 @@ public class TrendChartThreeActivity extends BaseActivity {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
         data.put("lottery_id", lotteryInfo.lottery_id);// 最新彩种期数id
-//        data.put("codes", new Gson().toJson(getSelectBallsCode()));
+        data.put("codes", new Gson().toJson(isSingleCode()?getSelectBallsCode():getSelectBallsCodeDanTuo()));
         OkGo.<LotteryResponse<CheckSelectCodeInfo>>post(Constants.Net.CART_CHECKCODES)//
                 .cacheMode(CacheMode.NO_CACHE)
                 .params(Utils.getParams(data))
@@ -728,15 +977,13 @@ public class TrendChartThreeActivity extends BaseActivity {
     }
 
 
-
-
     //加入购物车
     private void addCar() {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
-        data.put("award_id", Constants.LASTEST_AWARD_ID);
+        data.put("award_id", Constants.LASTEST_AWARD_ID_THREE);
         data.put("lottery_id", lotteryInfo.lottery_id);// 最新彩种期数id
-//        data.put("codes", new Gson().toJson(getSelectBallsCode()));
+        data.put("codes", new Gson().toJson(isSingleCode()?getSelectBallsCode():getSelectBallsCodeDanTuo()));
         OkGo.<LotteryResponse<CheckSelectCodeInfo>>post(Constants.Net.CART_ADDCART)//
                 .cacheMode(CacheMode.NO_CACHE)
                 .params(Utils.getParams(data))

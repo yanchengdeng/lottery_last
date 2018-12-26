@@ -231,7 +231,9 @@ public class LotteryFunnyActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 popupWindow.dismiss();
-                ActivityUtils.startActivity(OpenLotteryRankActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.PASS_STRING,lotteryType.lottery_type);
+                ActivityUtils.startActivity(bundle,OpenLotteryRankActivity.class);
             }
         });
 

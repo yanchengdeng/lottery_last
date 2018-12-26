@@ -79,6 +79,7 @@ public class LotteryFunnyThreeDanTuoFragment extends Fragment {
     private LotteryInfo lotteryInfo;
     private AwardThreeBallAdapter awardDanAdapter, awawrdTuoAdapter;
     private boolean isMechineChoose;//是否可以允许机选  允许则可以机选  清除 切换  否则是可以清除操作
+    private int prePositon;//胆码 上一个选择
 
 
     @Override
@@ -98,11 +99,11 @@ public class LotteryFunnyThreeDanTuoFragment extends Fragment {
         //胆
         awardDanAdapter = new AwardThreeBallAdapter(R.layout.adapter_lottery_three_select_num, new ArrayList<AwardBallInfo>());
         recycleDan.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        recycleDan.addItemDecoration(new GridSpacingItemDecoration(3,16,true));
+        recycleDan.addItemDecoration(new GridSpacingItemDecoration(3, 16, true));
         recycleDan.setAdapter(awardDanAdapter);
-        if (lotteryInfo.type==5){
-            awardDanAdapter.setNewData(Utils.parseThreeCodesDoule( lotteryInfo.score));
-        }else {
+        if (lotteryInfo.type == 5) {
+            awardDanAdapter.setNewData(Utils.parseThreeCodesDoule(lotteryInfo.score));
+        } else {
             awardDanAdapter.setNewData(Utils.parseThreeCodes(lotteryInfo, lotteryInfo.score));
         }
 
@@ -110,14 +111,28 @@ public class LotteryFunnyThreeDanTuoFragment extends Fragment {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-               for (AwardBallInfo item:awardDanAdapter.getData()){
-                   item.isSelected = false;
-               }
-                awardDanAdapter.getData().get(position).isSelected = true;
+
+                if (lotteryInfo.type == 5) {
+
+                    boolean isSelected = awardDanAdapter.getData().get(position).isSelected;
+                    awardDanAdapter.getData().get(position).isSelected = !isSelected;
+                    awawrdTuoAdapter.getData().get(position).isSelected = isSelected;
+                    awardDanAdapter.notifyDataSetChanged();
+                    awawrdTuoAdapter.notifyDataSetChanged();
+                } else {
+                    if (getSelectBallsDan().size() > lotteryInfo.num - 1) {
+                        ToastUtils.showShort("最多只能选择" + getSelectBallsDan().size() + "个胆码");
+                        return;
+                    }
+                    awardDanAdapter.getData().get(position).isSelected = !awardDanAdapter.getData().get(position).isSelected;
+                    if (awardDanAdapter.getData().get(position).isSelected) {
+                        awawrdTuoAdapter.getData().get(position).isSelected = false;
+                        awawrdTuoAdapter.notifyItemChanged(position);
+                    }
 //                checkTouHasSame(awardDanAdapter.getData().get(position).value);
-                awawrdTuoAdapter.getData().get(position).isSelected = false;
-                awawrdTuoAdapter.notifyDataSetChanged();
-                awardDanAdapter.notifyDataSetChanged();
+                    awardDanAdapter.notifyItemChanged(position);
+                }
+
 
                 countIntergary();
             }
@@ -130,15 +145,15 @@ public class LotteryFunnyThreeDanTuoFragment extends Fragment {
             protected void onNoDoubleClick(View v) {
 
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(Constants.PASS_OBJECT,lotteryInfo);
-                ActivityUtils.startActivity( bundle,TrendChartThreeActivity.class);
+                bundle.putSerializable(Constants.PASS_OBJECT, lotteryInfo);
+                ActivityUtils.startActivity(bundle, TrendChartThreeActivity.class);
             }
         });
 
         //拖
         awawrdTuoAdapter = new AwardThreeBallAdapter(R.layout.adapter_lottery_three_select_num, new ArrayList<AwardBallInfo>());
         recycleTuo.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        recycleTuo.addItemDecoration(new GridSpacingItemDecoration(3,16,true));
+        recycleTuo.addItemDecoration(new GridSpacingItemDecoration(3, 16, true));
         recycleTuo.setAdapter(awawrdTuoAdapter);
         awawrdTuoAdapter.setNewData(Utils.parseThreeCodes(lotteryInfo, lotteryInfo.score));
 
@@ -212,12 +227,12 @@ public class LotteryFunnyThreeDanTuoFragment extends Fragment {
 //        if (getSelectBallsTuo().size() >= lotteryInfo.num) {
 
 
-            lotteryInfo.codes = getSelectBallsCode();
-            lotteryInfo.TOUZHU_COUNT = getSelectBallsTuo().size()*  getSelectBallsDan().size();
-            lotteryInfo.TOUZHU_INTEGRY = 2 * Utils.combination(getSelectBallsTuo().size(),  getSelectBallsDan().size());
+        lotteryInfo.codes = getSelectBallsCode();
+        lotteryInfo.TOUZHU_COUNT = getSelectBallsTuo().size() * getSelectBallsDan().size();
+        lotteryInfo.TOUZHU_INTEGRY = 2 * lotteryInfo.TOUZHU_COUNT;
 
-        tvIntergry.setText("积分：" + 2 *  lotteryInfo.TOUZHU_COUNT);
-        tvNoteNumbers.setText("注数：" +  lotteryInfo.TOUZHU_COUNT);
+        tvIntergry.setText("积分：" + 2 * lotteryInfo.TOUZHU_COUNT);
+        tvNoteNumbers.setText("注数：" + lotteryInfo.TOUZHU_COUNT);
 
 //        } else {
 //            tvIntergry.setText("积分：0");
@@ -343,7 +358,7 @@ public class LotteryFunnyThreeDanTuoFragment extends Fragment {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
         data.put("lottery_type", lotteryInfo.lottery_type);// 彩种
-        data.put("award_id", Constants.LASTEST_AWARD_ID);// 最新彩种期数id
+        data.put("award_id", Constants.LASTEST_AWARD_ID_THREE);// 最新彩种期数id
         OkGo.<LotteryResponse<CheckSelectCodeInfo>>post(Constants.Net.CART_CHECKAWARD)//
                 .cacheMode(CacheMode.NO_CACHE)
                 .params(Utils.getParams(data))
@@ -400,7 +415,7 @@ public class LotteryFunnyThreeDanTuoFragment extends Fragment {
     private void addCar() {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
-        data.put("award_id", Constants.LASTEST_AWARD_ID);
+        data.put("award_id", Constants.LASTEST_AWARD_ID_THREE);
         data.put("lottery_id", lotteryInfo.lottery_id);// 最新彩种期数id
         data.put("codes", new Gson().toJson(getSelectBallsCode()));
         OkGo.<LotteryResponse<CheckSelectCodeInfo>>post(Constants.Net.CART_ADDCART)//
@@ -499,7 +514,7 @@ public class LotteryFunnyThreeDanTuoFragment extends Fragment {
     private void getMissValue() {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
-        data.put("award_id", Constants.LASTEST_AWARD_ID);// 最新彩种期数id
+        data.put("award_id", Constants.LASTEST_AWARD_ID_THREE);// 最新彩种期数id
         data.put("lottery_type", lotteryInfo.lottery_type);
         data.put("lottery_id", lotteryInfo.lottery_id);
         OkGo.<LotteryResponse<MissLotteryCode>>post(Constants.Net.AWARD_MISSINGVALUE)//

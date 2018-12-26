@@ -216,7 +216,9 @@ public class LotteryFunnyThreeActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 popupWindow.dismiss();
-                ActivityUtils.startActivity(OpenLotteryRankActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.PASS_STRING,lotteryType.lottery_type);
+                ActivityUtils.startActivity(bundle,OpenLotteryRankActivity.class);
             }
         });
 
@@ -227,7 +229,7 @@ public class LotteryFunnyThreeActivity extends BaseActivity {
                 popupWindow.dismiss();
                 Bundle bundle = new Bundle();
                 bundle.putString(Constants.PASS_NAME, "玩法说明");
-                bundle.putString(Constants.PASS_STRING, Constants.Net.WEB_PLAY_WAY);
+                bundle.putString(Constants.PASS_STRING, Constants.Net.WEB_PLAY_WAY_THREE);
                 ActivityUtils.startActivity(bundle, OpenWebViewActivity.class);
             }
         });

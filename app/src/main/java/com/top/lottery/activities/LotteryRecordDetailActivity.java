@@ -255,7 +255,6 @@ public class LotteryRecordDetailActivity extends BaseActivity {
                             bundle.putSerializable(Constants.PASS_OBJECT,lotteryInfo);
                             bundle.putBoolean(Constants.PASS_BOLLEAN,true);
                             ActivityUtils.startActivity(bundle, ConfirmCodesActivity.class);
-                            finish();
                         }
 
                     }

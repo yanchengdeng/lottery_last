@@ -76,7 +76,7 @@ public class OpenLotteryFragment extends Fragment {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(Constants.PASS_OBJECT, openLotteryCodeAdapter.getData().get(position));
+                bundle.putString(Constants.PASS_STRING,openLotteryCodeAdapter.getData().get(position).lottery_type);
                 ActivityUtils.startActivity(bundle, OpenLotteryRankActivity.class);
             }
         });
@@ -125,7 +125,7 @@ public class OpenLotteryFragment extends Fragment {
                     public void onSuccess(Response<LotteryResponse<List<LotterRecord>>> response) {
                         LogUtils.w("dyc", response);
 
-                        autoVerticalScrollTextViewUtil = new AutoVerticalScrollTextViewUtil(autoVerticalScrollTextView, getStringData(response.body().body));
+                        autoVerticalScrollTextViewUtil = new AutoVerticalScrollTextViewUtil(autoVerticalScrollTextView, Utils.getStringData(response.body().body));
                         autoVerticalScrollTextViewUtil.start();
                     }
 

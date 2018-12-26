@@ -1084,7 +1084,7 @@ public class TrendChartActivity extends BaseActivity {
             showLoadingBar();
             checkAwardId();
         } else {
-            ToastUtils.showShort("只是选择" + lotteryInfo.num + "球");
+            ToastUtils.showShort("至少选择" + lotteryInfo.num + "球");
         }
     }
 

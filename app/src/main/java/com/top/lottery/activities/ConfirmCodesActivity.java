@@ -677,13 +677,6 @@ public class ConfirmCodesActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     successDialog.dismiss();
-                    Intent intent = new Intent(mContext, LotteryFunnyActivity.class);
-                    //TODO  返回失败
-                    /**
-                     * @data 12-17-00:10
-                     */
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
                     finish();
                 }
             });
@@ -695,7 +688,6 @@ public class ConfirmCodesActivity extends BaseActivity {
                     Intent intent = new Intent(mContext, MainNewActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
-//                    setResult(Constants.BACK_TO_MAIN);
                     finish();
                 }
             });

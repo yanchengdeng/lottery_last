@@ -20,6 +20,7 @@ import com.lzy.okgo.model.Response;
 import com.top.lottery.R;
 import com.top.lottery.base.Constants;
 import com.top.lottery.beans.AwardBallInfo;
+import com.top.lottery.beans.LotterRecord;
 import com.top.lottery.beans.LotteryInfo;
 import com.top.lottery.beans.LotteryResponse;
 import com.top.lottery.beans.LotteryType;
@@ -41,6 +42,7 @@ public class Utils {
     ///遗漏值
     static List<MissValueInfo> missValus = new ArrayList<>();
     public static Activity context;
+    public static ArrayList<CharSequence> prizeText = new ArrayList<>();
 
     public static String getImei() {
         return SPUtils.getInstance().getString(Constants.IMEI, "354765086202488");
@@ -793,7 +795,7 @@ public class Utils {
                     awardBallInfo.price = score;
                     awardBallInfos.add(awardBallInfo);
                 }
-            } else if (type==5 ||type == 9 || type == 10) {
+            } else if (type == 5 || type == 9 || type == 10) {
                 for (int i = 1; i < 7; i++) {
                     AwardBallInfo awardBallInfo = new AwardBallInfo();
                     awardBallInfo.value = String.valueOf(i);
@@ -808,14 +810,14 @@ public class Utils {
 
     public static List<AwardBallInfo> parseThreeCodesDoule(String score) {
         List<AwardBallInfo> awardBallInfos = new ArrayList<>();
-                for (int i = 1; i < 7; i++) {
-                    AwardBallInfo awardBallInfo = new AwardBallInfo();
-                    awardBallInfo.value = i + "" + i;
-                    awardBallInfo.price = score;
-                    awardBallInfos.add(awardBallInfo);
-                }
+        for (int i = 1; i < 7; i++) {
+            AwardBallInfo awardBallInfo = new AwardBallInfo();
+            awardBallInfo.value = i + "" + i;
+            awardBallInfo.price = score;
+            awardBallInfos.add(awardBallInfo);
+        }
 
-            return awardBallInfos;
+        return awardBallInfos;
     }
 
     public static int getSpanCount(int type) {
@@ -827,5 +829,66 @@ public class Utils {
             return 1;
         }
         return 4;
+    }
+
+    public static int getSpanCountForChart(int type) {
+        if (type == 1) {
+            return 8;
+        } else if (type == 3 || type == 4 || type == 6 || type == 7) {
+            return 6;
+        } else if (type == 2 || type == 8) {
+            return 1;
+        }
+        return 6;
+    }
+
+    public static String getMissValuesByKey(String code) {
+        if (missValus == null || TextUtils.isEmpty(code)) {
+            return "0";
+        }
+        MissValueInfo chooseMiss = null;
+        for (MissValueInfo item : missValus) {
+            if (code.equals(item.code)) {
+                chooseMiss = item;
+            }
+
+        }
+        return chooseMiss == null ? "0" : chooseMiss.value;
+    }
+
+    public static ArrayList<CharSequence> getStringData(List<LotterRecord> body) {
+        prizeText.clear();
+        return prizeText = getXX(body);
+    }
+
+    public static ArrayList<CharSequence> getXX(List<LotterRecord> body) {
+        if (body.size() > 0) {
+            if (body.size() > 3) {
+                prizeText.add(getStringRecord(body.subList(0, 3)));
+                body.remove(0);
+                body.remove(1);
+                body.remove(2);
+                getXX(body);
+            } else {
+                prizeText.add(getStringRecord(body));
+                return prizeText;
+            }
+        } else {
+            return prizeText;
+        }
+        return prizeText;
+    }
+
+    private static String getStringRecord(List<LotterRecord> body) {
+        ArrayList<CharSequence> strins = new ArrayList<>();
+        StringBuilder stringBuilder = new StringBuilder();
+        if (body != null && body.size() > 0) {
+            for (int i = 0; i < body.size(); i++) {
+                String item = "<p style=\"line-height:100%\">恭喜：<b><font color=\"#ffefbf\">" + "【" + body.get(i).uid + "】" + "</font></b>投" + body.get(i).lid_title + "中" + "<b><font  color=\"#ffefbf\">" + body.get(i).reward_score + "</font></b>分<br/></p>";
+                stringBuilder.append(item);
+//                strins.add(stringBuilder);
+            }
+        }
+        return stringBuilder.toString();
     }
 }

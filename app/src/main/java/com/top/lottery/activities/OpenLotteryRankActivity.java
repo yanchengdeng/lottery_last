@@ -3,11 +3,11 @@ package com.top.lottery.activities;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.ActivityUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
@@ -16,9 +16,7 @@ import com.top.lottery.R;
 import com.top.lottery.adapters.OpenLotteryCodeAdapter;
 import com.top.lottery.base.Constants;
 import com.top.lottery.beans.LotteryResponse;
-import com.top.lottery.beans.LotteryType;
 import com.top.lottery.beans.OpenLotteryCode;
-import com.top.lottery.liseners.PerfectClickListener;
 import com.top.lottery.utils.NewsCallback;
 import com.top.lottery.utils.RecycleViewUtils;
 import com.top.lottery.utils.Utils;
@@ -38,7 +36,7 @@ public class OpenLotteryRankActivity extends BaseActivity {
 
     private RecyclerView recyclerView;
     private OpenLotteryCodeAdapter openLotteryCodeAdapter;
-    private OpenLotteryCode openLotteryCode ;
+    private String  lottery_type ;
     private Button btnLottery;
     private TextView tvopenTitle;
 
@@ -54,37 +52,20 @@ public class OpenLotteryRankActivity extends BaseActivity {
         recyclerView = getView(R.id.recycle);
         tvopenTitle = getView(R.id.tv_open_title);
         btnLottery = getView(R.id.bnt_do_lottery);
-        openLotteryCode = (OpenLotteryCode) getIntent().getSerializableExtra(Constants.PASS_OBJECT);
+        btnLottery.setVisibility(View.GONE);
+        lottery_type = getIntent().getStringExtra(Constants.PASS_STRING);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(RecycleViewUtils.getItemDecoration(this));
         recyclerView.setAdapter(openLotteryCodeAdapter);
 
-        if (openLotteryCode!=null){
-            btnLottery.setText("投注"+openLotteryCode.lid_title);
+
+        if (TextUtils.isEmpty(lottery_type)){
+            lottery_type="";
         }
-        if (openLotteryCode.lottery_type.equals("2")){
+        if (lottery_type.equals("2")){
             tvopenTitle.setText("84期/天，每日每期10分钟开奖");
         }
 
-        btnLottery.setOnClickListener(new PerfectClickListener() {
-            @Override
-            protected void onNoDoubleClick(View v) {
-                LotteryType lotteryType = new LotteryType();
-                lotteryType.lottery_type = openLotteryCode.lottery_type;
-                lotteryType.lid = openLotteryCode.lid;
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(Constants.PASS_LOOTERY_TYPE,lotteryType);
-                if (openLotteryCode.lottery_type.equals("1")){
-                    //11选5
-                    ActivityUtils.startActivity(bundle,LotteryFunnyActivity.class);
-
-                }else if (openLotteryCode.lottery_type.equals("2")){
-                    //快三
-                    ActivityUtils.startActivity(bundle,LotteryFunnyThreeActivity.class);
-                }
-
-            }
-        });
 
 
         openLotteryCodeAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
@@ -100,8 +81,8 @@ public class OpenLotteryRankActivity extends BaseActivity {
     private void getLastestLotteryRank() {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
-        if (openLotteryCode!=null) {
-            data.put("lottery_type",openLotteryCode.lottery_type);
+        if (TextUtils.isEmpty(lottery_type)) {
+            data.put("lottery_type",lottery_type);
         }
         data.put("page", String.valueOf(page));
         OkGo.<LotteryResponse<List<OpenLotteryCode>>>post(Constants.Net.AWARD_GETLIST)//

@@ -82,6 +82,7 @@ public class Constants {
         //3：中奖攻略
         public static final String WEB_DEAL = HTTP_CERTIFY + BASE_URL + "lottery/article/mdetail/id/1.html";
         public static final String WEB_PLAY_WAY = HTTP_CERTIFY + BASE_URL + "lottery/article/mdetail/id/2.html";
+        public static final String WEB_PLAY_WAY_THREE = HTTP_CERTIFY + BASE_URL + "lottery/article/mdetail/id/4.html";
         public static final String WEB_PLAY_GOT_AWARD_SKILL = HTTP_CERTIFY + BASE_URL + "lottery/article/mdetail/id/3.html";
 
 

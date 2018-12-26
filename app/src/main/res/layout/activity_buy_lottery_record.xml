@@ -60,25 +60,32 @@
 
     </LinearLayout>
 
-    <TextView android:id="@+id/line"
+    <TextView
+        android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/list_divider_color" />
 
-    <FrameLayout
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <include layout="@layout/layout_empty_view_else" />
-
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycle"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
 
-    </FrameLayout>
 
+            <include layout="@layout/layout_empty_view_else" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </FrameLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </LinearLayout>

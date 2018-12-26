@@ -22,11 +22,10 @@
 
             <com.top.lottery.views.AutoVerticalScrollTextView
                 android:id="@+id/autoVerticalScrollTextView"
-                android:layout_marginTop="@dimen/nav_bar_height"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/main_loop_text"
                 android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/main_loop_top_margin"
+                android:layout_height="wrap_content"
                 android:background="@android:color/transparent" />
 
 

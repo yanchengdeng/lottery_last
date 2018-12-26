@@ -101,8 +101,8 @@ public class MainFragment extends Fragment {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
         OkGo.<LotteryResponse<List<LotteryType>>>post(Constants.Net.LOTTERY_GETLIDS)//
-//                .cacheMode(CacheMode.IF_NONE_CACHE_REQUEST)
-//                .cacheKey("lottery_kinds")
+                .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
+                .cacheKey("lottery_kinds")
                 .params(Utils.getParams(data))
                 .execute(new NewsCallback<LotteryResponse<List<LotteryType>>>() {
                     @Override
@@ -114,11 +114,11 @@ public class MainFragment extends Fragment {
                         }
                     }
 
-//                    @Override
-//                    public void onCacheSuccess(Response<LotteryResponse<List<LotteryType>>> response) {
-//                        super.onCacheSuccess(response);
-//                        onSuccess(response);
-//                    }
+                    @Override
+                    public void onCacheSuccess(Response<LotteryResponse<List<LotteryType>>> response) {
+                        super.onCacheSuccess(response);
+                        onSuccess(response);
+                    }
 
                     @Override
                     public void onError(Response response) {
@@ -136,13 +136,14 @@ public class MainFragment extends Fragment {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
         OkGo.<LotteryResponse<List<LotterRecord>>>post(Constants.Net.RECORD_GETREWARDLIST)//
-                .cacheMode(CacheMode.NO_CACHE)
+                .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
+                .cacheKey("lottery_record")
                 .params(Utils.getParams(data))
                 .execute(new NewsCallback<LotteryResponse<List<LotterRecord>>>() {
                     @Override
                     public void onSuccess(Response<LotteryResponse<List<LotterRecord>>> response) {
                         LogUtils.w("dyc",response);
-                        autoVerticalScrollTextViewUtil = new AutoVerticalScrollTextViewUtil(autoVerticalScrollTextView, getStringData(response.body().body));
+                        autoVerticalScrollTextViewUtil = new AutoVerticalScrollTextViewUtil(autoVerticalScrollTextView, Utils.getStringData(response.body().body));
                         autoVerticalScrollTextViewUtil.start();
 
                     }
@@ -156,20 +157,5 @@ public class MainFragment extends Fragment {
 
     }
 
-    private ArrayList<CharSequence> getStringData(List<LotterRecord> body) {
-        ArrayList<CharSequence> strins = new ArrayList<>();
 
-
-        if (body != null && body.size() > 0) {
-            for (int i = 0; i < body.size(); i++) {
-                String item = "<p style=\"line-height:100%\">恭喜：<b><font color=\"#ffefbf\">" + "【" + body.get(i).uid + "】" + "</font></b>投" + body.get(i).lid_title + "中" + "<b><font  color=\"#ffefbf\">" + body.get(i).reward_score + "</font></b>分<br/></p>";
-
-               StringBuilder stringBuilder = new StringBuilder();
-               stringBuilder.append(item).append(item).append(item);
-
-                strins.add(stringBuilder);
-            }
-        }
-        return strins;
-    }
 }

@@ -2,7 +2,6 @@ package com.top.lottery.activities;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -11,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -25,6 +25,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.top.lottery.R;
 import com.top.lottery.adapters.AwardRecordAdapter;
 import com.top.lottery.adapters.GridPeridAdapter;
@@ -69,6 +72,12 @@ public class BuyLotteryRecordActivity extends BaseActivity {
     LinearLayout llErrorRefresh;
     @BindView(R.id.line)
     TextView line;
+    @BindView(R.id.img_err)
+    ImageView imgErr;
+    @BindView(R.id.tv_error_tips)
+    TextView tvErrorTips;
+    @BindView(R.id.refresh)
+    SmartRefreshLayout refresh;
     private int page = 1;
 
 
@@ -161,20 +170,21 @@ public class BuyLotteryRecordActivity extends BaseActivity {
         getAllLottery();
 
 
+        refresh.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshLayout) {
+                page=1;
+                getAwardRecord();
+            }
+        });
+
         initLisener();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                page = 1;
-                getAwardRecord();
-            }
-        },300);
-
+        refresh.autoRefresh();
     }
 
     private void initLisener() {
@@ -371,6 +381,7 @@ public class BuyLotteryRecordActivity extends BaseActivity {
                         if (page == 1) {
                             awardRecordAdapter.getData().clear();
                         }
+                        refresh.finishRefresh();
                         AwradRecordInterface awradRecordInterface = response.body().body;
                         List<AwardRecordItem> awardRecordItemList = awradRecordInterface.list;
                         if (awardRecordItemList != null && awardRecordItemList.size() > 0) {
@@ -402,6 +413,7 @@ public class BuyLotteryRecordActivity extends BaseActivity {
                             llErrorRefresh.setVisibility(View.VISIBLE);
 //                            awardRecordAdapter.setEmptyView(RecycleViewUtils.getEmptyView(mContext, recycle));
                         }
+                        refresh.finishRefresh();
                     }
                 });
     }
@@ -465,17 +477,17 @@ public class BuyLotteryRecordActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.tv_all_lottery:
                 if (PopallLottery != null) {
-                    PopallLottery.showAtLocation(viewRoot, Gravity.BOTTOM , 0, 0);
+                    PopallLottery.showAtLocation(viewRoot, Gravity.BOTTOM, 0, 0);
                 }
                 break;
             case R.id.tv_period:
                 if ("1".equals(type) || "2".equals(type)) {
                     if (Popperidod != null) {
-                        Popperidod.showAtLocation(viewRoot, Gravity.BOTTOM , 0, 0);
+                        Popperidod.showAtLocation(viewRoot, Gravity.BOTTOM, 0, 0);
                     }
                 } else if ("3".equals(type)) {
                     if (PopulaStatus != null) {
-                        PopulaStatus.showAtLocation(viewRoot, Gravity.BOTTOM , 0, 0);
+                        PopulaStatus.showAtLocation(viewRoot, Gravity.BOTTOM, 0, 0);
                     }
                 }
                 break;
