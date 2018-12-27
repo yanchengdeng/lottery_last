@@ -84,4 +84,30 @@ public class AppManager {
         }
 
     }
+
+    public void finishAllActivity(boolean isExit, String mainClassName) {
+        Iterator var3 = activityStack.iterator();
+
+        while(var3.hasNext()) {
+            Activity act = (Activity)var3.next();
+            if (act != null) {
+                if (!isExit) {
+                    if (!act.getClass().getName().contains(mainClassName)) {
+                        act.finish();
+                    }
+                } else {
+                    act.finish();
+                }
+            }
+        }
+
+        if (isExit) {
+            activityStack.clear();
+        }
+
+    }
+
+    public void finishAllActivity(String mainClassName) {
+        this.finishAllActivity(false, mainClassName);
+    }
 }

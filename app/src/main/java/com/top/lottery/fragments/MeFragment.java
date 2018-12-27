@@ -87,8 +87,6 @@ public class MeFragment extends Fragment {
     LinearLayout llProxyUi;
     @BindView(R.id.grid)
     RecyclerView grid;
-    @BindView(R.id.tv_login_out)
-    TextView tvLoginOut;
     @BindView(R.id.smart_refresh)
     SmartRefreshLayout smartRefresh;
     private Unbinder unbinder;
@@ -106,12 +104,7 @@ public class MeFragment extends Fragment {
     }
 
     private void initView() {
-        tvLoginOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showExitDialog();
-            }
-        });
+
 
 
         tvIntergrayProxyOut.setOnClickListener(new View.OnClickListener() {

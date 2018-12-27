@@ -95,6 +95,8 @@ public class LotteryFunnyThreeDanTuoFragment extends Fragment {
         EventBus.getDefault().register(this);
         lotteryInfo = (LotteryInfo) getArguments().getSerializable(Constants.PASS_OBJECT);
 
+        isMechineChoose = lotteryInfo.mechine == 1 ? true : false;
+        initChangeButton();
 
         //胆
         awardDanAdapter = new AwardThreeBallAdapter(R.layout.adapter_lottery_three_select_num, new ArrayList<AwardBallInfo>());
@@ -171,7 +173,6 @@ public class LotteryFunnyThreeDanTuoFragment extends Fragment {
             }
         });
         initAwardNum();
-        initChangeButton();
 
 
         return view;
@@ -493,9 +494,10 @@ public class LotteryFunnyThreeDanTuoFragment extends Fragment {
                     @Override
                     public void onSuccess(Response<LotteryResponse<MechineChoosInfo>> response) {
                         MechineChoosInfo mechineChoosInfo = response.body().body;
-//                        if (mechineChoosInfo != null && mechineChoosInfo.code != null && mechineChoosInfo.code.length > 0) {
-//                            showMechineChoose(mechineChoosInfo.code);
-//                        }
+                        if (mechineChoosInfo != null && mechineChoosInfo.records != null && mechineChoosInfo.records.identical!=null &&
+                                mechineChoosInfo.records.identical.length>0 && mechineChoosInfo.records.difference!=null && mechineChoosInfo.records.difference.length>0) {
+                            showMechineChoose(mechineChoosInfo.records.identical,mechineChoosInfo.records.difference);
+                        }
                     }
 
 
@@ -509,6 +511,40 @@ public class LotteryFunnyThreeDanTuoFragment extends Fragment {
                 });
     }
 
+
+
+    //展示机选信息
+    private void showMechineChoose(String[] identical, String[] diffrents) {
+        for (AwardBallInfo awardBallInfo : awardDanAdapter.getData()) {
+            awardBallInfo.isSelected = false;
+        }
+
+        for (AwardBallInfo awardBallInfo : awardDanAdapter.getData()) {
+            for (String code : identical) {
+                if (awardBallInfo.value.equals(code)) {
+                    awardBallInfo.isSelected = true;
+                }
+            }
+        }
+        awardDanAdapter.notifyDataSetChanged();
+
+
+
+        for (AwardBallInfo awardBallInfo : awawrdTuoAdapter.getData()) {
+            awardBallInfo.isSelected = false;
+        }
+
+        for (AwardBallInfo awardBallInfo : awawrdTuoAdapter.getData()) {
+            for (String code : diffrents) {
+                if (awardBallInfo.value.equals(code)) {
+                    awardBallInfo.isSelected = true;
+                }
+            }
+        }
+        awawrdTuoAdapter.notifyDataSetChanged();
+
+        countIntergary();
+    }
 
     //获取遗漏值
     private void getMissValue() {

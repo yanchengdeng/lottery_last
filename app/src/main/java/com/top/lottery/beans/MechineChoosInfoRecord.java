@@ -7,5 +7,8 @@ public class MechineChoosInfoRecord implements Serializable {
 
     public String[] code;
 
+    public String[] identical;//同号
+    public String[] difference;//不同号
+
 
 }
