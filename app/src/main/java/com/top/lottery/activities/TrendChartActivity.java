@@ -838,7 +838,7 @@ public class TrendChartActivity extends BaseActivity {
                             item.isSelected = true;
                         }
                     }
-                    llUiTouzhu.setVisibility(View.VISIBLE);
+//                    llUiTouzhu.setVisibility(View.VISIBLE);
                 }
             }
 

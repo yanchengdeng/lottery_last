@@ -10,4 +10,5 @@ public class TicketOutInfo implements Serializable {
     public String cost_score;// 60,
     public String reward_score;// 0,
     public String record_times;// 5
+    public String lottery_type;
 }

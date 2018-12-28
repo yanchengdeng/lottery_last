@@ -187,6 +187,7 @@ public class LotteryRecordDetailActivity extends BaseActivity {
                     TicketOutInfo ticketOutInfo = new TicketOutInfo();
                     ticketOutInfo.reward_score = awardOrderDetail.reward_score;
                     ticketOutInfo.award_id = awardOrderDetail.award_id;
+                    ticketOutInfo.lottery_type = awardOrderDetail.lottery_type;
                     bundTieckt.putSerializable(Constants.PASS_OBJECT,ticketOutInfo);
                     ActivityUtils.startActivity(bundTieckt, TicketDetailActivity.class);
                 }

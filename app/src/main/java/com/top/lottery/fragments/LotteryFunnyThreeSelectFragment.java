@@ -108,13 +108,18 @@ public class LotteryFunnyThreeSelectFragment extends Fragment {
         initChangeButton();
         awardBallAdapter = new AwardThreeBallAdapter(R.layout.adapter_lottery_three_select_num, new ArrayList<AwardBallInfo>());
 
+        if (lotteryInfo.type == 7) {
+            lotteryInfo.num = 2;
+        } else if (lotteryInfo.type == 6) {
+            lotteryInfo.num = 3;
+        }
 
         initAwardNum();
         int spancout = Utils.getSpanCount(lotteryInfo.type);
         recycle.setLayoutManager(new GridLayoutManager(getActivity(), spancout));
-        recycle.addItemDecoration(new GridSpacingItemDecoration(spancout,16,true));
+        recycle.addItemDecoration(new GridSpacingItemDecoration(spancout, 16, true));
         recycle.setAdapter(awardBallAdapter);
-        awardBallAdapter.setNewData(Utils.parseThreeCodes(lotteryInfo,lotteryInfo.score));
+        awardBallAdapter.setNewData(Utils.parseThreeCodes(lotteryInfo, lotteryInfo.score));
         awardBallAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -143,11 +148,10 @@ public class LotteryFunnyThreeSelectFragment extends Fragment {
             @Override
             protected void onNoDoubleClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(Constants.PASS_OBJECT,lotteryInfo);
-                ActivityUtils.startActivity( bundle,TrendChartThreeActivity.class);
+                bundle.putSerializable(Constants.PASS_OBJECT, lotteryInfo);
+                ActivityUtils.startActivity(bundle, TrendChartThreeActivity.class);
             }
         });
-
 
 
         return view;
@@ -195,33 +199,33 @@ public class LotteryFunnyThreeSelectFragment extends Fragment {
         if (lotteryInfo.type == 1) {
             tvSelectTips.setText("猜开奖号码相加的和");
             llAndQuickUi.setVisibility(View.VISIBLE);
-        }else if (lotteryInfo.type==2){
+        } else if (lotteryInfo.type == 2) {
             tvSelectTips.setText("猜豹子号(3个号相同)");
             llAndQuickUi.setVisibility(View.GONE);
-        }else if (lotteryInfo.type==3){
+        } else if (lotteryInfo.type == 3) {
             tvSelectTips.setText("猜出一个豹子开出即中奖");
             llAndQuickUi.setVisibility(View.GONE);
-        }else if (lotteryInfo.type==5){
+        } else if (lotteryInfo.type == 5) {
             tvSelectTips.setText("猜对子号(有两个号相同)\n复选：猜开奖中两个指定的相同号码");
             llAndQuickUi.setVisibility(View.GONE);
-        }else if (lotteryInfo.type==4){
+        } else if (lotteryInfo.type == 4) {
             //todo
             tvSelectTips.setText("猜对子号(有两个号相同)\n单选：选择同号和不同号的组合");
             llAndQuickUi.setVisibility(View.GONE);
-        }else if (lotteryInfo.type==6){
+        } else if (lotteryInfo.type == 6) {
             tvSelectTips.setText("选3个不同号码\n与开奖相同即中");
             llAndQuickUi.setVisibility(View.GONE);
-        }else if (lotteryInfo.type==7){
+        } else if (lotteryInfo.type == 7) {
             tvSelectTips.setText("选2个不同号码\n猜中开奖任意2位即中");
             llAndQuickUi.setVisibility(View.GONE);
-        }else if (lotteryInfo.type==8){
+        } else if (lotteryInfo.type == 8) {
             tvSelectTips.setText("123/234/345/456任一开出即中");
             llAndQuickUi.setVisibility(View.GONE);
-        }else if (lotteryInfo.type==9){
+        } else if (lotteryInfo.type == 9) {
             //todo
             tvSelectTips.setText("选3个不同号码\n与开奖相同即中");
             llAndQuickUi.setVisibility(View.GONE);
-        }else if (lotteryInfo.type==10){
+        } else if (lotteryInfo.type == 10) {
             //todo
             tvSelectTips.setText("选2个不同号码\n与开奖任意两位相同即中");
             llAndQuickUi.setVisibility(View.GONE);
@@ -294,11 +298,11 @@ public class LotteryFunnyThreeSelectFragment extends Fragment {
             case R.id.btn_big:
                 isSelectBig = !isSelectBig;
                 isSelectSmall = false;
-                doSelectBig(true);
-                if (isSelectBig){
+                doSelectCount();
+                if (isSelectBig) {
                     btnBig.setBackground(getResources().getDrawable(R.drawable.normal_submit_btn_red));
                     btnBig.setTextColor(getResources().getColor(R.color.white));
-                }else {
+                } else {
                     btnBig.setBackground(getResources().getDrawable(R.drawable.normal_submit_btn_gray_trans));
                     btnBig.setTextColor(getResources().getColor(R.color.red));
                 }
@@ -309,11 +313,11 @@ public class LotteryFunnyThreeSelectFragment extends Fragment {
             case R.id.btn_small:
                 isSelectSmall = !isSelectSmall;
                 isSelectBig = false;
-                doSelectBig(false);
-                if (isSelectSmall){
+                doSelectCount();
+                if (isSelectSmall) {
                     btnSmall.setBackground(getResources().getDrawable(R.drawable.normal_submit_btn_red));
                     btnSmall.setTextColor(getResources().getColor(R.color.white));
-                }else{
+                } else {
                     btnSmall.setBackground(getResources().getDrawable(R.drawable.normal_submit_btn_gray_trans));
                     btnSmall.setTextColor(getResources().getColor(R.color.red));
                 }
@@ -324,11 +328,11 @@ public class LotteryFunnyThreeSelectFragment extends Fragment {
             case R.id.btn_single:
                 isSelectSigle = !isSelectSigle;
                 isSelectDouble = false;
-                doSelectSingle(true);
-                if (isSelectSigle){
+                doSelectCount();
+                if (isSelectSigle) {
                     btnSingle.setBackground(getResources().getDrawable(R.drawable.normal_submit_btn_red));
                     btnSingle.setTextColor(getResources().getColor(R.color.white));
-                }else{
+                } else {
                     btnSingle.setBackground(getResources().getDrawable(R.drawable.normal_submit_btn_gray_trans));
                     btnSingle.setTextColor(getResources().getColor(R.color.red));
                 }
@@ -338,12 +342,12 @@ public class LotteryFunnyThreeSelectFragment extends Fragment {
                 break;
             case R.id.btn_double:
                 isSelectDouble = !isSelectDouble;
-                isSelectSigle =false;
-                doSelectSingle(false);
-                if (isSelectDouble){
+                isSelectSigle = false;
+                doSelectCount();
+                if (isSelectDouble) {
                     btnDouble.setBackground(getResources().getDrawable(R.drawable.normal_submit_btn_red));
                     btnDouble.setTextColor(getResources().getColor(R.color.white));
-                }else{
+                } else {
                     btnDouble.setBackground(getResources().getDrawable(R.drawable.normal_submit_btn_gray_trans));
                     btnDouble.setTextColor(getResources().getColor(R.color.red));
                 }
@@ -354,113 +358,77 @@ public class LotteryFunnyThreeSelectFragment extends Fragment {
         }
     }
 
-    //选择大 小
-    private void doSelectBig(boolean isBig) {
+    //选择大 小  单    双
+    private void doSelectCount() {
         for (AwardBallInfo item : awardBallAdapter.getData()) {
             item.isSelected = false;
         }
-        if (!isSelectDouble && !isSelectSigle) {
-            if (isBig) {
-                for (AwardBallInfo item : awardBallAdapter.getData()) {
-                    if (Integer.parseInt(item.value) > 10) {
-                        item.isSelected = true;
-                    }
-                }
-            } else {
+
+        // 只选 大、小
+        if ((isSelectSmall || isSelectBig) && !isSelectDouble && !isSelectSigle) {
+            if (isSelectSmall) {
                 for (AwardBallInfo item : awardBallAdapter.getData()) {
                     if (Integer.parseInt(item.value) < 11) {
                         item.isSelected = true;
                     }
                 }
+            } else {
+                for (AwardBallInfo item : awardBallAdapter.getData()) {
+                    if (Integer.parseInt(item.value) > 10) {
+                        item.isSelected = true;
+                    }
+                }
+            }
+        } else if ((isSelectSigle || isSelectDouble) && !isSelectSmall && !isSelectBig) {
+            //只选 单双
+            if (isSelectSigle) {
+                for (AwardBallInfo item : awardBallAdapter.getData()) {
+                    if (Integer.parseInt(item.value) % 2 != 0) {
+                        item.isSelected = true;
+                    }
+                }
+            } else if (isSelectDouble) {
+                for (AwardBallInfo item : awardBallAdapter.getData()) {
+                    if (Integer.parseInt(item.value) % 2 == 0) {
+                        item.isSelected = true;
+                    }
+                }
+            }
+            //小  单
+        } else if (isSelectSmall && !isSelectBig && isSelectSigle && !isSelectDouble) {
+            for (AwardBallInfo item : awardBallAdapter.getData()) {
+                if (Integer.parseInt(item.value) < 11 && (Integer.parseInt(item.value) % 2 != 0)) {
+                    item.isSelected = true;
+                }
+            }
+        } else if (isSelectSmall && !isSelectBig && !isSelectSigle && isSelectDouble) {
+            //小 双
+            for (AwardBallInfo item : awardBallAdapter.getData()) {
+                if (Integer.parseInt(item.value) < 11 && (Integer.parseInt(item.value) % 2 == 0)) {
+                    item.isSelected = true;
+                }
+            }
+        } else if (isSelectBig && !isSelectSmall && isSelectSigle && !isSelectDouble) {
+            //大 单
+            for (AwardBallInfo item : awardBallAdapter.getData()) {
+                if (Integer.parseInt(item.value) > 10 && (Integer.parseInt(item.value) % 2 != 0)) {
+                    item.isSelected = true;
+                }
+            }
+        } else if (isSelectBig && !isSelectSmall && !isSelectSigle && isSelectDouble) {
+            //大双
+            for (AwardBallInfo item : awardBallAdapter.getData()) {
+                if (Integer.parseInt(item.value) > 10 && (Integer.parseInt(item.value) % 2 == 0)) {
+                    item.isSelected = true;
+                }
             }
         } else {
-            if (isBig) {
-                if (isSelectSigle) {
-                    for (AwardBallInfo item : awardBallAdapter.getData()) {
-                        if (Integer.parseInt(item.value) > 10 && (Integer.parseInt(item.value) % 2 != 0)) {
-                            item.isSelected = true;
-                        }
-                    }
-                } else if (isSelectDouble) {
-                    for (AwardBallInfo item : awardBallAdapter.getData()) {
-                        if (Integer.parseInt(item.value) > 10 && (Integer.parseInt(item.value) % 2 == 0)) {
-                            item.isSelected = true;
-                        }
-                    }
-                }
-            } else {
-                if (isSelectSigle) {
-                    for (AwardBallInfo item : awardBallAdapter.getData()) {
-                        if (Integer.parseInt(item.value) < 11 && (Integer.parseInt(item.value) % 2 != 0)) {
-                            item.isSelected = true;
-                        }
-                    }
-                } else if (isSelectDouble) {
-                    for (AwardBallInfo item : awardBallAdapter.getData()) {
-                        if (Integer.parseInt(item.value) < 11 && (Integer.parseInt(item.value) % 2 == 0)) {
-                            item.isSelected = true;
-                        }
-                    }
-                }
+            for (AwardBallInfo item : awardBallAdapter.getData()) {
+                item.isSelected = false;
             }
 
         }
 
-        awardBallAdapter.notifyDataSetChanged();
-        countIntergary();
-    }
-
-    //选择单双
-    private void doSelectSingle(boolean isSingle) {
-        for (AwardBallInfo item : awardBallAdapter.getData()) {
-            item.isSelected = false;
-        }
-        if (!isSelectBig && !isSelectSmall) {
-            if (isSelectSigle){
-                for (AwardBallInfo item : awardBallAdapter.getData()) {
-                    if ( Integer.parseInt(item.value) % 2 != 0) {
-                        item.isSelected = true;
-                    }
-                }
-            }else if (isSelectDouble){
-                for (AwardBallInfo item : awardBallAdapter.getData()) {
-                    if ( Integer.parseInt(item.value) % 2 == 0) {
-                        item.isSelected = true;
-                    }
-                }
-            }
-
-        }else {
-            if (isSingle) {
-                if (isSelectBig) {
-                    for (AwardBallInfo item : awardBallAdapter.getData()) {
-                        if (Integer.parseInt(item.value) >10 && Integer.parseInt(item.value) % 2 != 0) {
-                            item.isSelected = true;
-                        }
-                    }
-                }else if (isSelectSmall){
-                    for (AwardBallInfo item : awardBallAdapter.getData()) {
-                        if (Integer.parseInt(item.value) <11 && Integer.parseInt(item.value) % 2 != 0) {
-                            item.isSelected = true;
-                        }
-                    }
-                }
-            } else {
-                if (isSelectBig) {
-                    for (AwardBallInfo item : awardBallAdapter.getData()) {
-                        if (Integer.parseInt(item.value) % 2 == 0 && Integer.parseInt(item.value)>10) {
-                            item.isSelected = true;
-                        }
-                    }
-                }else if (isSelectSmall){
-                    for (AwardBallInfo item : awardBallAdapter.getData()) {
-                        if (Integer.parseInt(item.value) % 2 == 0 && Integer.parseInt(item.value)<11) {
-                            item.isSelected = true;
-                        }
-                    }
-                }
-            }
-        }
         awardBallAdapter.notifyDataSetChanged();
         countIntergary();
     }

@@ -6,6 +6,8 @@
     android:padding="@dimen/activity_horizontal_margin"
     android:orientation="vertical"
     android:background="@color/white"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
     android:layout_height="match_parent"
     tools:context=".activities.IntergrateHandleActivity">
 

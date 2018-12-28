@@ -60,7 +60,7 @@ public class OpenLotteryRankActivity extends BaseActivity {
 
 
         if (TextUtils.isEmpty(lottery_type)){
-            lottery_type="";
+            lottery_type="1";
         }
         if (lottery_type.equals("2")){
             tvopenTitle.setText("84期/天，每日每期10分钟开奖");
@@ -81,7 +81,7 @@ public class OpenLotteryRankActivity extends BaseActivity {
     private void getLastestLotteryRank() {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
-        if (TextUtils.isEmpty(lottery_type)) {
+        if (!TextUtils.isEmpty(lottery_type)) {
             data.put("lottery_type",lottery_type);
         }
         data.put("page", String.valueOf(page));
@@ -93,6 +93,7 @@ public class OpenLotteryRankActivity extends BaseActivity {
                     public void onSuccess(Response<LotteryResponse<List<OpenLotteryCode>>> response) {
                         showContentView();
                         List<OpenLotteryCode> openLotteryCodes = response.body().body;
+                        tvopenTitle.setText(""+response.body().msg);
                         if (openLotteryCodes != null && openLotteryCodes.size() > 0) {
                             page++;
                             openLotteryCodeAdapter.addData(openLotteryCodes);

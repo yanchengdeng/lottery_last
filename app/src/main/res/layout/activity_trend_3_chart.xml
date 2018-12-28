@@ -19,8 +19,8 @@
             android:layout_weight="1"
             android:background="@color/list_divider_color"
             android:gravity="center"
-            android:paddingBottom="@dimen/image_padding"
             android:paddingTop="@dimen/image_padding"
+            android:paddingBottom="@dimen/image_padding"
             android:text="期号"
             android:textColor="@color/color_tittle"
             android:textSize="@dimen/text_size_normal_down" />
@@ -162,114 +162,118 @@
 
 
         <LinearLayout
-            android:id="@+id/ll_first_balls"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_fisrt_ball_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="@dimen/image_padding"
-                android:text="选号"
-                android:textColor="@color/color_info"
-                android:textSize="@dimen/text_size_normal" />
-
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycle_one_ball"
-                android:layout_width="0dp"
-                android:layout_marginRight="@dimen/image_padding"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_second_balls"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/tv_sencond_ball_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="@dimen/image_padding"
-                android:text="第二"
-                android:textColor="@color/color_info"
-                android:textSize="@dimen/text_size_normal" />
-
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycle_two_ball"
-                android:layout_width="0dp"
-                android:layout_marginRight="@dimen/image_padding"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-        </LinearLayout>
-
-
-
-        <LinearLayout
             android:id="@+id/ll_ui_touzhu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone">
 
+            <LinearLayout
+                android:id="@+id/ll_first_balls"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/tv_fisrt_ball_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="@dimen/image_padding"
+                    android:text="选号"
+                    android:textColor="@color/color_info"
+                    android:textSize="@dimen/text_size_normal" />
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycle_one_ball"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/image_padding"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_second_balls"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_sencond_ball_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="@dimen/image_padding"
+                    android:text="第二"
+                    android:textColor="@color/color_info"
+                    android:textSize="@dimen/text_size_normal" />
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycle_two_ball"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/image_padding"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_info"
-                android:orientation="horizontal"
-                android:padding="@dimen/image_padding_big">
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_lottery_name"
-                    android:layout_width="wrap_content"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/normal_submit_btn_white"
-                    android:drawableRight="@mipmap/arrow_up_black"
-                    android:padding="@dimen/image_padding_big"
-                    android:text="任选五"
-                    android:textColor="@color/color_tittle"
-                    android:textSize="@dimen/text_size_normal" />
+                    android:background="@color/color_info"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/image_padding_big">
+
+                    <TextView
+                        android:id="@+id/tv_lottery_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/normal_submit_btn_white"
+                        android:drawableRight="@mipmap/arrow_up_black"
+                        android:padding="@dimen/image_padding_big"
+                        android:text="任选五"
+                        android:textColor="@color/color_tittle"
+                        android:textSize="@dimen/text_size_normal" />
 
 
-                <TextView
-                    android:id="@+id/tv_award_vluese"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|left"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_weight="1"
-                    android:text="积分0  共0注"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_normal_up"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/tv_award_vluese"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|left"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_weight="1"
+                        android:text="积分0  共0注"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_normal_up"
+                        android:textStyle="bold" />
 
 
-                <TextView
-                    android:id="@+id/tv_touzhu_action"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/normal_submit_btn_orange"
-                    android:paddingBottom="@dimen/image_padding_big"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingRight="@dimen/activity_horizontal_margin"
-                    android:paddingTop="@dimen/image_padding_big"
-                    android:text="投注"
-                    android:textColor="@color/white" />
+                    <TextView
+                        android:id="@+id/tv_touzhu_action"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/normal_submit_btn_orange"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:paddingTop="@dimen/image_padding_big"
+                        android:paddingRight="@dimen/activity_horizontal_margin"
+                        android:paddingBottom="@dimen/image_padding_big"
+                        android:text="投注"
+                        android:textColor="@color/white" />
 
+                </LinearLayout>
             </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

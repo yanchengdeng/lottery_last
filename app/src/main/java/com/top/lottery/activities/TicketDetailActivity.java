@@ -59,6 +59,7 @@ public class TicketDetailActivity extends BaseActivity {
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", getUserInfo().uid);
         data.put("award_id", ticketOutInfo.award_id);
+        data.put("lottery_type",ticketOutInfo.lottery_type);
         OkGo.<LotteryResponse<TicketOutDetailInfo>>post(Constants.Net.AWARD_DETAIL)//
                 .cacheMode(CacheMode.NO_CACHE)
                 .params(Utils.getParams(data))
