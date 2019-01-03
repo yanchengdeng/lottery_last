@@ -7,7 +7,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -252,11 +255,11 @@ public class MeFragment extends Fragment {
                             }
 
                             if (!TextUtils.isEmpty(userInfo.score)) {
-                                tvIntergray.setText("账户积分：" + userInfo.score);
+                                tvIntergray.setText(appendString("账户积分：",userInfo.score));
                             }
 
                             if (userInfo.daili_score > 0) {
-                                tvIntergrayProxy.setText("代理返利积分：" + userInfo.daili_score);
+                                tvIntergrayProxy.setText(appendString("代理返利积分：" ,String.valueOf(userInfo.daili_score)));
                             }
 
 
@@ -269,6 +272,19 @@ public class MeFragment extends Fragment {
                         ToastUtils.showShort(Utils.toastInfo(response));
                     }
                 });
+    }
+
+    private SpannableStringBuilder appendString(String s, String score) {
+
+        String all = s+score;
+        SpannableStringBuilder style=new SpannableStringBuilder(all);
+
+
+
+        style.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.gold_text)),0,s.length(),Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+        style.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_tittle)),s.length(),all.length(),Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+//        return Html.fromHtml("<font color=\\\"#252525\\\">"+s+"</font><font color=\\\"#ff761f\\\">"+score+"</font>").toString();
+        return style;
     }
 
 

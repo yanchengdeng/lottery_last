@@ -159,6 +159,7 @@ public class LotteryFunnyPreDirectSelectFragment extends Fragment {
         initChangeButton();
         initAwardNum();
 //        getMissValue();
+        setShowLotteryMiss();
         return view;
     }
 

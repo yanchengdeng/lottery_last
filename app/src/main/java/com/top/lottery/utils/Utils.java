@@ -43,6 +43,7 @@ public class Utils {
     static List<MissValueInfo> missValus = new ArrayList<>();
     public static Activity context;
     public static ArrayList<CharSequence> prizeText = new ArrayList<>();
+    public static ArrayList<CharSequence> prizeText_open = new ArrayList<>();
 
     public static String getImei() {
         return SPUtils.getInstance().getString(Constants.IMEI, "354765086202488");
@@ -604,6 +605,29 @@ public class Utils {
 
     }
 
+
+    //获取统计球的信息
+    public static List<TerdNormalBall> get3CodeForTrendCount( LinkedTreeMap<String, String> number) {
+        List<TerdNormalBall> terdNormalBalls = new ArrayList<>();
+
+
+
+        for (int i = 1; i < 7; i++) {
+            TerdNormalBall awardBallInfo = new TerdNormalBall();
+            awardBallInfo.value = String.valueOf(i);
+            awardBallInfo.missVlaue = number.get(awardBallInfo.value);
+            awardBallInfo.isAwardCode = false;
+            awardBallInfo.isCount = true;
+
+            terdNormalBalls.add(awardBallInfo);
+        }
+
+        return terdNormalBalls;
+
+
+    }
+
+
     //是否是选中的值
     private static boolean getIsAwardValue(String value, String[] prize_code) {
         boolean isAward = false;
@@ -861,13 +885,47 @@ public class Utils {
         return prizeText = getXX(body);
     }
 
+
+    //开奖界面
+    public static ArrayList<CharSequence> getStringDataOpen(List<LotterRecord> body) {
+        prizeText_open.clear();
+        return prizeText_open = getXXOpen(body);
+    }
+
+
+    public static ArrayList<CharSequence> getXXOpen(List<LotterRecord> body) {
+        if (body.size() > 0) {
+            if (body.size() > 3) {
+                prizeText_open.add(getStringRecordOpen(body.subList(0, 3)));
+                try {
+                    body.remove(0);
+                    body.remove(1);
+                    body.remove(2);
+                }catch (Exception E){
+
+                }
+                getXXOpen(body);
+            } else {
+                prizeText_open.add(getStringRecordOpen(body));
+                return prizeText_open;
+            }
+        } else {
+            return prizeText_open;
+        }
+        return prizeText_open;
+    }
+
     public static ArrayList<CharSequence> getXX(List<LotterRecord> body) {
         if (body.size() > 0) {
             if (body.size() > 3) {
                 prizeText.add(getStringRecord(body.subList(0, 3)));
-                body.remove(0);
-                body.remove(1);
-                body.remove(2);
+                try {
+                    body.remove(0);
+                    body.remove(1);
+                    body.remove(2);
+                }catch (Exception e){
+
+                }
                 getXX(body);
             } else {
                 prizeText.add(getStringRecord(body));
@@ -880,11 +938,24 @@ public class Utils {
     }
 
     private static String getStringRecord(List<LotterRecord> body) {
-        ArrayList<CharSequence> strins = new ArrayList<>();
+//        ArrayList<CharSequence> strins = new ArrayList<>();
         StringBuilder stringBuilder = new StringBuilder();
         if (body != null && body.size() > 0) {
             for (int i = 0; i < body.size(); i++) {
                 String item = "<p style=\"line-height:100%\">恭喜：<b><font color=\"#ffefbf\">" + "【" + body.get(i).uid + "】" + "</font></b>投" + body.get(i).lid_title + "中" + "<b><font  color=\"#ffefbf\">" + body.get(i).reward_score + "</font></b>分<br/></p>";
+                stringBuilder.append(item);
+//                strins.add(stringBuilder);
+            }
+        }
+        return stringBuilder.toString();
+    }
+
+    private static String getStringRecordOpen(List<LotterRecord> body) {
+        ArrayList<CharSequence> strins = new ArrayList<>();
+        StringBuilder stringBuilder = new StringBuilder();
+        if (body != null && body.size() > 0) {
+            for (int i = 0; i < body.size(); i++) {
+                String item = "<p style=\"line-height:100%\">恭喜：<b><font color=\"#4FBAFC\">" + "【" + body.get(i).uid + "】" + "</font></b>投" + body.get(i).lid_title + "中" + "<b><font  color=\"#D81122\">" + body.get(i).reward_score + "</font></b>分<br/></p>";
                 stringBuilder.append(item);
 //                strins.add(stringBuilder);
             }

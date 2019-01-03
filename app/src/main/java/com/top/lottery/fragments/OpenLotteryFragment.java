@@ -125,7 +125,8 @@ public class OpenLotteryFragment extends Fragment {
                     public void onSuccess(Response<LotteryResponse<List<LotterRecord>>> response) {
                         LogUtils.w("dyc", response);
 
-                        autoVerticalScrollTextViewUtil = new AutoVerticalScrollTextViewUtil(autoVerticalScrollTextView, Utils.getStringData(response.body().body));
+                        autoVerticalScrollTextViewUtil = new AutoVerticalScrollTextViewUtil(autoVerticalScrollTextView, Utils.getStringDataOpen(response.body().body));
+                        autoVerticalScrollTextViewUtil.setTextColor(getResources().getColor(R.color.color_tittle));
                         autoVerticalScrollTextViewUtil.start();
                     }
 

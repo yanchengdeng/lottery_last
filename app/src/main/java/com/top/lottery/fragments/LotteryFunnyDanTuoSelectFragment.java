@@ -146,6 +146,7 @@ public class LotteryFunnyDanTuoSelectFragment extends Fragment {
         initAwardNum();
         initChangeButton();
 //        getMissValue();
+        setShowLotteryMiss();
         return view;
     }
 

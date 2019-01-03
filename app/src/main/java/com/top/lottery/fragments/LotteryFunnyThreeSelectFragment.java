@@ -154,6 +154,8 @@ public class LotteryFunnyThreeSelectFragment extends Fragment {
         });
 
 
+        setShowLotteryMiss();
+
         return view;
     }
 

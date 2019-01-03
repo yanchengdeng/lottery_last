@@ -25,11 +25,23 @@
         android:textColor="@color/color_tittle"
         android:textSize="@dimen/text_size_normal" />
 
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/tv_open_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tv_open_times"
+        android:text="2018-09-08 13:23"
+        android:layout_marginStart="@dimen/image_padding_big"
+        android:textColor="@color/color_date"
+        android:textSize="@dimen/text_size_normal_down" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_open_times"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <me.gujun.android.taggroup.TagGroup
@@ -63,16 +75,6 @@
 
     </LinearLayout>
 
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/tv_open_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/tv_open_times"
-        android:text="2018-09-08 13:23"
-        android:textColor="@color/color_date"
-        android:textSize="@dimen/text_size_normal_down" />
 
 
     <ImageView

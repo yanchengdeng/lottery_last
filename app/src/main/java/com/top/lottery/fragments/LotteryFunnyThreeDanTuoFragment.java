@@ -173,6 +173,7 @@ public class LotteryFunnyThreeDanTuoFragment extends Fragment {
             }
         });
         initAwardNum();
+        setShowLotteryMiss();
 
 
         return view;

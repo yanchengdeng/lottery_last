@@ -55,8 +55,8 @@ public class TrendListItem3Adapter extends BaseQuickAdapter<TerdNormalBall, Base
                 ((TextView) helper.getView(R.id.tv_values)).setTextColor(mContext.getResources().getColor(R.color.color_info));
             } else if (item.isCountDismiss){
                 helper.getView(R.id.tv_values).setBackground(null);
-                ((TextView) helper.getView(R.id.tv_values)).setText(" ");
-                ((TextView) helper.getView(R.id.tv_values)).setTextColor(mContext.getResources().getColor(R.color.color_info));
+                ((TextView) helper.getView(R.id.tv_values)).setText(" - ");
+                ((TextView) helper.getView(R.id.tv_values)).setTextColor(mContext.getResources().getColor(R.color.red));
             }else {
                 helper.getView(R.id.tv_values).setBackground(null);
                 ((TextView) helper.getView(R.id.tv_values)).setTextColor(mContext.getResources().getColor(R.color.color_date));

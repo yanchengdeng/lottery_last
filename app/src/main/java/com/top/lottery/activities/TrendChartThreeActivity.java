@@ -95,12 +95,14 @@ public class TrendChartThreeActivity extends BaseActivity {
     private String currentLotterTerm;//最新一期投注号2018081430
     private CountDownTimer countDownTimer;
     private LasterLotteryAwardInfo lasterLotteryAwardInfo;
-    private TrendListItem3Adapter trendListAdapter;
+    private TrendListItem3Adapter trendListAdapter,trendListBottomAdapter;
     private List<LotteryPlayWay> lotteryPlayWays;
     private LotteryPlayWay lotteryPlayWaySelect;//当前选择的彩种
     private AwardDialogKindsAdapter awardDialogKindsAdapter;//弹出彩种对话框
     private LotteryInfo lotteryInfopASS;
     private AwardThreeBallChartAdapter awardThreeBallOneAdapter, awardThreeBallTwoAdapter;
+    private View chatBottomView;
+    private RecyclerView recycleBottom;
 
 
     @Override
@@ -111,7 +113,18 @@ public class TrendChartThreeActivity extends BaseActivity {
         setTitle("快三走势图");
         ivRightFunction.setVisibility(View.VISIBLE);
         ivRightFunction.setImageResource(R.mipmap.trend_setting);
+        chatBottomView = LayoutInflater.from(mContext).inflate(R.layout.layout_chat_3_bottom,null,false);
         trendListAdapter = new TrendListItem3Adapter(R.layout.adapter_trends_3_item_num, new ArrayList<TerdNormalBall>());
+        trendListBottomAdapter = new TrendListItem3Adapter(R.layout.adapter_trends_3_item_num_bottom,new ArrayList<TerdNormalBall>());
+
+        recycleBottom = chatBottomView.findViewById(R.id.recycle);
+        recycleBottom.setLayoutManager(new GridLayoutManager(this,6));
+        recycleBottom.addItemDecoration(new GridSpacingItemDecoration(6, 1, false));
+        recycleBottom.setAdapter(trendListBottomAdapter);
+        chatBottomView.setVisibility(View.INVISIBLE);
+
+        trendListAdapter.addFooterView(chatBottomView);
+
         recycle.setLayoutManager(new GridLayoutManager(this, 12));
         tvLotteryName.setText("和值");
         recycle.addItemDecoration(new GridSpacingItemDecoration(12, 1, false));
@@ -588,6 +601,7 @@ public class TrendChartThreeActivity extends BaseActivity {
                         }
 
                         initStartCountDown();
+                        tvCountDownTips.setVisibility(View.VISIBLE);
 
                     }
 
@@ -880,6 +894,10 @@ public class TrendChartThreeActivity extends BaseActivity {
 
 
         List<TrendNormalInfo> trendNormalInfos = new ArrayList<>();
+
+
+
+
         for (TrendCodeInfo trendCodeInfo : trendChartInfo.list) {
             TrendNormalInfo trendNormalInfo = new TrendNormalInfo();
             trendNormalInfo.lists = Utils.get3CodeForTrend(trendCodeInfo, dismiss);
@@ -887,37 +905,50 @@ public class TrendChartThreeActivity extends BaseActivity {
         }
 
         TrendNormalInfo numbers = new TrendNormalInfo();
-        numbers.lists = Utils.get3CodeForTrendCount("出现次数", trendChartInfo.number);
+//        numbers.lists = Utils.get3CodeForTrendCount("出现次数", trendChartInfo.number);
+        numbers.lists = Utils.get3CodeForTrendCount(trendChartInfo.number);
 
 
         TrendNormalInfo laverage_missing = new TrendNormalInfo();
-        laverage_missing.lists = Utils.get3CodeForTrendCount("平均遗漏", trendChartInfo.average_missing);
+//        laverage_missing.lists = Utils.get3CodeForTrendCount("平均遗漏", trendChartInfo.average_missing);
+        laverage_missing.lists = Utils.get3CodeForTrendCount( trendChartInfo.average_missing);
 
         TrendNormalInfo max_miss = new TrendNormalInfo();
-        max_miss.lists = Utils.get3CodeForTrendCount("最大遗漏", trendChartInfo.max_missing);
+//        max_miss.lists = Utils.get3CodeForTrendCount("最大遗漏", trendChartInfo.max_missing);
+        max_miss.lists = Utils.get3CodeForTrendCount( trendChartInfo.max_missing);
 
         TrendNormalInfo max_kits = new TrendNormalInfo();
-        max_kits.lists = Utils.get3CodeForTrendCount("最大连击", trendChartInfo.max_double_hits);
+//        max_kits.lists = Utils.get3CodeForTrendCount("最大连击", trendChartInfo.max_double_hits);
+        max_kits.lists = Utils.get3CodeForTrendCount( trendChartInfo.max_double_hits);
 
 
-        trendNormalInfos.add(numbers);
-        trendNormalInfos.add(laverage_missing);
-        trendNormalInfos.add(max_miss);
-        trendNormalInfos.add(max_kits);
+        List<TrendNormalInfo> trendNormalInfosCount = new ArrayList<>();
+        trendNormalInfosCount.add(numbers);
+        trendNormalInfosCount.add(laverage_missing);
+        trendNormalInfosCount.add(max_miss);
+        trendNormalInfosCount.add(max_kits);
 
 
         List<TerdNormalBall> terdNormalBalls = new ArrayList<>();
+        List<TerdNormalBall> terdNormalBallsCount = new ArrayList<>();
 
-        for (TrendNormalInfo item : trendNormalInfos) {
-            terdNormalBalls.addAll(item.lists);
+        for (TrendNormalInfo item : trendNormalInfosCount) {
+            terdNormalBallsCount.addAll(item.lists);
         }
 
 
-        trendListAdapter.setNewData(terdNormalBalls);
+        if (trendNormalInfos.size()>0) {
+            for (TrendNormalInfo item:trendNormalInfos){
+                terdNormalBalls.addAll(item.lists);
+            }
+            trendListAdapter.setNewData(terdNormalBalls);
+        }
+        trendListBottomAdapter.setNewData(terdNormalBallsCount);
+        chatBottomView.setVisibility(View.VISIBLE);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                recycle.scrollToPosition(trendListAdapter.getData().size() - 1);
+                recycle.scrollToPosition(trendListAdapter.getData().size());
             }
         }, 500);
     }

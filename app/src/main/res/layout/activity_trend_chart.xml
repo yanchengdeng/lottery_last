@@ -10,14 +10,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/list_divider_color"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/list_divider_color"
+            android:background="@color/char_bg"
             android:gravity="center"
             android:paddingBottom="@dimen/image_padding"
             android:paddingTop="@dimen/image_padding"
@@ -28,9 +28,9 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="1dp"
+            android:layout_marginLeft="1px"
             android:layout_weight="1"
-            android:background="@color/list_divider_color"
+            android:background="@color/char_bg"
             android:gravity="center"
             android:text="01"
             android:textColor="@color/color_tittle"
@@ -39,9 +39,9 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="1dp"
+            android:layout_marginLeft="1px"
             android:layout_weight="1"
-            android:background="@color/list_divider_color"
+            android:background="@color/char_bg"
             android:gravity="center"
             android:text="02"
             android:textColor="@color/color_tittle"
@@ -50,9 +50,9 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="1dp"
+            android:layout_marginLeft="1px"
             android:layout_weight="1"
-            android:background="@color/list_divider_color"
+            android:background="@color/char_bg"
             android:gravity="center"
             android:text="03"
             android:textColor="@color/color_tittle"
@@ -61,9 +61,9 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="1dp"
+            android:layout_marginLeft="1px"
             android:layout_weight="1"
-            android:background="@color/list_divider_color"
+            android:background="@color/char_bg"
             android:gravity="center"
             android:text="04"
             android:textColor="@color/color_tittle"
@@ -72,9 +72,9 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="1dp"
+            android:layout_marginLeft="1px"
             android:layout_weight="1"
-            android:background="@color/list_divider_color"
+            android:background="@color/char_bg"
             android:gravity="center"
             android:text="05"
             android:textColor="@color/color_tittle"
@@ -83,9 +83,9 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="1dp"
+            android:layout_marginLeft="1px"
             android:layout_weight="1"
-            android:background="@color/list_divider_color"
+            android:background="@color/char_bg"
             android:gravity="center"
             android:text="06"
             android:textColor="@color/color_tittle"
@@ -94,9 +94,9 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="1dp"
+            android:layout_marginLeft="1px"
             android:layout_weight="1"
-            android:background="@color/list_divider_color"
+            android:background="@color/char_bg"
             android:gravity="center"
             android:text="07"
             android:textColor="@color/color_tittle"
@@ -105,9 +105,9 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="1dp"
+            android:layout_marginLeft="1px"
             android:layout_weight="1"
-            android:background="@color/list_divider_color"
+            android:background="@color/char_bg"
             android:gravity="center"
             android:text="08"
             android:textColor="@color/color_tittle"
@@ -116,9 +116,9 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="1dp"
+            android:layout_marginLeft="1px"
             android:layout_weight="1"
-            android:background="@color/list_divider_color"
+            android:background="@color/char_bg"
             android:gravity="center"
             android:text="09"
             android:textColor="@color/color_tittle"
@@ -127,9 +127,9 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="1dp"
+            android:layout_marginLeft="1px"
             android:layout_weight="1"
-            android:background="@color/list_divider_color"
+            android:background="@color/char_bg"
             android:gravity="center"
             android:text="10"
             android:textColor="@color/color_tittle"
@@ -139,9 +139,9 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="1dp"
+            android:layout_marginLeft="1px"
             android:layout_weight="1"
-            android:background="@color/list_divider_color"
+            android:background="@color/char_bg"
             android:gravity="center"
             android:text="11"
             android:textColor="@color/color_tittle"
@@ -160,7 +160,7 @@
             android:id="@+id/recycle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/list_divider_color" />
+            android:background="@color/char_bg" />
 
         <include layout="@layout/view_line" />
     </LinearLayout>
@@ -174,7 +174,7 @@
             android:id="@+id/tv_count_down_tips"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/list_divider_color"
+            android:background="@color/char_bg"
             android:lineSpacingMultiplier="1.2"
             android:padding="@dimen/image_padding_big"
             android:text="暂无可销售的期号，距离下次"

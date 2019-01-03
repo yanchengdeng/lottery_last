@@ -49,9 +49,11 @@ public class OpenLotteryCodeAdapter extends BaseQuickAdapter<OpenLotteryCode, Ba
                 ((TagGroup) helper.getView(R.id.tag_code)).setTags(new String[]{codes[0], codes[1], codes[2]});
                 ((TagGroup) helper.getView(R.id.tag_code_red)).setTags(new String[]{codes[3], codes[4]});
                 helper.getView(R.id.tag_code_red).setVisibility(View.VISIBLE);
+                helper.getView(R.id.tag_code).setVisibility(View.VISIBLE);
             }else{
-                ((TagGroup) helper.getView(R.id.tag_code)).setTags(new String[]{appendZero(codes[0]), appendZero(codes[1]), appendZero(codes[2])});
-                helper.getView(R.id.tag_code_red).setVisibility(View.GONE);
+                ((TagGroup) helper.getView(R.id.tag_code_red)).setTags(new String[]{appendZero(codes[0]), appendZero(codes[1]), appendZero(codes[2])});
+                helper.getView(R.id.tag_code_red).setVisibility(View.VISIBLE);
+                helper.getView(R.id.tag_code).setVisibility(View.GONE);
 
             }
         }
@@ -67,7 +69,7 @@ public class OpenLotteryCodeAdapter extends BaseQuickAdapter<OpenLotteryCode, Ba
             ((TextView)helper.getView(R.id.tv_lottery_name)).setText(item.lid_title);
         }
 
-        helper.getView(R.id.tv_lottery_name).setVisibility(isNew?View.VISIBLE:View.GONE);
+//        helper.getView(R.id.tv_lottery_name).setVisibility(isNew?View.VISIBLE:View.GONE);
         helper.getView(R.id.iv_arrow).setVisibility(isNew?View.VISIBLE:View.GONE);
 
     }

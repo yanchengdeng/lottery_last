@@ -118,6 +118,7 @@ public class LotteryFunnyAnySelectFragment extends Fragment {
 
         initAwardNum();
 
+        setShowLotteryMiss();
         return view;
     }
 

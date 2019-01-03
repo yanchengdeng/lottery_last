@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Camera;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -82,12 +84,12 @@ public class AutoVerticalScrollTextView extends TextSwitcher implements ViewSwit
     }
 
     // 这里返回的TextView，就是我们看到的View,可以设置自己想要的效果
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View makeView() {
         TextView textView = new TextView(mContext);
-        textView.setGravity(Gravity.START);
+        textView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
         textView.setTextSize(textSize);
-        textView.setGravity(Gravity.CENTER_HORIZONTAL);
 //        textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setTextColor(textColor);
         return textView;
