@@ -29,6 +29,14 @@ public class RecycleViewUtils {
 
 
     //1个dp 横线
+    public static DividerItemDecoration getItemDecorationDeep(Context context) {
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context, DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(context.getResources().getDrawable(R.drawable.list_line_diver_deep));
+        return dividerItemDecoration;
+    }
+
+
+    //1个dp 横线
     public static DividerItemDecoration getItemDecorationHorizontal(Context context) {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL);
         dividerItemDecoration.setDrawable(context.getResources().getDrawable(R.drawable.list_line_diver));

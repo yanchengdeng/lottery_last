@@ -84,6 +84,16 @@ public class MemberStaticActivity extends BaseActivity {
             etInput.setText(manageMemberItem.uid);
         }
 
+        if (!TextUtils.isEmpty(getIntent().getStringExtra(Constants.PASS_START_TIME))) {
+            start_date = getIntent().getStringExtra(Constants.PASS_START_TIME);
+            tvStartTime.setText(start_date);
+        }
+
+        if (!TextUtils.isEmpty(getIntent().getStringExtra(Constants.PASS_END_TIME))) {
+            end_date = getIntent().getStringExtra(Constants.PASS_END_TIME);
+            tvEndTime.setText(end_date);
+        }
+
         View viewHeader = LayoutInflater.from(mContext).inflate(R.layout.header_static_member, null, false);
         recycle.setLayoutManager(new LinearLayoutManager(this));
         recycle.addItemDecoration(RecycleViewUtils.getItemDecoration(this));

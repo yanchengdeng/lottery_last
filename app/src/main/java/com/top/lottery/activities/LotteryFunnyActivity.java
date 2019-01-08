@@ -377,6 +377,9 @@ public class LotteryFunnyActivity extends BaseActivity {
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
+        if (Utils.getMissValues() != null) {
+            Utils.getMissValues().clear();
+        }
     }
 
 //    @Override

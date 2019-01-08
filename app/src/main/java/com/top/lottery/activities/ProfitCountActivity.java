@@ -207,7 +207,7 @@ public class ProfitCountActivity extends BaseActivity {
         adapterStatic.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Bundle bundle = new Bundle();
+                Bundle bundle = getIntent().getExtras();
                 bundle.putString(Constants.PASS_STRING,profitType);
                 bundle.putString(Constants.PASS_CHILD_UID,adapterStatic.getData().get(position).uid);
                 ActivityUtils.startActivity(bundle,ProfitCountActivity.class);
@@ -374,7 +374,7 @@ public class ProfitCountActivity extends BaseActivity {
     @OnClick({R.id.tv_all_lottery, R.id.tv_period, R.id.ll_start_time, R.id.ll_end_time, R.id.tv_search, R.id.tv_aciton_recharge, R.id.tv_aciton_withdraw, R.id.tv_aciton_static, R.id.tv_aciton_setting, R.id.tv_aciton_contribute, R.id.tv_aciton_harvest})
     public void onViewClicked(View view) {
         String actionType;
-        Bundle bundle = new Bundle();
+        Bundle bundle = getIntent().getExtras();
         switch (view.getId()) {
             case R.id.tv_all_lottery:
                 if (PopallLottery != null) {
@@ -454,7 +454,7 @@ public class ProfitCountActivity extends BaseActivity {
                             manageMemberItem.score = memberDetail.score;
                             manageMemberItem.user_type = Integer.parseInt(memberDetail.user_type);
 
-                            Bundle bundle = new Bundle();
+                            Bundle bundle = getIntent().getExtras();
                             bundle.putSerializable(Constants.PASS_OBJECT, manageMemberItem);
 
                             if (actionType.equals("deposit")) {

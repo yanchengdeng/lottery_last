@@ -17,6 +17,7 @@ import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -164,6 +165,9 @@ public class ProfitActivity extends BaseActivity {
         llStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (KeyboardUtils.isSoftInputVisible(mContext)) {
+                    KeyboardUtils.hideSoftInput(mContext);
+                }
                 start.show();
             }
         });
@@ -171,6 +175,9 @@ public class ProfitActivity extends BaseActivity {
         llEndTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (KeyboardUtils.isSoftInputVisible(mContext)) {
+                    KeyboardUtils.hideSoftInput(mContext);
+                }
                 end.show();
             }
         });

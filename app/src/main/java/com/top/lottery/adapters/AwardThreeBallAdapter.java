@@ -28,7 +28,7 @@ public class AwardThreeBallAdapter extends BaseQuickAdapter<AwardBallInfo, BaseV
             ((TextView) helper.getView(R.id.tv_values)).setText(item.value);
         }
         if (!TextUtils.isEmpty(item.price)) {
-            ((TextView) helper.getView(R.id.tv_money)).setText("奖金" + item.price + "元");
+            ((TextView) helper.getView(R.id.tv_money)).setText("奖金" + item.price + "积分");
             helper.getView(R.id.tv_money).setVisibility(View.VISIBLE);
         } else {
             helper.getView(R.id.tv_money).setVisibility(View.GONE);

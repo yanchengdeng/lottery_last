@@ -94,18 +94,7 @@ public class OpenLotteryFragment extends Fragment {
         return view;
     }
 
-    private ArrayList<CharSequence> getStringData(List<LotterRecord> body) {
-        ArrayList<CharSequence> strins = new ArrayList<>();
 
-
-        if (body != null && body.size() > 0) {
-            for (int i = 0; i < body.size(); i++) {
-                String item = "恭喜：<b><font color=\"#ffefbf\">" + "【" + body.get(i).uid + "】" + "</font></b>投" + body.get(i).lid_title + "中" + "<b><font  color=\"#ffefbf\">" + body.get(i).reward_score + "</font></b>分";
-                strins.add(item);
-            }
-        }
-        return strins;
-    }
 
     private void getData() {
         getRewardList();
@@ -127,6 +116,7 @@ public class OpenLotteryFragment extends Fragment {
 
                         autoVerticalScrollTextViewUtil = new AutoVerticalScrollTextViewUtil(autoVerticalScrollTextView, Utils.getStringDataOpen(response.body().body));
                         autoVerticalScrollTextViewUtil.setTextColor(getResources().getColor(R.color.color_tittle));
+//                        autoVerticalScrollTextViewUtil.setTextSize(12);
                         autoVerticalScrollTextViewUtil.start();
                     }
 

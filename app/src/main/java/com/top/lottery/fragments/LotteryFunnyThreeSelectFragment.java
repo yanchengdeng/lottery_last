@@ -102,6 +102,7 @@ public class LotteryFunnyThreeSelectFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
 
+        tvSelectTips.setVisibility(View.INVISIBLE);
 
         lotteryInfo = (LotteryInfo) getArguments().getSerializable(Constants.PASS_OBJECT);
         isMechineChoose = lotteryInfo.mechine == 1 ? true : false;
@@ -114,12 +115,11 @@ public class LotteryFunnyThreeSelectFragment extends Fragment {
             lotteryInfo.num = 3;
         }
 
-        initAwardNum();
         int spancout = Utils.getSpanCount(lotteryInfo.type);
         recycle.setLayoutManager(new GridLayoutManager(getActivity(), spancout));
         recycle.addItemDecoration(new GridSpacingItemDecoration(spancout, 16, true));
         recycle.setAdapter(awardBallAdapter);
-        awardBallAdapter.setNewData(Utils.parseThreeCodes(lotteryInfo, lotteryInfo.score));
+//        awardBallAdapter.setNewData(Utils.parseThreeCodes(lotteryInfo, lotteryInfo.score));
         awardBallAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -198,6 +198,7 @@ public class LotteryFunnyThreeSelectFragment extends Fragment {
 
     //创建任意选球
     private void initAwardNum() {
+        tvSelectTips.setVisibility(View.VISIBLE);
         if (lotteryInfo.type == 1) {
             tvSelectTips.setText("猜开奖号码相加的和");
             llAndQuickUi.setVisibility(View.VISIBLE);
@@ -233,10 +234,14 @@ public class LotteryFunnyThreeSelectFragment extends Fragment {
             llAndQuickUi.setVisibility(View.GONE);
         }
 
+        awardBallAdapter.setNewData(Utils.parseThreeCodes(lotteryInfo, lotteryInfo.score));
     }
 
     //获取遗漏值
     private void getMissValue() {
+        if (getActivity()!=null) {
+            ((BaseActivity)getActivity()).showLoadingBar();
+        }
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
         data.put("award_id", Constants.LASTEST_AWARD_ID_THREE);// 最新彩种期数id
@@ -248,6 +253,10 @@ public class LotteryFunnyThreeSelectFragment extends Fragment {
                 .execute(new NewsCallback<LotteryResponse<MissLotteryCode>>() {
                     @Override
                     public void onSuccess(Response<LotteryResponse<MissLotteryCode>> response) {
+                        if (getActivity()!=null) {
+                            ((BaseActivity)getActivity()).dismissLoadingBar();
+                        }
+                        initAwardNum();
                         MissLotteryCode missLotteryCode = response.body().body;
                         if (missLotteryCode != null && missLotteryCode.missing_value != null && missLotteryCode.missing_value.size() > 0) {
 //                            JSONObject jsonObject = missLotteryCode.missing_value;
@@ -262,6 +271,7 @@ public class LotteryFunnyThreeSelectFragment extends Fragment {
 
                     @Override
                     public void onError(Response response) {
+                        initAwardNum();
                         if (!Utils.toastInfo(response).equals(Constants.ERROR_CODE_AWARD_EXPERID)) {
                             ToastUtils.showShort(Utils.toastInfo(response));
                         }
@@ -636,19 +646,21 @@ public class LotteryFunnyThreeSelectFragment extends Fragment {
     public void setShowLotteryMiss() {
         if (getActivity() != null) {
             if (((LotteryFunnyThreeActivity) getActivity()).isShowMissValue) {
-//                if (Utils.getMissValues()!=null && Utils.getMissValues().size()>0){
-//                    for (AwardBallInfo item:awardBallAdapter.getData()){
-//                        item.isShowMissValue = true;
-//                    }
-//                    awardBallAdapter.notifyDataSetChanged();
-//                }else {
+                if (Utils.getMissValues()!=null && Utils.getMissValues().size()>0){
+                    for (AwardBallInfo item:awardBallAdapter.getData()){
+                        item.isShowMissValue = true;
+                    }
+                    awardBallAdapter.notifyDataSetChanged();
+                    initAwardNum();
+                }else {
                 getMissValue();
-//                }
+                }
             } else {
                 for (AwardBallInfo item : awardBallAdapter.getData()) {
                     item.isShowMissValue = false;
                 }
                 awardBallAdapter.notifyDataSetChanged();
+                initAwardNum();
             }
         }
     }

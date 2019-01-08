@@ -24,7 +24,6 @@ import com.top.lottery.activities.BaseActivity;
 import com.top.lottery.activities.ConfirmCodesActivity;
 import com.top.lottery.activities.LotteryFunnyActivity;
 import com.top.lottery.activities.TrendChartActivity;
-import com.top.lottery.activities.TrendChartThreeActivity;
 import com.top.lottery.adapters.AwardBallAdapter;
 import com.top.lottery.base.Constants;
 import com.top.lottery.beans.AwardBallInfo;
@@ -96,12 +95,14 @@ public class LotteryFunnyPreDirectSelectFragment extends Fragment {
         isMechineChoose = lotteryInfo.mechine == 1 ? true : false;
         isMechineChoose = false;
         EventBus.getDefault().register(this);
+        tvSelectTipsOne.setVisibility(View.INVISIBLE);
+        tvSelectTipsTwo.setVisibility(View.INVISIBLE);
+        tvSelectTipsThree.setVisibility(View.INVISIBLE);
 
 
         awardBallAdapterOne = new AwardBallAdapter(R.layout.adapter_lottery_select_num, new ArrayList<AwardBallInfo>());
         recycleOne.setLayoutManager(new GridLayoutManager(getActivity(), 5));
         recycleOne.setAdapter(awardBallAdapterOne);
-        awardBallAdapterOne.setNewData(Utils.get11Code());
 
         awardBallAdapterOne.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -157,7 +158,7 @@ public class LotteryFunnyPreDirectSelectFragment extends Fragment {
 
 
         initChangeButton();
-        initAwardNum();
+//        initAwardNum();
 //        getMissValue();
         setShowLotteryMiss();
         return view;
@@ -380,8 +381,10 @@ public class LotteryFunnyPreDirectSelectFragment extends Fragment {
 
     //创建任意选球
     private void initAwardNum() {
+        awardBallAdapterOne.setNewData(Utils.get11Code());
         if (lotteryInfo.num == 1) {
             tvSelectTipsOne.setText("请至少选择一个号码");
+            tvSelectTipsOne.setVisibility(View.VISIBLE);
             tvSelectTipsTwo.setVisibility(View.GONE);
             tvSelectTipsThree.setVisibility(View.GONE);
             recycleTwo.setVisibility(View.GONE);
@@ -389,12 +392,14 @@ public class LotteryFunnyPreDirectSelectFragment extends Fragment {
         } else if (lotteryInfo.num == 2) {
             tvSelectTipsOne.setText("第一位");
             tvSelectTipsTwo.setVisibility(View.VISIBLE);
+            tvSelectTipsOne.setVisibility(View.VISIBLE);
             tvSelectTipsThree.setVisibility(View.GONE);
             recycleTwo.setVisibility(View.VISIBLE);
             recycleThree.setVisibility(View.GONE);
 
         } else if (lotteryInfo.num == 3) {
             tvSelectTipsOne.setText("第一位");
+            tvSelectTipsOne.setVisibility(View.VISIBLE);
             tvSelectTipsTwo.setVisibility(View.VISIBLE);
             tvSelectTipsThree.setVisibility(View.VISIBLE);
             recycleTwo.setVisibility(View.VISIBLE);
@@ -639,14 +644,17 @@ public class LotteryFunnyPreDirectSelectFragment extends Fragment {
     public void setShowLotteryMiss() {
         if (getActivity() != null) {
             if (((LotteryFunnyActivity) getActivity()).isShowMissValue) {
-//                if (Utils.getMissValues()!=null && Utils.getMissValues().size()>0){
-//                    for (AwardBallInfo item:awardBallAdapterOne.getData()){
-//                        item.isShowMissValue = true;
-//                    }
-//                    awardBallAdapterOne.notifyDataSetChanged();
-//                }else {
+
+                if (Utils.getMissValues()!=null && Utils.getMissValues().size()>0){
+                    initAwardNum();
+                    for (AwardBallInfo item:awardBallAdapterOne.getData()){
+                        item.isShowMissValue = true;
+                    }
+                    awardBallAdapterOne.notifyDataSetChanged();
+
+                }else {
                 getMissValue();
-//                }
+                }
             } else {
                 for (AwardBallInfo item : awardBallAdapterOne.getData()) {
                     item.isShowMissValue = false;
@@ -661,6 +669,7 @@ public class LotteryFunnyPreDirectSelectFragment extends Fragment {
                 for (AwardBallInfo item : awardBallAdapterThree.getData()) {
                     item.isShowMissValue = false;
                 }
+                initAwardNum();
                 awardBallAdapterThree.notifyDataSetChanged();
             }
         }
@@ -669,6 +678,9 @@ public class LotteryFunnyPreDirectSelectFragment extends Fragment {
 
     //获取遗漏值
     private void getMissValue() {
+        if (getActivity()!=null) {
+            ((BaseActivity)getActivity()).showLoadingBar();
+        }
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
         data.put("award_id", Constants.LASTEST_AWARD_ID);// 最新彩种期数id
@@ -681,6 +693,10 @@ public class LotteryFunnyPreDirectSelectFragment extends Fragment {
                     @Override
                     public void onSuccess(Response<LotteryResponse<MissLotteryCode>> response) {
                         MissLotteryCode missLotteryCode = response.body().body;
+                        if (getActivity()!=null) {
+                            ((BaseActivity)getActivity()).dismissLoadingBar();
+                        }
+                        initAwardNum();
                         if (missLotteryCode != null && missLotteryCode.missing_value != null && missLotteryCode.missing_value.size() > 0) {
                             Utils.parseMissValue(missLotteryCode.missing_value);
                             for (AwardBallInfo item : awardBallAdapterOne.getData()) {
@@ -702,6 +718,10 @@ public class LotteryFunnyPreDirectSelectFragment extends Fragment {
 
                     @Override
                     public void onError(Response response) {
+                        if (getActivity()!=null) {
+                            ((BaseActivity)getActivity()).dismissLoadingBar();
+                        }
+                        initAwardNum();
                         if (!Utils.toastInfo(response).equals(Constants.ERROR_CODE_AWARD_EXPERID)) {
                             ToastUtils.showShort(Utils.toastInfo(response));
                         }

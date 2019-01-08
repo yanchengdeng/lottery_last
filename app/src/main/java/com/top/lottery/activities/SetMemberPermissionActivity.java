@@ -245,7 +245,8 @@ public class SetMemberPermissionActivity extends BaseActivity {
 
                     @Override
                     public void onError(Response response) {
-                        showError(Utils.toastInfo(response));
+                        ToastUtils.showShort(Utils.toastInfo(response));
+
                     }
                 });
     }

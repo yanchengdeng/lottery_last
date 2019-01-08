@@ -951,11 +951,12 @@ public class Utils {
     }
 
     private static String getStringRecordOpen(List<LotterRecord> body) {
+        String ss = "<div style=\"text-align:center;\"><span style=\"padding:5px 5px; background:#F2AE47; width:10px; height:10px;border-radius:20px;\"> </span>";
         ArrayList<CharSequence> strins = new ArrayList<>();
         StringBuilder stringBuilder = new StringBuilder();
         if (body != null && body.size() > 0) {
             for (int i = 0; i < body.size(); i++) {
-                String item = "<p style=\"line-height:100%\">恭喜：<b><font color=\"#4FBAFC\">" + "【" + body.get(i).uid + "】" + "</font></b>投" + body.get(i).lid_title + "中" + "<b><font  color=\"#D81122\">" + body.get(i).reward_score + "</font></b>分<br/></p>";
+                String item = "<p style=\"line-height:100%\">恭喜:<b><font color=\"#4FBAFC\">" + "【" + body.get(i).uid + "】" + "</font></b>投" + body.get(i).lid_title + "中" + "<b><font  color=\"#D81122\">" + body.get(i).reward_score + "</font></b>分<br/></p>";
                 stringBuilder.append(item);
 //                strins.add(stringBuilder);
             }

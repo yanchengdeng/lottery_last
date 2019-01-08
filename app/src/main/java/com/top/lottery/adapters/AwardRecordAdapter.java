@@ -11,7 +11,6 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.top.lottery.R;
 import com.top.lottery.beans.AwardRecodList;
-import com.top.lottery.utils.RecycleViewUtils;
 
 import java.util.List;
 
@@ -37,7 +36,7 @@ public class AwardRecordAdapter extends BaseMultiItemQuickAdapter<AwardRecodList
             if (item.recordItems != null && item.recordItems.size() > 0) {
                 helper.getView(R.id.tv_times).setVisibility(View.GONE);
                 ((RecyclerView) helper.getView(R.id.recycle_item)).setLayoutManager(new LinearLayoutManager(mContext));
-                ((RecyclerView) helper.getView(R.id.recycle_item)).addItemDecoration(RecycleViewUtils.getItemDecoration(mContext));
+//                ((RecyclerView) helper.getView(R.id.recycle_item)).addItemDecoration(RecycleViewUtils.getItemDecoration(mContext));
                 ((RecyclerView) helper.getView(R.id.recycle_item)).setAdapter(new AwardRecodeItemAdapter(R.layout.adapter_award_item_record, item.recordItems));
             }
         }

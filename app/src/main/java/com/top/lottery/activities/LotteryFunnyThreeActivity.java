@@ -71,6 +71,7 @@ public class LotteryFunnyThreeActivity extends BaseActivity {
     public boolean isShowMissValue = false;
     private PlayWayAdapter playWayAdapter;
     private LotteryType lotteryType ;
+    private String  lottery_id_old = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +102,10 @@ public class LotteryFunnyThreeActivity extends BaseActivity {
 //                rlSelectUi.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.slid_out_top));
                 rlSelectUi.setVisibility(View.GONE);
 //                tvTittle.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_down_fill), null);
-                getLotteryById(lotteryPlayWays.get(position).lottery_id);
+                if (!lotteryPlayWays.get(position).lottery_id.equals( lottery_id_old)) {
+                    getLotteryById(lotteryPlayWays.get(position).lottery_id);
+                    lottery_id_old = lotteryPlayWays.get(position).lottery_id ;
+                }
             }
         });
 

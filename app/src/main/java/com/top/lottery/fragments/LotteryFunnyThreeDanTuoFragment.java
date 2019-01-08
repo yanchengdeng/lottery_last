@@ -94,6 +94,8 @@ public class LotteryFunnyThreeDanTuoFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
         lotteryInfo = (LotteryInfo) getArguments().getSerializable(Constants.PASS_OBJECT);
+        tvSelectTips.setVisibility(View.INVISIBLE);
+        tvTuoTips.setVisibility(View.INVISIBLE);
 
         isMechineChoose = lotteryInfo.mechine == 1 ? true : false;
         initChangeButton();
@@ -103,11 +105,11 @@ public class LotteryFunnyThreeDanTuoFragment extends Fragment {
         recycleDan.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recycleDan.addItemDecoration(new GridSpacingItemDecoration(3, 16, true));
         recycleDan.setAdapter(awardDanAdapter);
-        if (lotteryInfo.type == 5) {
-            awardDanAdapter.setNewData(Utils.parseThreeCodesDoule(lotteryInfo.score));
-        } else {
-            awardDanAdapter.setNewData(Utils.parseThreeCodes(lotteryInfo, lotteryInfo.score));
-        }
+//        if (lotteryInfo.type == 5) {
+//            awardDanAdapter.setNewData(Utils.parseThreeCodesDoule(lotteryInfo.score));
+//        } else {
+//            awardDanAdapter.setNewData(Utils.parseThreeCodes(lotteryInfo, lotteryInfo.score));
+//        }
 
         awardDanAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -157,7 +159,7 @@ public class LotteryFunnyThreeDanTuoFragment extends Fragment {
         recycleTuo.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recycleTuo.addItemDecoration(new GridSpacingItemDecoration(3, 16, true));
         recycleTuo.setAdapter(awawrdTuoAdapter);
-        awawrdTuoAdapter.setNewData(Utils.parseThreeCodes(lotteryInfo, lotteryInfo.score));
+//        awawrdTuoAdapter.setNewData(Utils.parseThreeCodes(lotteryInfo, lotteryInfo.score));
 
         awawrdTuoAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -172,7 +174,7 @@ public class LotteryFunnyThreeDanTuoFragment extends Fragment {
                 countIntergary();
             }
         });
-        initAwardNum();
+
         setShowLotteryMiss();
 
 
@@ -194,6 +196,8 @@ public class LotteryFunnyThreeDanTuoFragment extends Fragment {
 
     //创建任意选球
     private void initAwardNum() {
+        tvSelectTips.setVisibility(View.VISIBLE);
+        tvTuoTips.setVisibility(View.VISIBLE);
         if (lotteryInfo.type == 1) {
             tvSelectTips.setText("猜开奖号码相加的和");
         } else if (lotteryInfo.type == 2) {
@@ -221,6 +225,14 @@ public class LotteryFunnyThreeDanTuoFragment extends Fragment {
             tvSelectTips.setText("选2个不同号码\n与开奖任意两位相同即中\n\n请选择胆码");
             tvTuoTips.setText("请选择拖码");
         }
+
+        if (lotteryInfo.type == 5) {
+            awardDanAdapter.setNewData(Utils.parseThreeCodesDoule(lotteryInfo.score));
+        } else {
+            awardDanAdapter.setNewData(Utils.parseThreeCodes(lotteryInfo, lotteryInfo.score));
+        }
+
+        awawrdTuoAdapter.setNewData(Utils.parseThreeCodes(lotteryInfo, lotteryInfo.score));
     }
 
     //计算积分 一注  等于 2个积分
@@ -549,6 +561,9 @@ public class LotteryFunnyThreeDanTuoFragment extends Fragment {
 
     //获取遗漏值
     private void getMissValue() {
+        if (getActivity()!=null) {
+            ((BaseActivity)getActivity()).showLoadingBar();
+        }
         HashMap<String, String> data = new HashMap<>();
         data.put("uid", Utils.getUserInfo().uid);
         data.put("award_id", Constants.LASTEST_AWARD_ID_THREE);// 最新彩种期数id
@@ -561,6 +576,10 @@ public class LotteryFunnyThreeDanTuoFragment extends Fragment {
                     @Override
                     public void onSuccess(Response<LotteryResponse<MissLotteryCode>> response) {
                         MissLotteryCode missLotteryCode = response.body().body;
+                        if (getActivity()!=null) {
+                            ((BaseActivity)getActivity()).dismissLoadingBar();
+                        }
+                        initAwardNum();
                         if (missLotteryCode != null && missLotteryCode.missing_value != null && missLotteryCode.missing_value.size() > 0) {
                             Utils.parseMissValue(missLotteryCode.missing_value);
                             for (AwardBallInfo item : awardDanAdapter.getData()) {
@@ -580,6 +599,9 @@ public class LotteryFunnyThreeDanTuoFragment extends Fragment {
 
                     @Override
                     public void onError(Response response) {
+                        if (getActivity()!=null) {
+                            ((BaseActivity)getActivity()).dismissLoadingBar();
+                        }
                         if (!Utils.toastInfo(response).equals(Constants.ERROR_CODE_AWARD_EXPERID)) {
                             ToastUtils.showShort(Utils.toastInfo(response));
                         }
@@ -602,6 +624,7 @@ public class LotteryFunnyThreeDanTuoFragment extends Fragment {
                         item.isShowMissValue = true;
                     }
                     awawrdTuoAdapter.notifyDataSetChanged();
+                    initAwardNum();
                 } else {
                     getMissValue();
                 }
@@ -615,6 +638,7 @@ public class LotteryFunnyThreeDanTuoFragment extends Fragment {
                 }
                 awardDanAdapter.notifyDataSetChanged();
                 awawrdTuoAdapter.notifyDataSetChanged();
+                initAwardNum();
             }
         }
     }

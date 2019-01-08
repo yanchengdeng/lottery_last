@@ -409,11 +409,11 @@ public class MeFragment extends Fragment {
 //        }
 //    }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        getUserDetailInfo();
-//    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        getUserDetailInfo();
+    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
