@@ -56,7 +56,8 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 public abstract class BaseActivity extends AppCompatActivity implements BGASwipeBackHelper.Delegate, View.OnClickListener {
     protected BGASwipeBackHelper mSwipeBackHelper;
     public View viewRoot, contentView;
-    private View tittleUi, tvTtittleLine;
+    public View tittleUi;
+    private View tvTtittleLine;
     private View refresh;
     //    private MaterialDialog loadDialog;
     public ImageView ivBack, ivRightFunction;

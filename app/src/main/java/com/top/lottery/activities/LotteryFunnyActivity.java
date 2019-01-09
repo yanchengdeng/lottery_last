@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
@@ -40,6 +39,7 @@ import com.top.lottery.liseners.PerfectClickListener;
 import com.top.lottery.utils.NewsCallback;
 import com.top.lottery.utils.RecycleViewUtils;
 import com.top.lottery.utils.Utils;
+import com.top.lottery.views.BubblePopup;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,10 +60,6 @@ public class LotteryFunnyActivity extends BaseActivity {
     TextView tvCountDownTips;
     @BindView(R.id.fl_content)
     FrameLayout flContent;
-    @BindView(R.id.grid)
-    RecyclerView recyclerView;
-    @BindView(R.id.rl_select_ui)
-    RelativeLayout rlSelectUi;
     private PopupWindow popupWindow;
     private List<LotteryPlayWay> lotteryPlayWays;
     private String currentLotterTerm;//最新一期投注号2018081430
@@ -73,6 +69,7 @@ public class LotteryFunnyActivity extends BaseActivity {
     public boolean isShowMissValue = false;
     private PlayWayAdapter playWayAdapter;
     private LotteryType lotteryType ;
+    private BubblePopup quickPopup;
 
 
     @Override
@@ -88,10 +85,6 @@ public class LotteryFunnyActivity extends BaseActivity {
         ivRightFunction.setVisibility(View.VISIBLE);
         ivRightFunction.setImageResource(R.mipmap.more_menu);
         playWayAdapter = new PlayWayAdapter(R.layout.adapter_play_way_centre,new ArrayList<LotteryPlayWay>());
-        recyclerView.setLayoutManager(new GridLayoutManager(this,3));
-        recyclerView.addItemDecoration(RecycleViewUtils.getItemDecoration(this));
-        recyclerView.addItemDecoration(RecycleViewUtils.getItemDecorationHorizontal(this));
-        recyclerView.setAdapter(playWayAdapter);
         tvTittle.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.arrow_up_down_white), null);
         getLotteryList();
         initPopWindow();
@@ -102,9 +95,10 @@ public class LotteryFunnyActivity extends BaseActivity {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 setTitle("投注-" + lotteryPlayWays.get(position).title);
 //                rlSelectUi.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.slid_out_top));
-                rlSelectUi.setVisibility(View.GONE);
+//                rlSelectUi.setVisibility(View.GONE);
 //                tvTittle.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_down_fill), null);
                 getLotteryById(lotteryPlayWays.get(position).lottery_id);
+                showLotterPlus();
             }
         });
 
@@ -114,15 +108,7 @@ public class LotteryFunnyActivity extends BaseActivity {
         tvTittle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (rlSelectUi.getVisibility() == View.VISIBLE) {
-//                    rlSelectUi.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.slid_out_top));
-                    rlSelectUi.setVisibility(View.GONE);
-//                    tvTittle.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_down_fill), null);
-                } else {
-                    rlSelectUi.setVisibility(View.VISIBLE);
-//                    tvTittle.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_up_fill), null);
-//                    rlSelectUi.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.slid_in_top));
-                }
+                showLotterPlus();
             }
         });
 
@@ -143,6 +129,42 @@ public class LotteryFunnyActivity extends BaseActivity {
 
         getLastestLotteryForMain();
 
+    }
+
+
+    private void showLotterPlus() {
+
+        if (quickPopup==null) {
+            quickPopup = new BubblePopup(mContext);
+            RecyclerView recyclerView = quickPopup.getContentView();
+            recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+            recyclerView.addItemDecoration(RecycleViewUtils.getItemDecoration(this));
+            recyclerView.addItemDecoration(RecycleViewUtils.getItemDecorationHorizontal(this));
+            recyclerView.setAdapter(playWayAdapter);
+        }
+
+//        if (dialogPlus == null) {
+//            dialogPlus
+//                    = DialogPlus.newDialog(this)
+//                    .setContentHolder(new ViewHolder(R.layout.recycle))
+//                    .setGravity(Gravity.TOP)
+//                    .setExpanded(false)  // This will enable the expand feature, (similar to android L share dialog)
+//                    .create();
+//
+//            RecyclerView recyclerView = (RecyclerView) dialogPlus.getHolderView();
+//
+//
+//            recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+//            recyclerView.addItemDecoration(RecycleViewUtils.getItemDecoration(this));
+//            recyclerView.addItemDecoration(RecycleViewUtils.getItemDecorationHorizontal(this));
+//            recyclerView.setAdapter(playWayAdapter);
+//        }
+
+        if (quickPopup.isShowing()) {
+            quickPopup.dismiss();
+        } else {
+            quickPopup.showPopupWindow(tittleUi);
+        }
     }
 
     private void getLotteryById(final String lottery_id) {
@@ -355,8 +377,8 @@ public class LotteryFunnyActivity extends BaseActivity {
                         if (lotteryPlayWays != null && lotteryPlayWays.size() > 0) {
                             setTitle("投注-" + lotteryPlayWays.get(0).title);
                             playWayAdapter.setNewData(lotteryPlayWays);
-                            rlSelectUi.setVisibility(View.VISIBLE);
 //                            tvTittle.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_up_fill), null);
+                            showLotterPlus();
                             getLotteryById(lotteryPlayWays.get(0).lottery_id);
                         }
                     }
@@ -397,10 +419,12 @@ public class LotteryFunnyActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (rlSelectUi.getVisibility() == View.VISIBLE) {
-//            rlSelectUi.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.slid_out_top));
-            rlSelectUi.setVisibility(View.GONE);
-//            tvTittle.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_down_fill), null);
+        if (quickPopup!=null) {
+            if (quickPopup.isShowing()){
+                quickPopup.dismiss();
+            }else{
+                super.onBackPressed();
+            }
         }else {
             super.onBackPressed();
         }

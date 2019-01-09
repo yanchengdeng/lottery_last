@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
@@ -37,6 +36,7 @@ import com.top.lottery.liseners.PerfectClickListener;
 import com.top.lottery.utils.NewsCallback;
 import com.top.lottery.utils.RecycleViewUtils;
 import com.top.lottery.utils.Utils;
+import com.top.lottery.views.BubblePopup;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,11 +46,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
-*
-* Author: 邓言诚  Create at : 2018/12/16  01:54
-* Email: yanchengdeng@gmail.com
-* Describle: 快三投注
-*/
+ * Author: 邓言诚  Create at : 2018/12/16  01:54
+ * Email: yanchengdeng@gmail.com
+ * Describle: 快三投注
+ */
 public class LotteryFunnyThreeActivity extends BaseActivity {
 
 
@@ -58,10 +57,6 @@ public class LotteryFunnyThreeActivity extends BaseActivity {
     TextView tvCountDownTips;
     @BindView(R.id.fl_content)
     FrameLayout flContent;
-    @BindView(R.id.grid)
-    RecyclerView recyclerView;
-    @BindView(R.id.rl_select_ui)
-    RelativeLayout rlSelectUi;
     private PopupWindow popupWindow;
     private List<LotteryPlayWay> lotteryPlayWays;
     private String currentLotterTerm;//最新一期投注号2018081430
@@ -70,8 +65,9 @@ public class LotteryFunnyThreeActivity extends BaseActivity {
     private LotteryInfo lotteryInfo;
     public boolean isShowMissValue = false;
     private PlayWayAdapter playWayAdapter;
-    private LotteryType lotteryType ;
-    private String  lottery_id_old = "0";
+    private LotteryType lotteryType;
+    private String lottery_id_old = "0";
+    private BubblePopup quickPopup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,16 +76,12 @@ public class LotteryFunnyThreeActivity extends BaseActivity {
         setTitle("投注-");
         ButterKnife.bind(this);
         lotteryType = (LotteryType) getIntent().getSerializableExtra(Constants.PASS_LOOTERY_TYPE);
-        if (lotteryType==null){
+        if (lotteryType == null) {
             return;
         }
         ivRightFunction.setVisibility(View.VISIBLE);
         ivRightFunction.setImageResource(R.mipmap.more_menu);
-        playWayAdapter = new PlayWayAdapter(R.layout.adapter_play_way_centre,new ArrayList<LotteryPlayWay>());
-        recyclerView.setLayoutManager(new GridLayoutManager(this,3));
-        recyclerView.addItemDecoration(RecycleViewUtils.getItemDecoration(this));
-        recyclerView.addItemDecoration(RecycleViewUtils.getItemDecorationHorizontal(this));
-        recyclerView.setAdapter(playWayAdapter);
+        playWayAdapter = new PlayWayAdapter(R.layout.adapter_play_way_centre, new ArrayList<LotteryPlayWay>());
         tvTittle.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.arrow_up_down_white), null);
         getLotteryList();
         initPopWindow();
@@ -99,31 +91,20 @@ public class LotteryFunnyThreeActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 setTitle("投注-" + lotteryPlayWays.get(position).title);
-//                rlSelectUi.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.slid_out_top));
-                rlSelectUi.setVisibility(View.GONE);
-//                tvTittle.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_down_fill), null);
-                if (!lotteryPlayWays.get(position).lottery_id.equals( lottery_id_old)) {
+                showLotterPlus();
+                if (!lotteryPlayWays.get(position).lottery_id.equals(lottery_id_old)) {
                     getLotteryById(lotteryPlayWays.get(position).lottery_id);
-                    lottery_id_old = lotteryPlayWays.get(position).lottery_id ;
+                    lottery_id_old = lotteryPlayWays.get(position).lottery_id;
                 }
             }
         });
 
 
-
-
         tvTittle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (rlSelectUi.getVisibility() == View.VISIBLE) {
-//                    rlSelectUi.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.slid_out_top));
-                    rlSelectUi.setVisibility(View.GONE);
-//                    tvTittle.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_down_fill), null);
-                } else {
-                    rlSelectUi.setVisibility(View.VISIBLE);
-//                    tvTittle.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_up_fill), null);
-//                    rlSelectUi.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.slid_in_top));
-                }
+
+                showLotterPlus();
             }
         });
 
@@ -143,6 +124,24 @@ public class LotteryFunnyThreeActivity extends BaseActivity {
 
 
         getLastestLotteryForMain();
+    }
+
+    private void showLotterPlus() {
+
+        if (quickPopup==null) {
+            quickPopup = new BubblePopup(mContext);
+            RecyclerView recyclerView = quickPopup.getContentView();
+            recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+            recyclerView.addItemDecoration(RecycleViewUtils.getItemDecoration(this));
+            recyclerView.addItemDecoration(RecycleViewUtils.getItemDecorationHorizontal(this));
+            recyclerView.setAdapter(playWayAdapter);
+        }
+
+        if (quickPopup.isShowing()) {
+            quickPopup.dismiss();
+        } else {
+            quickPopup.showPopupWindow(tittleUi);
+        }
     }
 
     private void getLotteryById(final String lottery_id) {
@@ -181,13 +180,13 @@ public class LotteryFunnyThreeActivity extends BaseActivity {
      */
     private void changeContent() {
         Bundle bundle = new Bundle();
-      if (lotteryType.lottery_type.equals("2")){
-            if (lotteryInfo.type==5 || lotteryInfo.type==9 || lotteryInfo.type==10){
+        if (lotteryType.lottery_type.equals("2")) {
+            if (lotteryInfo.type == 5 || lotteryInfo.type == 9 || lotteryInfo.type == 10) {
                 bundle.putSerializable(Constants.PASS_OBJECT, lotteryInfo);
                 LotteryFunnyThreeDanTuoFragment lotteryFunnyDanTuoSelectFragment = new LotteryFunnyThreeDanTuoFragment();
                 lotteryFunnyDanTuoSelectFragment.setArguments(bundle);
                 FragmentUtils.replace(getSupportFragmentManager(), lotteryFunnyDanTuoSelectFragment, R.id.fl_content);
-            }else {
+            } else {
                 bundle.putSerializable(Constants.PASS_OBJECT, lotteryInfo);
                 LotteryFunnyThreeSelectFragment lotteryFunnyThreeSelectFragment = new LotteryFunnyThreeSelectFragment();
                 lotteryFunnyThreeSelectFragment.setArguments(bundle);
@@ -221,8 +220,8 @@ public class LotteryFunnyThreeActivity extends BaseActivity {
             public void onClick(View view) {
                 popupWindow.dismiss();
                 Bundle bundle = new Bundle();
-                bundle.putString(Constants.PASS_STRING,lotteryType.lottery_type);
-                ActivityUtils.startActivity(bundle,OpenLotteryRankActivity.class);
+                bundle.putString(Constants.PASS_STRING, lotteryType.lottery_type);
+                ActivityUtils.startActivity(bundle, OpenLotteryRankActivity.class);
             }
         });
 
@@ -243,7 +242,7 @@ public class LotteryFunnyThreeActivity extends BaseActivity {
         Fragment fragment = FragmentUtils.getTop(getSupportFragmentManager());
         if (fragment instanceof LotteryFunnyThreeDanTuoFragment) {
             ((LotteryFunnyThreeDanTuoFragment) fragment).setShowLotteryMiss();
-        }else if (fragment instanceof LotteryFunnyThreeSelectFragment){
+        } else if (fragment instanceof LotteryFunnyThreeSelectFragment) {
             ((LotteryFunnyThreeSelectFragment) fragment).setShowLotteryMiss();
         }
     }
@@ -338,8 +337,7 @@ public class LotteryFunnyThreeActivity extends BaseActivity {
                         if (lotteryPlayWays != null && lotteryPlayWays.size() > 0) {
                             setTitle("投注-" + lotteryPlayWays.get(0).title);
                             playWayAdapter.setNewData(lotteryPlayWays);
-                            rlSelectUi.setVisibility(View.VISIBLE);
-//                            tvTittle.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_up_fill), null);
+                            showLotterPlus();
                             getLotteryById(lotteryPlayWays.get(0).lottery_id);
                         }
                     }
@@ -362,27 +360,19 @@ public class LotteryFunnyThreeActivity extends BaseActivity {
         }
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode ==200){
-//            if (resultCode==RESULT_OK){
-//                grid.setVisibility(View.VISIBLE);
-//            }else if (resultCode==Constants.BACK_TO_MAIN){
-//                finish();
-//            }
-//        }
-//    }
+
 
 
     @Override
     public void onBackPressed() {
-        if (rlSelectUi.getVisibility() == View.VISIBLE) {
-//            rlSelectUi.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.slid_out_top));
-            rlSelectUi.setVisibility(View.GONE);
-//            tvTittle.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_down_fill), null);
-        }else {
-            super.onBackPressed();
-        }
+            if (quickPopup!=null) {
+                if (quickPopup.isShowing()){
+                    quickPopup.dismiss();
+                }else{
+                    super.onBackPressed();
+                }
+            }else {
+                super.onBackPressed();
+            }
     }
 }

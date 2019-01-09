@@ -37,22 +37,5 @@
     </LinearLayout>
 
 
-    <RelativeLayout
-        android:id="@+id/rl_select_ui"
-        android:layout_width="match_parent"
-        android:clickable="true"
-        android:background="@color/trans_black"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/grid"
-            android:layout_width="match_parent"
-            android:background="@color/white"
-            android:layout_height="wrap_content"
-            />
-
-
-    </RelativeLayout>
 
 </RelativeLayout>
