@@ -80,4 +80,5 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.orhanobut:dialogplus:1.11@aar'
     implementation 'com.github.razerdp:BasePopup:2.1.6'
+    implementation 'com.tencent.bugly:crashreport:2.6.6.1'
 }

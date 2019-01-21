@@ -26,6 +26,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.top.lottery.R;
 import com.top.lottery.activities.TrendChartActivity;
 import com.top.lottery.beans.GetCart;
@@ -243,6 +244,9 @@ public class LotteryApplication extends Application {
         BGASwipeBackHelper.init(this, null);
         initOkGo(this);
         initContext(this);
+
+
+        CrashReport.initCrashReport(getApplicationContext(), "f4e9525b9e", false);
     }
 
 
