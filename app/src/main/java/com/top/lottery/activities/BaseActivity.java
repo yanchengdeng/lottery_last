@@ -277,26 +277,33 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
 
 //        String currntHoursexx = TimeUtils.millis2String(currentTime, new SimpleDateFormat("hh", Locale.CHINA));
         //时间段在  22：59：59  ~ 7：59：59：  不允许投注
-        if ((currntHourse.equals("23") || currntHourse.equals("00") || currntHourse.equals("01") ||
-                currntHourse.equals("02") || currntHourse.equals("03") || currntHourse.equals("04")
-                || currntHourse.equals("05") || currntHourse.equals("06") || currntHourse.equals("07"))) {
-            isInDeepNight = true;
-            isCanTouzhu = false;
-        } else {
-            isInDeepNight = false;
+//        if ((currntHourse.equals("23") || currntHourse.equals("00") || currntHourse.equals("01") ||
+//                currntHourse.equals("02") || currntHourse.equals("03") || currntHourse.equals("04")
+//                || currntHourse.equals("05") || currntHourse.equals("06") || currntHourse.equals("07"))) {
+//            isInDeepNight = true;
+//            isCanTouzhu = false;
+//        } else {
+//            isInDeepNight = false;
+//        }
+
+        if (nextTime - currentTime >Constants.TIME_BUY_TIME){
+            return nextTime-currentTime-Constants.TIME_BUY_TIME;
         }
+
+
         return nextTime - currentTime;
     }
 
     //获取倒计时
     public long getCountDownMillions() {
+//        return curretDifServer;
 
-        if (isInDeepNight) {
-            return curretDifServer;
-        } else {
-            LogUtils.w("dyc---接口返回时间差" + isCanTouzhu + "========" + Utils.millis2FitTimeSpan(curretDifServer - Constants.TIME_CAN_NOT_TOUZHU, 4));
-            return isCanTouzhu ? curretDifServer - Constants.TIME_CAN_NOT_TOUZHU : curretDifServer;//isCanTouzhu ? curretDifServer  : Constants.TIME_CAN_NOT_TOUZHU ;
-        }
+//        if (isInDeepNight) {
+//            return curretDifServer;
+//        } else {
+//            LogUtils.w("dyc---接口返回时间差" + isCanTouzhu + "========" + Utils.millis2FitTimeSpan(curretDifServer - Constants.TIME_CAN_NOT_TOUZHU, 4));
+        return isCanTouzhu ? curretDifServer - Constants.TIME_CAN_NOT_TOUZHU : curretDifServer;//isCanTouzhu ? curretDifServer  : Constants.TIME_CAN_NOT_TOUZHU ;
+//        }
     }
 
 

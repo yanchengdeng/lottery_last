@@ -11,4 +11,6 @@ public class LasterLotteryAwardInfo implements Serializable {
     public String next_time;//2018-08-19 14;//40;//00,    //  下期投注开奖时间
     public int status;//1,
     public String message;//可以投注
+    public long buy_time;
+    public long count_down;
 }

@@ -590,6 +590,8 @@ public class TrendChartThreeActivity extends BaseActivity {
                                 currentLotterTerm = lasterLotteryAwardInfo.award_id;
                                 Constants.LASTEST_AWARD_ID_THREE = lasterLotteryAwardInfo.award_id;
                                 Constants.LASTER_AWARD_END_TIME_THREE = lasterLotteryAwardInfo.current_time;
+                                Constants.TIME_CAN_NOT_TOUZHU = lasterLotteryAwardInfo.count_down*1000;
+                                Constants.TIME_BUY_TIME = lasterLotteryAwardInfo.buy_time*1000;
                             }
                             if (lasterLotteryAwardInfo.status == 1) {
                                 isCanTouzhu = true;

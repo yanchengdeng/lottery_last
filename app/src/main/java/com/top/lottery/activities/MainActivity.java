@@ -238,6 +238,8 @@ public class MainActivity extends BaseActivity {
                         if (lasterLotteryAwardInfo != null) {
                             Constants.LASTER_AWARD_END_TIME = lasterLotteryAwardInfo.current_time;
                             Constants.LASTEST_AWARD_ID = lasterLotteryAwardInfo.award_id;
+                            Constants.TIME_CAN_NOT_TOUZHU = lasterLotteryAwardInfo.count_down*1000;
+                            Constants.TIME_BUY_TIME = lasterLotteryAwardInfo.buy_time*1000;
                             isCanTouzhu = lasterLotteryAwardInfo.status == 1;
                             if (lasterLotteryAwardInfo.status == 1) {
                                 tvUntilTimeTips.setText(getString(R.string.can_do_until_stop_for_main));

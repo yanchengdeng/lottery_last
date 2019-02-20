@@ -29,7 +29,9 @@ public class Constants {
     //可投注时间
     public static final long TIME_CAN_TOUZU = (8 * 60 + 45) * 1000;//8分  45 秒
     //不可投注时间
-    public static final long TIME_CAN_NOT_TOUZHU = (1 * 60 + 15) * 1000;//1 分15秒
+    public static  long TIME_CAN_NOT_TOUZHU = 45 * 1000;//1 分15秒
+    //时间间隔
+    public static long TIME_BUY_TIME = 1200*1000;
     public static final String DATE_FORMAR = "yyyy-MM-dd HH:mm:ss";
     //返回主页请求码
     public static final int BACK_TO_MAIN = 300;
