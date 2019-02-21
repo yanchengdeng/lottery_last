@@ -277,9 +277,11 @@ public class LotteryFunnyThreeActivity extends BaseActivity {
                                 Constants.TIME_BUY_TIME = lasterLotteryAwardInfo.buy_time*1000;
                             }
                             if (lasterLotteryAwardInfo.status == 1) {
+                                currentLotterTerm = lasterLotteryAwardInfo.award_id;
                                 isCanTouzhu = true;
                             } else {
                                 isCanTouzhu = false;
+                                currentLotterTerm = lasterLotteryAwardInfo.next_award_id;
                             }
 
                             curretDifServer = getCurrentDifServer(lasterLotteryAwardInfo.server_time, lasterLotteryAwardInfo.current_time);

@@ -587,16 +587,18 @@ public class TrendChartThreeActivity extends BaseActivity {
                         lasterLotteryAwardInfo = response.body().body;
                         if (lasterLotteryAwardInfo != null) {
                             if (!TextUtils.isEmpty(lasterLotteryAwardInfo.award_id)) {
-                                currentLotterTerm = lasterLotteryAwardInfo.award_id;
+
                                 Constants.LASTEST_AWARD_ID_THREE = lasterLotteryAwardInfo.award_id;
                                 Constants.LASTER_AWARD_END_TIME_THREE = lasterLotteryAwardInfo.current_time;
                                 Constants.TIME_CAN_NOT_TOUZHU = lasterLotteryAwardInfo.count_down*1000;
                                 Constants.TIME_BUY_TIME = lasterLotteryAwardInfo.buy_time*1000;
                             }
                             if (lasterLotteryAwardInfo.status == 1) {
+                                currentLotterTerm = lasterLotteryAwardInfo.award_id;
                                 isCanTouzhu = true;
                             } else {
                                 isCanTouzhu = false;
+                                currentLotterTerm = lasterLotteryAwardInfo.next_award_id;
                             }
 
                             curretDifServer = getCurrentDifServer(lasterLotteryAwardInfo.server_time, lasterLotteryAwardInfo.current_time);

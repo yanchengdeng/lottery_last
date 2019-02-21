@@ -19,9 +19,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.constant.TimeConstants;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.OkGo;
@@ -45,8 +47,10 @@ import com.top.lottery.utils.Utils;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -121,7 +125,10 @@ public class ConfirmCodesActivity extends BaseActivity {
         recycle.setLayoutManager(new LinearLayoutManager(mContext));
         recycle.setAdapter(getCartAdapter);
         viewSuccess = LayoutInflater.from(mContext).inflate(R.layout.dialog_pay_success_view, null);
-        tvEndTime.setText("截止投注时间：" + (lotteryInfo.lottery_type.equals("1")?Constants.LASTER_AWARD_END_TIME:Constants.LASTER_AWARD_END_TIME_THREE));
+
+        long timeOpen =  TimeUtils.string2Millis(lotteryInfo.lottery_type.equals("1")?Constants.LASTER_AWARD_END_TIME:Constants.LASTER_AWARD_END_TIME_THREE, new SimpleDateFormat(Constants.DATE_FORMAR, Locale.CHINA));
+        String timeString = TimeUtils.getString(timeOpen-Constants.TIME_CAN_NOT_TOUZHU,0, TimeConstants.SEC);
+        tvEndTime.setText("截止投注时间：" + timeString);
 
         getCartAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
