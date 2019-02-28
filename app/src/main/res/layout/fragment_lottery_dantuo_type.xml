@@ -95,16 +95,25 @@
         <TextView
             android:id="@+id/tv_choose_change"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:background="@drawable/normal_submit_btn_orange"
-            android:paddingBottom="@dimen/image_padding_big"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/image_padding_big"
+            android:paddingLeft="@dimen/image_padding"
+            android:paddingRight="@dimen/image_padding"
+            android:gravity="center_vertical"
             android:text="机选"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_normal" />
+
+        <ImageView
+            android:id="@+id/iv_buy_car"
+            android:layout_width="wrap_content"
+            android:src="@mipmap/cart"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="@dimen/image_padding"
+            android:layout_height="30dp"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            />
 
 
         <LinearLayout
@@ -140,8 +149,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/color_blue"
-            android:padding="@dimen/activity_horizontal_margin"
+            android:padding="@dimen/image_padding_biger"
             android:text="选好了"
+            android:textSize="@dimen/text_size_normal_up"
             android:textColor="@color/white" />
 
     </LinearLayout>

@@ -30,7 +30,6 @@
         android:singleLine="true"
         android:ellipsize="end"
         android:layout_height="wrap_content"
-        android:text="过分发牢骚附件"
         android:textColor="@color/color_info"
         android:textSize="@dimen/text_size_normal_down" />
 

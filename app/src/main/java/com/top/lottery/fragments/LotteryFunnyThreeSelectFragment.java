@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -80,6 +81,8 @@ public class LotteryFunnyThreeSelectFragment extends Fragment {
     Button btnSmall;
     @BindView(R.id.btn_single)
     Button btnSingle;
+    @BindView(R.id.iv_buy_car)
+    ImageView ivBuyCar;
     @BindView(R.id.btn_double)
     Button btnDouble;
     @BindView(R.id.ll_and_quick_ui)
@@ -287,7 +290,7 @@ public class LotteryFunnyThreeSelectFragment extends Fragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.tv_choose_change, R.id.tv_confirm, R.id.btn_big, R.id.btn_small, R.id.btn_single, R.id.btn_double})
+    @OnClick({R.id.tv_choose_change, R.id.tv_confirm,R.id.iv_buy_car, R.id.btn_big, R.id.btn_small, R.id.btn_single, R.id.btn_double})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_choose_change:
@@ -365,6 +368,9 @@ public class LotteryFunnyThreeSelectFragment extends Fragment {
                 }
                 btnSingle.setBackground(getResources().getDrawable(R.drawable.normal_submit_btn_gray_trans));
                 btnSingle.setTextColor(getResources().getColor(R.color.red));
+                break;
+            case R.id.iv_buy_car:
+                checkCodeAndAward();
                 break;
 
         }

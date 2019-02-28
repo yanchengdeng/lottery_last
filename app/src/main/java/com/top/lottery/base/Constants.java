@@ -54,7 +54,7 @@ public class Constants {
 
 
 
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
     public static boolean LOG_DEBUG = true;
     public static int PAGE_SIZE = 15;
 
@@ -70,9 +70,16 @@ public class Constants {
          *         ://88.mayimayi.cn:8888/
          *
          *         ://lz.mayimayi.cn/
+         *
+         *
+         *         演示环境
+         *
+         *         ://lztest.mayimayi.cn
+         *
          **/
 
         public static final String BASE_URL = DEBUG ? "://lz.mayimayi.cn/" : "://88.lzsscp.com/";
+//        public static final String BASE_URL = DEBUG ? "://lz.mayimayi.cn/" : "://lztest.mayimayi.cn/";
         public static final String BASE_NAME = BASE_URL + "api.php/V1/";
         public static final String HTTP_CERTIFY = "http";//: "https";
 

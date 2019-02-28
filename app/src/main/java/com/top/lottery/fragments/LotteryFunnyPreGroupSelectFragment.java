@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
@@ -72,6 +73,8 @@ public class LotteryFunnyPreGroupSelectFragment extends Fragment {
     TextView tvSelectTips;
     @BindView(R.id.tv_trend_chart)
     TextView tvTrendChart;
+    @BindView(R.id.iv_buy_car)
+    ImageView ivImage;
     private LotteryInfo lotteryInfo;
     private AwardBallAdapter awardBallAdapter;
     private boolean isMechineChoose;//是否可以允许机选  允许则可以机选  清除 切换  否则是可以清除操作
@@ -224,7 +227,7 @@ public class LotteryFunnyPreGroupSelectFragment extends Fragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.tv_choose_change, R.id.tv_confirm})
+    @OnClick({R.id.tv_choose_change, R.id.tv_confirm,R.id.iv_buy_car})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_choose_change:
@@ -243,6 +246,9 @@ public class LotteryFunnyPreGroupSelectFragment extends Fragment {
                 break;
             case R.id.tv_confirm:
                 checkSelect();
+                break;
+            case R.id.iv_buy_car:
+                checkCodeAndAward();
                 break;
         }
     }
